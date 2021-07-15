@@ -71,7 +71,7 @@
 ~~~~~~~~~~~~
 -->
 
-{#if show}
+<!-- {#if show} -->
     <footer transition:fade>
         <img 
             src=".\assets\img\edinburgh-napier-brand-img.png" 
@@ -112,4 +112,4 @@
             </a>
         </div>
     </footer>
-{/if}
+<!-- {/if} -->

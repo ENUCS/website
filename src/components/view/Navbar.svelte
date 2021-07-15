@@ -76,7 +76,8 @@
     + this is the HTML for this PAGE '/team'
 ~~~~~~~~~~~~
 -->
-{#if show}
+
+<!-- {#if show} -->
     <nav role="navigation" aria-label='Navigation Bar' transition:fade>
         <!-- 
         enucs-brand-logo -->
@@ -102,4 +103,4 @@
             </li>
         </ul>
     </nav>
-{/if}
+<!-- {/if} -->
