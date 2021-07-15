@@ -1,0 +1,37 @@
+<svg width="956" height="223" viewBox="0 0 956 223" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="desktop-hero-frame">
+<g id="Computing Society">
+<text fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto Slab" font-size="48.7619" font-weight="bold" letter-spacing="0em"><tspan x="4.40475" y="67.9405">Computing </tspan></text>
+<text fill="#C62828" xml:space="preserve" style="white-space: pre" font-family="Roboto Slab" font-size="48.7619" font-weight="bold" letter-spacing="0em"><tspan x="274.214" y="67.9405">Society</tspan></text>
+</g>
+<text id="exploring and learning technology" fill="black" xml:space="preserve" style="white-space: pre" font-family="Roboto" font-size="24" font-weight="500" letter-spacing="0em"><tspan x="4" y="113.203">exploring and learning technology</tspan></text>
+<g id="become-member-btn" filter="url(#filter0_d)">
+<rect x="4" y="142" width="219" height="52" rx="5" fill="#00A3FF"/>
+<text id="Become a member" fill="white" xml:space="preserve" style="white-space: pre" font-family="Roboto Slab" font-size="19.5" font-weight="bold" letter-spacing="0em" text-decoration="underline"><tspan x="28" y="175.574"><a href="https://www.napierstudents.com/organisation/societies/7541/">Become a member</a></tspan></text>
+</g>
+<g id="info-hero-card" filter="url(#filter1_d)">
+<path id="Vector 22" d="M940.255 4H714.503C712.163 4 710.145 5.62578 709.564 7.89245C699.976 45.262 674.876 77.9022 689.5 104C703.867 129.639 676.997 163.142 666.521 200.944C665.666 204.03 668.042 207 671.245 207H896.997C899.337 207 901.354 205.374 901.941 203.108C911.893 164.695 939 134.478 924.086 104C909.48 74.1512 934.832 46.0959 944.967 10.0558C945.834 6.97294 943.458 4 940.255 4Z" fill="white"/>
+<path id="code-icon" d="M799.678 143.425L790.563 140.78C789.607 140.511 789.069 139.51 789.338 138.553L809.734 68.2944C810.003 67.3381 811.004 66.8002 811.961 67.0692L821.075 69.714C822.032 69.9829 822.57 70.984 822.301 71.9404L801.904 142.199C801.62 143.156 800.634 143.708 799.678 143.425ZM782.644 126.659L789.144 119.726C789.831 118.994 789.786 117.828 789.024 117.156L775.486 105.247L789.024 93.3378C789.786 92.6654 789.846 91.4999 789.144 90.7677L782.644 83.8345C781.971 83.1172 780.836 83.0724 780.103 83.7597L758.572 103.932C757.809 104.634 757.809 105.845 758.572 106.547L780.103 126.734C780.836 127.421 781.971 127.391 782.644 126.659ZM831.535 126.749L853.067 106.562C853.829 105.859 853.829 104.649 853.067 103.947L831.535 83.7448C830.818 83.0724 829.682 83.1023 828.995 83.8195L822.495 90.7528C821.808 91.4849 821.852 92.6504 822.614 93.3228L836.152 105.247L822.614 117.156C821.852 117.828 821.793 118.994 822.495 119.726L828.995 126.659C829.667 127.391 830.803 127.421 831.535 126.749Z" fill="black"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d" x="0" y="142" width="227" height="60" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+<filter id="filter1_d" x="655" y="0" width="301.5" height="223" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
+<feOffset dy="6"/>
+<feGaussianBlur stdDeviation="5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.49 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+</filter>
+</defs>
+</svg>

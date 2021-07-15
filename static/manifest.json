@@ -1,0 +1,22 @@
+{
+	"background_color": "#FFFFFF",
+	"theme_color": "#00E0FF",
+	"name": "enucs-website",
+	"short_name": "enucs-web",
+	"display": "minimal-ui",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "enucs-favicon-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "main-logo-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	]
+}

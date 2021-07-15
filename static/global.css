@@ -1,0 +1,263 @@
+/* 
+==========================
+	setting the website layout
+==========================
+*/
+
+body,
+html {
+    margin: 0 !important;
+    background-color: var(--white);
+    scroll-behavior: smooth !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0 0 0.5em 0;
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+body {
+    color: #000000;
+    background-color: var(--white);
+    /*  */
+    margin: 0 !important;
+    /*  */
+    font-family: Roboto Slab;
+    font-size: 14px;
+    line-height: 1.5;
+    /* MOBILE 
+    disable pinchin & user zooming on */
+    touch-action: pan-x pan-y;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* 
+==========================
+	declaring global app variables
+==========================
+*/
+
+/* to learn more -> 
+	https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
+:root {
+    --app-height: 100%;
+    /* 
+	main app colors */
+    --white: #ffffff;
+    --primary: #94ff94;
+    --secondary: #ff6043;
+    --tertiary: #a183ff;
+    --theme-color: #e3e3e3;
+    /* 
+	text colors */
+    --grey-1: #28292f;
+    /* 
+	dark theme colors */
+    --dark: #121212;
+    --background-surface: #121212;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+a {
+    color: inherit;
+}
+
+code {
+    font-family: menlo, inconsolata, monospace;
+    font-size: calc(1em - 2px);
+    color: #555;
+    background-color: #f0f0f0;
+    padding: 0.2em 0.4em;
+    border-radius: 2px;
+}
+
+@media (min-width: 400px) {
+    body {
+        font-size: 16px;
+    }
+}
+
+/* 
+==========================
+	set global fonts for website,
+	- https://abcdinamo.com/typefaces/whyte
+==========================
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+    font-family: 'Roboto Slab', serif;
+    src: url("/fonts/RobotoSlab-VariableFont_wght.ttf") format("truetype");
+}
+
+/* 
+==========================
+	BUTTON STYLES 
+==========================
+*/
+
+/* 	a potential solution for using the svg 
+	designs for the buttons in the future,
+	https://stackoverflow.com/questions/600743/how-to-get-div-height-to-auto-adjust-to-background-size */
+
+button {
+    /* removing pre-set CSS, */
+    outline: none !important;
+    border: none !important;
+    /* general button design, */
+    box-shadow: 7px 7px 7px #00000029;
+    border-radius: 28px;
+    opacity: 1;
+    padding: 8px 21px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-items: center;
+    text-align: start;
+    /* fonts */
+    font: normal normal normal 23px/27px ABC Whyte Edu !important;
+    letter-spacing: 0px;
+    color: var(--grey-1);
+    white-space: nowrap;
+    /* for the icons separation */
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-primary {
+    background: var(--primary) 0% 0% no-repeat padding-box;
+    height: 50px;
+}
+
+.btn-secondary {
+    background: var(--secondary) 0% 0% no-repeat padding-box;
+    height: 50px;
+}
+
+/* 
+	special container for merging & overlapping 
+	buttons effect into a single button design */
+
+/* 
+==========================
+	CONTAINER STYLES 
+==========================
+*/
+
+.info-container {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 7px 7px 7px #00000029;
+    border-radius: 33px;
+    text-align: left;
+    font: normal normal normal 18px/25px ABC Whyte Edu;
+    letter-spacing: 0px;
+    color: #28292f;
+    padding: 32.95px 14px;
+}
+
+.info-container-secondary {
+    background: var(--secondary) 0% 0% no-repeat padding-box;
+    box-shadow: 7px 7px 7px #00000029;
+    border-radius: 20px;
+    text-align: left;
+    font: normal normal normal 18px/25px ABC Whyte Edu;
+    letter-spacing: 0px;
+    color: #28292f;
+    padding: 20px 12px;
+}
+
+@media only screen and (min-width: 768px) {
+    .info-container {
+        zoom: 1.5;
+    }
+}
+
+.container-row {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-content: center;
+}
+
+.container-row-center {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    align-content: center;
+}
+
+/* 
+==========================
+	COMPLEX SVGs STYLES
+==========================
+*/
+
+.svg-full-width {
+    width: 100%;
+}
+@media only screen and (min-width: 768px) {
+    .svg-full-width {
+        zoom: 1.5;
+    }
+}
+
+.headline-svg {
+    margin-bottom: -40px;
+}
+
+/* 
+==========================
+	INOUT STYLES 
+==========================
+*/
+
+input {
+    /* removing pre-set CSS, */
+    outline: none;
+    border: none;
+    /* general button design, */
+    box-shadow: 7px 7px 7px #00000029;
+    border-radius: 28px;
+    opacity: 1;
+    padding: 8px 21px !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-items: center;
+    text-align: start;
+    /* fonts */
+    font: normal normal normal 23px/27px ABC Whyte Edu !important;
+    letter-spacing: 0px;
+    color: var(--grey-1);
+    white-space: nowrap;
+    /* for the icons separation */
+    display: flex;
+    justify-content: space-between;
+    background: var(--secondary) 0% 0% no-repeat padding-box;
+    height: 50px;
+}
+
+/* 
+==========================
+GLOBAL WEBSITE ANIMATIONS
+==========================
+*/
+
+/* website on:hover button font change hover */
+.font-hover-change:hover,
+.font-hover-change:hover text {
+    cursor: pointer !important;
+    font-family: ABC Whyte Edu Inktrap !important;
+}
