@@ -13,6 +13,7 @@
     team-section svg */
     svg {
         width: -webkit-fill-available;
+        width: -moz-available;
         /* height: auto; */
         margin: calc(100vh / 14.5) auto calc(100vh / 7.32967032967) auto;
         /* 

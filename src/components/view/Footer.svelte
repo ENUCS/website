@@ -29,8 +29,10 @@
         /* inner-container-view */
         display: grid;
         text-align: -webkit-center;
+        text-align: -moz-center;
         grid-gap: 20px;
         justify-content: center;
+        justify-items: center;
         position: relative;
     } footer #social-group {
         /* inner-container-view */
