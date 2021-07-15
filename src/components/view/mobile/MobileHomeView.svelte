@@ -189,8 +189,7 @@
             <g id="mobile-hero-frame_svg__become-member-btn" filter="url(#mobile-hero-frame_svg__filter0_d)">
                 <rect x="3" y="85.414" width="149.645" height="35.532" rx="3.417" fill="#00A3FF" />
                 <text id="mobile-hero-frame_svg__Become_a_member" fill="#fff" xml:space="preserve" style="white-space:pre"
-                    font-family="Roboto Slab" font-size="13.325" font-weight="bold" letter-spacing="0em"
-                    text-decoration="underline">
+                    font-family="Roboto Slab" font-size="13.325" font-weight="bold" letter-spacing="0em">
                     <tspan x="19.399" y="108.473">Become a member</tspan>
                 </text>
             </g>
