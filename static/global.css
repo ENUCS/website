@@ -31,7 +31,8 @@ body {
     font-family: Roboto Slab;
     font-size: 14px;
     line-height: 1.5;
-    /* MOBILE 
+    /* 
+    MOBILE 
     disable pinchin & user zooming on */
     touch-action: pan-x pan-y;
 }
@@ -47,23 +48,35 @@ body {
 */
 
 /* to learn more -> 
-	https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
+https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
 :root {
+    /* 
+    dimensions */
     --app-height: 100%;
     /* 
 	main app colors */
     --white: #ffffff;
-    --primary: #94ff94;
-    --secondary: #ff6043;
-    --tertiary: #a183ff;
+    --primary: #FF5555;
+    --secondary: #37474F;
+    --red: #C62828;
     --theme-color: #e3e3e3;
     /* 
-	text colors */
-    --grey-1: #28292f;
-    /* 
 	dark theme colors */
+    --black: #000000;
     --dark: #121212;
     --background-surface: #121212;
+    /* 
+    breakpoints */
+    --mobile: 375;
+    --tablet: 767;
+    --destop: 1440;
+}
+
+.color-primary {
+    color: #FF5555;
+}
+.color-white {
+    color: var(--white)
 }
 
 h1 {
@@ -71,6 +84,7 @@ h1 {
 }
 
 a {
+    text-decoration: none !important;
     color: inherit;
 }
 
@@ -83,16 +97,130 @@ code {
     border-radius: 2px;
 }
 
-@media (min-width: 400px) {
-    body {
-        font-size: 16px;
+p {
+    font-family: 'Roboto', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	/* font-size: 14px; */
+	line-height: 150%;
+    margin: 0;
+    color: var(--dark);
+}
+
+.bold {
+    font-style: normal;
+    font-weight: bold;
+}
+
+/*
+==========================
+VARIABLE FONT SIZES 
+==========================
+*/
+
+.s-10 {
+	font-size: calc(100vw / 37.5);
+}
+.s-12 {
+	font-size: calc(100vw / 31.25);
+}
+.s-14 {
+	font-size: calc(100vw / 26.7857142857);
+} 
+.s-16 {
+	font-size: calc(100vw / 23.4375);
+} 
+.s-18 {
+	font-size: calc(100vw / 20.8333333333);
+}
+.s-20 {
+	font-size: calc(100vw / 18.75);
+} 
+.s-22 {
+	font-size: calc(100vw / 17.0454545455);
+}
+/* 
+page titles */
+.s-42 {
+	font-size: calc(100vw / 8.92857142857);
+    margin-bottom: calc(100vw / 6.69642857143);
+}
+
+/*
+=============================
+TABLET (& UP), 
+100vw - calaulated from 768px
+VERIFIED AND COMPLETED
+*/
+@media only screen and (min-width: 767px) {
+	.s-10 {
+        font-size: calc(100vw / 76.8);
+    }
+    .s-12 {
+        font-size: calc(100vw / 64);
+    }
+    .s-14 {
+        font-size: calc(100vw / 54.8571428571);
+    } 
+    .s-16 {
+        font-size: calc(100vw / 48);
+    } 
+    .s-18 {
+        font-size: calc(100vw / 42.6666666667);
+    }
+    .s-20 {
+        font-size: calc(100vw / 38.4);
+    } 
+    .s-22 {
+        font-size: calc(100vw / 34.9090909091);
+    }
+    /* 
+    page titles */
+    .s-42 {
+        font-size: calc(100vw / 18.2857142857);
+        margin-bottom: calc(100vw / 13.7142857143);
+    }
+}
+
+/*
+=============================
+DESKTOP (& UP), 
+100vw - calaulated from 1440px
+VERIFIED AND COMPLETED
+*/
+@media only screen and (min-width: 1024px) {
+	.s-10 {
+        font-size: calc(100vw / 144);
+    }
+    .s-12 {
+        font-size: calc(100vw / 120);
+    }
+    .s-14 {
+        font-size: calc(100vw / 102.857142857);
+    } 
+    .s-16 {
+        font-size: calc(100vw / 90);
+    } 
+    .s-18 {
+        font-size: calc(100vw / 80);
+    }
+    .s-20 {
+        font-size: calc(100vw / 72);
+    } 
+    .s-22 {
+        font-size: calc(100vw / 65.4545454545);
+    }
+    /* 
+    page titles */
+    .s-42 {
+        font-size: calc(100vw / 34.2857142857);
+        margin-bottom: calc(100vw / 25.7142857143);
     }
 }
 
 /* 
 ==========================
 	set global fonts for website,
-	- https://abcdinamo.com/typefaces/whyte
 ==========================
 */
 
@@ -109,155 +237,104 @@ code {
 ==========================
 */
 
-/* 	a potential solution for using the svg 
-	designs for the buttons in the future,
-	https://stackoverflow.com/questions/600743/how-to-get-div-height-to-auto-adjust-to-background-size */
-
 button {
-    /* removing pre-set CSS, */
+    /* 
+    removing pre-set CSS, */
     outline: none !important;
     border: none !important;
-    /* general button design, */
-    box-shadow: 7px 7px 7px #00000029;
-    border-radius: 28px;
+    /* 
+    general button design, */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 3.5px;
     opacity: 1;
-    padding: 8px 21px !important;
+    padding: 5px 10px 5px 35px !important;
     cursor: pointer;
     transition: all 0.3s ease;
     align-items: center;
     text-align: start;
-    /* fonts */
-    font: normal normal normal 23px/27px ABC Whyte Edu !important;
-    letter-spacing: 0px;
-    color: var(--grey-1);
+    /* 
+    fonts */
     white-space: nowrap;
-    /* for the icons separation */
+    /* 
+    for the icons separation */
     display: flex;
     justify-content: space-between;
 }
 
 .btn-primary {
-    background: var(--primary) 0% 0% no-repeat padding-box;
-    height: 50px;
+    background: var(--primary);
+} .btn-primary p {
+    color: var(--white);
 }
 
 .btn-secondary {
-    background: var(--secondary) 0% 0% no-repeat padding-box;
-    height: 50px;
+    background: var(--secondary);
+} .btn-secondary p {
+    color: var(--white);
+}
+
+.btn-right-icon {
+    padding: calc(100vw / (var(--mobile) / 9)) calc(100vw / (var(--mobile) / 63)) calc(100vw / (var(--mobile) / 9)) calc(100vw / (var(--mobile) / 17)) !important;
+    background-position: right calc(100vw / (var(--mobile) / 12)) top 50%;
+    background-repeat: no-repeat;
+}
+.btn-left-icon {
+    padding: calc(100vw / (var(--mobile) / 9)) calc(100vw / (var(--mobile) / 17)) calc(100vw / (var(--mobile) / 9)) calc(100vw / (var(--mobile) / 63)) !important;
+    /* background-position: left calc(100vw / 53.5714285714) top 50%; */
+    background-repeat: no-repeat;
 }
 
 /* 
-	special container for merging & overlapping 
-	buttons effect into a single button design */
-
-/* 
 ==========================
-	CONTAINER STYLES 
+	FORM & INPUT STYLES 
 ==========================
 */
 
-.info-container {
-    background: #ffffff 0% 0% no-repeat padding-box;
-    box-shadow: 7px 7px 7px #00000029;
-    border-radius: 33px;
-    text-align: left;
-    font: normal normal normal 18px/25px ABC Whyte Edu;
-    letter-spacing: 0px;
-    color: #28292f;
-    padding: 32.95px 14px;
+
+form {
+
 }
 
-.info-container-secondary {
-    background: var(--secondary) 0% 0% no-repeat padding-box;
-    box-shadow: 7px 7px 7px #00000029;
-    border-radius: 20px;
-    text-align: left;
-    font: normal normal normal 18px/25px ABC Whyte Edu;
-    letter-spacing: 0px;
-    color: #28292f;
-    padding: 20px 12px;
-}
-
-@media only screen and (min-width: 768px) {
-    .info-container {
-        zoom: 1.5;
-    }
-}
-
-.container-row {
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    align-content: center;
-}
-
-.container-row-center {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    align-content: center;
-}
-
-/* 
-==========================
-	COMPLEX SVGs STYLES
-==========================
-*/
-
-.svg-full-width {
-    width: 100%;
-}
-@media only screen and (min-width: 768px) {
-    .svg-full-width {
-        zoom: 1.5;
-    }
-}
-
-.headline-svg {
-    margin-bottom: -40px;
-}
-
-/* 
-==========================
-	INOUT STYLES 
-==========================
-*/
-
-input {
-    /* removing pre-set CSS, */
+fieldset {
+    /* 
+    standard exclusion */
     outline: none;
     border: none;
-    /* general button design, */
-    box-shadow: 7px 7px 7px #00000029;
-    border-radius: 28px;
-    opacity: 1;
-    padding: 8px 21px !important;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    align-items: center;
-    text-align: start;
-    /* fonts */
-    font: normal normal normal 23px/27px ABC Whyte Edu !important;
-    letter-spacing: 0px;
-    color: var(--grey-1);
-    white-space: nowrap;
-    /* for the icons separation */
-    display: flex;
-    justify-content: space-between;
-    background: var(--secondary) 0% 0% no-repeat padding-box;
-    height: 50px;
+    padding: 0;
+    /* 
+    FIGMA-EXPORT */
+    margin-bottom: calc(100vw / (var(--mobile) / 11.76));
 }
 
-/* 
-==========================
-GLOBAL WEBSITE ANIMATIONS
-==========================
-*/
+/* MOBILE INPUT */
 
-/* website on:hover button font change hover */
-.font-hover-change:hover,
-.font-hover-change:hover text {
-    cursor: pointer !important;
-    font-family: ABC Whyte Edu Inktrap !important;
+input, 
+select {
+    /* 
+    standard exclusion */
+    outline: none;
+    border: none;
+    /* 
+    custom-addition */
+    opacity: 1;
+    cursor: text;
+    align-items: center;
+    text-align: start;
+    display: flex;
+    transition: all 0.15s ease;
+    /* 
+    FIGMA-EXPORT */
+    background: #FFFFFF;
+    border: 0.5px solid #37474F;
+    box-sizing: border-box;
+    border-radius: 7.34914px;
+    padding: calc(100vw / (var(--mobile) / 7));
+    height: 19.11px;
+    font: 'Roboto Slab';
+    width: calc(100vw / (var(--mobile) / 314.54));
+    height: calc(100vw / (var(--mobile) / 33.81));
+
+} input:focus {
+    padding: calc(100vw / (var(--mobile) / 5));
+    border: 2.5px solid #FF5555;
 }
