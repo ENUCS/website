@@ -46,9 +46,9 @@
         <div transition:fade>
             <slot />
         </div>
+        <Footer {segment} {transition_time} />
     {/if}
 </main>
-<Footer {segment} {transition_time} />
 
 <!-- 
 ~~~~~~~~~~~~
