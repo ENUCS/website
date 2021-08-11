@@ -101,6 +101,11 @@
                     TEAM
                 </a>
             </li>
+            <li>
+                <a rel='prefetch' href="/shop" class:active={segment === 'shop'}>
+                    SHOP
+                </a>
+            </li>
         </ul>
     </nav>
 <!-- {/if} -->
