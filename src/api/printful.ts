@@ -15,8 +15,8 @@ import { printfulToken } from '../config/init-printful'
 
 let base: string
 if (process.env.NODE_ENV != 'production') { 
-    base = 'https://cors-anywhere.herokuapp.com/https://api.printful.com'
-    // base = 'https://api.printful.com'
+    // base = 'https://cors-anywhere.herokuapp.com/https://api.printful.com'
+    base = 'https://api.printful.com'
 } else {
     base = 'https://api.printful.com'
 }
@@ -37,15 +37,16 @@ function send(
         path: string, 
         opts: {   // declaring fetch-api OPTIONS,
             method: 'GET' | 'POST' | 'PUT' | 'DELETE'           // 'GET' = DEFAULT
-            headers: {
-                'Content-Type'?: 'application/json' | 'application/x-www-form-urlencoded'
-                'Accept'?: 'application/json'
-                'Origin'?: 'http://localhost:3000'
+            headers?: {
+                'Content-Type'?: 'application/json' | 'application/x-www-form-urlencoded' | 'text/plain'
+                'Accept'?: 'application/json' | 'text/plain'
+                'Origin'?: 'http://192.168.0.10:3000' | 'http://localhost:3000' | 'https://api.printful.com' | ''
+                'Authorization'?: `Basic ${typeof printfulToken}`
+                'Host'?: 'https://api.printful.com' | 'api.printful.com'
             }
             mode?: 'cors' |  'no-cors' | 'same-origin'          // 'cors' = DEFAULT 
             redirect?: 'follow' | 'manual' | 'error'            // 'follow' = DEFAULT
             credentials?: 'same-origin' | 'include' | 'omit'    // 'same-origin' = DEFAULT
-            data?: any
             body?: string                                       // body data type must match "Content-Type" header
         }) 
     {
@@ -56,10 +57,6 @@ function send(
     // PRINTFUL Works with FETCH-API - BASIC Authentication - https://stackoverflow.com/questions/43842793/basic-authentication-with-fetch
     opts.headers['Authorization'] = `Basic ${printfulToken}`
     
-    if (opts.data) {
-        opts.body = JSON.stringify(opts.data)
-    }
-
     console.log('opts', opts)
 
     var promise = Promise.race([
@@ -95,10 +92,10 @@ export function get(path: string) {
     return send(path, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'text/plain',
         },
-        // credentials: 'include',
         // mode: 'cors',
+        // credentials: 'include',
     })
 }
 
@@ -106,7 +103,7 @@ export function get(path: string) {
 export function post(path: string, data: any) {
     return send(path, {
         method: 'POST',
-        data,
+        body: JSON.stringify(data),
         // credentials: 'include',
         // redirect: 'follow',
         headers: {
