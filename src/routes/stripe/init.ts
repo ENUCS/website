@@ -1,0 +1,1 @@
+// Setting up StripeAPI - https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function-error-after-svelte-onmount-fires
