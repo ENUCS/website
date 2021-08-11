@@ -12,3 +12,6 @@ yarn-error.log
 /app/manifest/
 /.sessions/
 /.vscode
+
+# OTHER IGNORE FILES
+# /src/config/init-printful.ts
