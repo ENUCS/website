@@ -33,16 +33,23 @@ if (process.env.NODE_ENV != 'production') {
 // ~~~~~~~~~~~~~~~~
 
 
-function send( 
+async function send( 
         path: string, 
         opts: {   // declaring fetch-api OPTIONS,
             method: 'GET' | 'POST' | 'PUT' | 'DELETE'           // 'GET' = DEFAULT
             headers?: {
+                'Access-Control-Allow-Origin'?: '*'
                 'Content-Type'?: 'application/json' | 'application/x-www-form-urlencoded' | 'text/plain'
-                'Accept'?: 'application/json' | 'text/plain'
+
+                'Accept'?: 'application/json' | 'text/plain' | '*/*'        // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept
+                                                                            // https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation/List_of_default_Accept_values
+
+                'Accept-Encoding'?: 'gzip, deflate, br'                     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Encoding
+
                 'Origin'?: 'http://192.168.0.10:3000' | 'http://localhost:3000' | 'https://api.printful.com' | ''
                 'Authorization'?: `Basic ${typeof printfulToken}`
                 'Host'?: 'https://api.printful.com' | 'api.printful.com'
+                'User-Agent'?: string
             }
             mode?: 'cors' |  'no-cors' | 'same-origin'          // 'cors' = DEFAULT 
             redirect?: 'follow' | 'manual' | 'error'            // 'follow' = DEFAULT
@@ -60,7 +67,7 @@ function send(
     console.log('opts', opts)
 
     var promise = Promise.race([
-        fetch(`${base}/${path}`, opts)
+        await fetch(`${base}/${path}`, opts)
             .then(response => {
                 // check if the response is OK (200/TRUE)
                 if (!response.ok) {
@@ -70,11 +77,15 @@ function send(
                 } 
                 // return the data
                 return response.json()
-            }),
-            // .catch(error => {
-            //     console.error('There has been a problem with your fetch operation:', error);
-            // }),
-            new Promise((resolve, reject) =>
+            })
+            .then(json => {
+                console.log('Success:', json);
+                return json
+            })
+            .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            })
+            ,new Promise((resolve, reject) =>
                 setTimeout(() => reject(new Error('Timeout')), 10000)
             )
         ])
@@ -92,10 +103,14 @@ export function get(path: string) {
     return send(path, {
         method: 'GET',
         headers: {
-            'Content-Type': 'text/plain',
+            // 'Accept': '*/*',
+            // 'Accept-Encoding': 'gzip, deflate, br',
+            'Content-Type': 'application/json',
+            // 'Host': 'api.printful.com',
+            // 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
         },
+        // // credentials: 'include',
         // mode: 'cors',
-        // credentials: 'include',
     })
 }
 
