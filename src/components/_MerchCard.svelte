@@ -1,34 +1,43 @@
 <script lang='ts'>
-    import { get } from '../api/printful'
+    import { 
+        post 
+    } from '../utils/init.js'
+
     import type { 
         SyncProduct, 
         responseListProductVariants, 
         SyncVariant,
     } from '../api/modals/proucts_printful'
 
+    // data passed into the component from parent;
     export let data : SyncProduct
 
     /**
+     * FUNCTION / METHOD;
      * Description:
      * Load Extra Information about the product;
     */
     async function getFurtherInfo() : Promise<responseListProductVariants> {
-        const response = await get(`store/products/${data.id}`)
-        // if (process.env.NODE_ENV != 'production') { console.log('MerchCard.svelte', response) } // test-dev
-
+        const _data = {
+            method: 'GET',
+            endpoint: `store/products/${data.id}`
+        }
+		const response = await post(`shop/printful`, _data)
         // extract the min-max price in the form of an array;
         getMinMaxRetailPrice(response.result.sync_variants)
-
         // extract the currency for the merchandise (1st Variation is enough)
         getItemCurrency(response.result.sync_variants[0].currency)
-
         // pass the response to the HTML;
         return response
     }
     let promise = getFurtherInfo()
 
+    
     let currency: string
+
+    
     /**
+     * FUNCTION / METHOD;
      * Description:
      * Assings a `currecny` used to pay for the item
      * 
@@ -38,11 +47,15 @@
         currency = currecyType
     }
     
+
     let priceRange: [
         n0: number,
         n1: number
     ]
+
+
     /**
+     * FUNCTION / METHOD;
      * Description:
      * Main Method Handler for obtaining
      * the MinMax Retail Price of the Clothes
@@ -54,31 +67,31 @@
         priceRange = getMinMaxWithMath(processedArray)
     }
 
+
     /**
+     * FUNCTION / METHOD;
      * Description:
      * Gets all of the prices for `this` clothing,
      * and places the values in an array `number[]`
      * ready to be calculated by getMinMaxWithMath()
      * 
      * @param arr
+     * @returns Array<>
     */
     function extractRetailPriceToArray(arr: Array<SyncVariant>) {
-        // test-dev
-        // if (process.env.NODE_ENV != 'production') { console.log('MerchCard.svelte', arr) }
         let valueArray = []
         let price: number
 
+        // iterate over the array of items, and extract their `retail_prices` into
+        // a new array
         arr.forEach(element => {
-            // test-dev;
-            // if (process.env.NODE_ENV != 'production') { console.log('MerchCard.svelte', element.retail_price) }
             // convert string to float;
             price = parseFloat(element.retail_price)
             // add the value to the array;
             valueArray.push(price)
         });
-        // test-dev
-        // if (process.env.NODE_ENV != 'production') { console.log('MerchCard.svelte', valueArray) }
 
+        // return this new array of prices
         return valueArray
     }
 
@@ -89,14 +102,14 @@
      * prices from a generated array
      * 
      * @param arr
+     * @returns Array<number_1, number_2>
     */
     function getMinMaxWithMath(arr: number[]): [n0: number, n1: number] {
         // Math.max(10,3,8,1,33)
         let maximum: number = Math.max(...arr)
-
         // Math.min(10,3,8,1,33)
         let minimum: number = Math.min(...arr)
-
+        // final result value of [min, max]
         let result: [n0: number, n1: number] = ([minimum, maximum]) 
 
         // test-dev
