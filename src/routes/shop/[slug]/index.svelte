@@ -1,7 +1,7 @@
 <script context="module" lang='ts'>
     import { 
         post 
-} from '../../../utils/init.js'
+    } from '../../../utils/init.js'
 
     import type {
         Preload
@@ -56,6 +56,7 @@
 -->
 
 <script lang="ts">
+    import { goto } from '@sapper/app';
 
     import type {
         responseListProductVariants
@@ -200,7 +201,21 @@
         getTotalCosts = false   // hide the order costs container
         getShipRates = false    // hide the shipping field
     }
+    
+    let stripeData: {
+        name: string
+        email: string
+        amountToPay: number
+        currenyPay: string
+    } = {
+        name: undefined,
+        email: undefined,
+        amountToPay: undefined,
+        currenyPay: undefined
+    }
 
+    $: stripeData.name = recipient.name
+    $: stripeData.email = recipient.email
 
     /**
      * Function / Method
@@ -222,9 +237,17 @@
             data: data
         }
         const response = await post(`shop/printful`, _data)
+        console.log(response)
+        // itercept key data elements and store in the JS;
+        stripeData.amountToPay = parseInt(response.result.retail_costs.total) + parseInt(response.result.costs.vat)
+        stripeData.currenyPay = response.result.retail_costs.currency
         return response
     }
-
+    
+    $: if (shipPrice != undefined) {
+        console.log('shipPrice changed', shipPrice)
+        stripeData.amountToPay += parseInt(shipPrice.rate)
+    }
 
     /**
      * Function / Method
@@ -243,9 +266,9 @@
             data: data
         }
         const response = await post(`shop/printful`, _data)
+        shipPrice = undefined
         return response
     }
-
 
     /**
      * Function / Method
@@ -277,7 +300,6 @@
         clearLocation()                 // clear other field options
     }
 
-
     /**
      * Function / Method
      * ~~~~~~~~~~~~~~~~~
@@ -294,16 +316,6 @@
     }
 
     let showStripe: boolean = false
-    let amountToPay: string
-    $: console.log('amountToPay', amountToPay)
-
-    let stripeData
-    $: if(amountToPay != undefined) {
-        // stripeData = {
-        //     amountToPay: parseInt(amountToPay.match(/\d+/)[0]),
-        //     currenyPay: amountToPay.replace(/\d+/g, '')
-        // }
-    }
 
     /**
      * Function / Method
@@ -322,10 +334,9 @@
     function startStripe() {
         // load stripe and proceed to checkout
         showStripe = true;
-        // if Stripe is Successful, process the Printful Order;
-        // processPrintfulOrder()
     }
-    
+
+    let showOrderPlaced: boolean = false
 
     /**
      * Function / Method
@@ -334,9 +345,19 @@
      * Porcess the Printful Order and 
      * Submit it for Review
     */
-    function processPrintfulOrder() {
-        // validate the form information,
-        // execute the order from PrintFul,
+    async function processPrintfulOrder() {
+        // if Stripe is Successful, process the Printful Order;
+        showStripe = false; // close stripe modal
+        // alert('Processing the Order')
+        
+        const _data = {
+            method: 'POST',
+            endpoint: `orders`,
+            data: newOrder
+        }
+        const response = await post(`shop/printful`, _data)
+        console.log(response)
+        goto('/shop')
     }
 </script>
 
@@ -521,6 +542,7 @@
     <StripeModal 
         data={stripeData}
         on:close={closeStripe}
+        on:success={processPrintfulOrder}
     />
 {/if}
 
@@ -904,13 +926,7 @@
                         <p class='s-22 bold'>
                             Sub-Total
                             {#if shipPrice != undefined }
-                                <input class='s-22 bold'
-                                    type="number"
-                                    placeholder={(data.result.retail_costs.total + data.result.costs.vat + parseInt(shipPrice.rate))}
-                                    bind:textContent={amountToPay}
-                                    contenteditable
-                                    disabled
-                                >
+                                <span disabled> {data.result.retail_costs.currency} {parseInt(data.result.retail_costs.total) + parseInt(data.result.costs.vat) + parseInt(shipPrice.rate)} </span>
                             {/if}
                         </p>
                     </div>

@@ -20,10 +20,17 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
 	const dispatch = createEventDispatcher()
 
     export let data
+    const { name, email } = data
 
-    let stripe = null;
-    let card = null;
-    let secret = null;
+    let stripe = null
+    let card = null
+    let secret = null
+    let processing: boolean = false
+    let error: boolean = false
+    let success: boolean = false
+    let thankYou: boolean = false
+
+    const sleep = t => new Promise(s => setTimeout(s, t))
 
     /**
      * Function / Method
@@ -33,11 +40,11 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         // Make sure to call loadStripe outside of a component’s render to avoid
         // recreating the Stripe object on every render.
         // loadStripe is initialized with your real test publishable API key.
-        stripe = await loadStripe("pk_test_51JKygiIyAXMjFyvNqb2J6x3Z95NbF7lRjrKf4uAIRNYDx6SG0kMsLJcSYEl8iLYVT4tCMnXTeUo4rPGIw8WkosjI00fc8PDjEA");
+        stripe = await loadStripe("pk_test_51JKygiIyAXMjFyvNqb2J6x3Z95NbF7lRjrKf4uAIRNYDx6SG0kMsLJcSYEl8iLYVT4tCMnXTeUo4rPGIw8WkosjI00fc8PDjEA")
 
-        // mount the card to the dom;
-        var elements = await stripe.elements();
-        card = await elements.create('card');
+        // mount the card to the dom
+        var elements = await stripe.elements()
+        card = await elements.create('card')
         card.mount("#card-element")
 
         // get the Stripe-Secret to make the Payment; [JSON-RETURN]
@@ -75,23 +82,41 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         // card details and submit it to stripe to process the payment using
         // their api confirmCardPayment
         stripe.confirmCardPayment(secret.clientSecret, {
+            receipt_email: email,
             payment_method: {
                 // the stripe card element has the credit card data
                 card: card,
                 billing_details: {
-                    name: 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'
+                    name: name
                 }
             }
         }).then(function(result) {
-            if (result.error) {
-                console.log(result.error.message);
-            } else {
-                if (result.paymentIntent.status === 'succeeded') {
-                    // update db, send emails to customer and admin...etc
-                    console.log('Success!');
-                    closeStripe()
+            processing = true
+            setTimeout(async() => {
+                if (result.error) {
+                    console.log('Uh-oh... there was an error with the payment', result.error.message);
+                    error = true
+                    setTimeout(async() => {
+                        error = false
+                        processing = false
+                    }, 3500)
+                } else {
+                    if (result.paymentIntent.status === 'succeeded') {
+                        // update db, send emails to customer and admin...etc
+                        console.log('Payment was processed successfully!');
+                        success = true
+                        setTimeout(async() => {
+                            thankYou = true
+                            setTimeout(async() => {
+                                processing = false
+                                success = false
+                                thankYou = false
+                                dispatch('success')
+                            }, 5000)
+                        }, 3500)
+                    }
                 }
-            }
+            }, 3500)
         });
     }
 
@@ -129,7 +154,9 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         backdrop-filter: blur(4px);
     }
     #stripe-logo {
-        margin-bottom: calc(100vw / (var(--mobile) / 27));
+        width: calc(100vw / (var(--mobile) / 90));
+        height: calc(100vw / (var(--mobile) / 37.45));
+        margin-bottom: calc(100vw / (var(--mobile) / 47.55));
     }
     #form-modal {
         /* 
@@ -148,8 +175,13 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
             0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
         border-radius: 3.82px;
-        padding: 27px;
+        padding: calc(100vw / (var(--mobile) / 15)) calc(100vw / (var(--mobile) / 27)) calc(100vw / (var(--mobile) / 27)) calc(100vw / (var(--mobile) / 27));
         background-color: #ffffff;
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
     #close-stripe-modal {
         position: absolute;
@@ -160,59 +192,29 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         align-content: center;
         justify-items: center;
     }
+    .image-stripe-state {
+        width: calc(100vw / (var(--mobile) / 44));
+        height: calc(100vw / (var(--mobile) / 44));
+        margin-bottom: calc(100vw / (var(--mobile) / 12));
+    }
     /* 
      */
     form {
         
     }
-
-    input {
-        border-radius: 6px;
-        margin-bottom: 6px;
-        padding: 12px;
-        border: 1px solid rgba(50, 50, 93, 0.1);
-        max-height: 44px;
-        font-size: 16px;
-        width: 100%;
-        background: white;
-        box-sizing: border-box;
-    }
-
-    .result-message {
-    line-height: 22px;
-    font-size: 16px;
-    }
-
-    .result-message a {
-    color: rgb(89, 111, 214);
-    font-weight: 600;
-    text-decoration: none;
-    }
-
-    .hidden {
-    display: none;
-    }
-
-    #card-error {
-    color: rgb(105, 115, 134);
-    font-size: 16px;
-    line-height: 20px;
-    margin-top: 12px;
-    text-align: center;
+    label[for='card-details'] {
+        margin-bottom: calc(100vw / (var(--mobile) / 14));
     }
 
     #card-element {
-    border-radius: 4px 4px 0 0;
-    padding: 12px;
-    border: 1px solid rgba(50, 50, 93, 0.1);
-    max-height: 44px;
-    width: 100%;
-    background: white;
-    box-sizing: border-box;
-    }
-
-    #payment-request-button {
-    margin-bottom: 32px;
+        border-radius: 4px 4px 0 0;
+        padding: 12px;
+        border: 1px solid rgba(50, 50, 93, 0.1);
+        max-height: 44px;
+        width: 100%;
+        background: white;
+        box-sizing: border-box;
+        width: calc(100vw / (var(--mobile) / 273.03));
     }
 
     /* 
@@ -223,6 +225,7 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         border-radius: 6.37931px;
         margin-top: 22px;
         width: 100%;
+        width: calc(100vw / (var(--mobile) / 273.03));
     }
     button p {
         color: #ffffff;
@@ -234,71 +237,14 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         opacity: 0.5;
         cursor: default;
     }
-
-    /* spinner/processing state, errors */
-    .spinner,
-    .spinner:before,
-    .spinner:after {
-    border-radius: 50%;
+    /* 
+     */
+    #redirect-hint {
+        margin-top: calc(100vw / (var(--mobile) / 23));
+        display: flex;
+    } #redirect-hint p {
+        margin-left: calc(100vw / (var(--mobile) / 11));
     }
-
-    .spinner {
-    color: #ffffff;
-    font-size: 22px;
-    text-indent: -99999px;
-    margin: 0px auto;
-    position: relative;
-    width: 20px;
-    height: 20px;
-    box-shadow: inset 0 0 0 2px;
-    -webkit-transform: translateZ(0);
-    -ms-transform: translateZ(0);
-    transform: translateZ(0);
-    }
-
-    .spinner:before,
-    .spinner:after {
-    position: absolute;
-    content: "";
-    }
-
-    .spinner:before {
-    width: 10.4px;
-    height: 20.4px;
-    background: #5469d4;
-    border-radius: 20.4px 0 0 20.4px;
-    top: -0.2px;
-    left: -0.2px;
-    -webkit-transform-origin: 10.4px 10.2px;
-    transform-origin: 10.4px 10.2px;
-    -webkit-animation: loading 2s infinite ease 1.5s;
-    animation: loading 2s infinite ease 1.5s;
-    }
-
-    .spinner:after {
-    width: 10.4px;
-    height: 10.2px;
-    background: #5469d4;
-    border-radius: 0 10.2px 10.2px 0;
-    top: -0.1px;
-    left: 10.2px;
-    -webkit-transform-origin: 0px 10.2px;
-    transform-origin: 0px 10.2px;
-    -webkit-animation: loading 2s infinite ease;
-    animation: loading 2s infinite ease;
-    }
-
-    @keyframes loading {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(360deg);
-        transform: rotate(360deg);
-    }
-    }
-
 </style>
 
 <!-- 
@@ -317,43 +263,85 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         src="./assets/svg/icons/stripe-vector.svg" 
         alt="stripe-logo"
     />
-    <!-- 
-    ~~~~~~~~~~~~~~~~~
-    close-stripe-container -->
-    <div 
-        id='close-stripe-modal'
-        on:click={closeStripe}>
-        <img 
-            src="./assets/svg/icons/close-vector.svg" 
-            alt="close-icon"
-        />
-        <p>close</p>
-    </div>
-    <!-- 
-    ~~~~~~~~~~~~~~~~~
-    form-card-details -->
-    <form on:submit|preventDefault={handlePayment}>
-        <label for="card-details">
-            <p class='s-16 bold'>
-                Card Details
-            </p>
-        </label>
-        <div id="card-element" name='card-details'>
-            <!-- Elements will create input elements here -->
+    
+    {#if !processing}
+        <!-- 
+        ~~~~~~~~~~~~~~~~~
+        close-stripe-container -->
+        <div 
+            id='close-stripe-modal'
+            on:click={closeStripe}>
+            <img 
+                src="./assets/svg/icons/close-vector.svg" 
+                alt="close-icon"
+            />
+            <p>close</p>
         </div>
         <!-- 
         ~~~~~~~~~~~~~~~~~
-        We'll put the error messages in this element -->
-        <div id="card-errors" role="alert">
+        form-card-details -->
+        <form on:submit|preventDefault={handlePayment}>
+            <label for="card-details">
+                <p class='s-16 bold'>
+                    Card Details
+                </p>
+            </label>
+            <div id="card-element" name='card-details'>
+                <!-- Elements will create input elements here -->
+            </div>
+            <!-- 
+            ~~~~~~~~~~~~~~~~~
+            We'll put the error messages in this element -->
+            <div id="card-errors" role="alert">
 
-        </div>
-        <!--
-        ~~~~~~~~~~~~~~~~~
-        submit payment button -->
-        <button id="submit">
-            <p class='s-16'>
-                Pay {data.currenyPay} {data.amountToPay}
-            </p>  
-        </button>
-    </form>
+            </div>
+            <!--
+            ~~~~~~~~~~~~~~~~~
+            submit payment button -->
+            <button id="submit">
+                <p class='s-16 bold'>
+                    Pay {data.amountToPay} {data.currenyPay}
+                </p>  
+            </button>
+        </form>
+
+    {:else if processing  
+            && success}
+        <img
+            class='image-stripe-state'
+            src="./assets/svg/check-vector.svg" 
+            alt="stripe-logo"
+        />
+        <p class="s-16 bold color-success">Success!</p>
+        <p class="s-14">Your order has been placed</p>
+
+        {#if thankYou}
+            <div id='redirect-hint'>
+                <img
+                    src="./assets/svg/arrow-vector.svg" 
+                    alt="back-arrow"
+                />
+                <p class="s-14">you are being redirected back to the main SHOP page</p>
+            </div>
+        {/if}
+
+    {:else if processing
+        && error}
+        <img
+            class='image-stripe-state'
+            src="./assets/svg/error-vector.svg" 
+            alt="error-icon"
+        />
+        <p class="s-16 bold color-error">Uh-oh!</p>
+        <p class="s-14">There was an error with your payment</p>
+
+    {:else if processing}
+        <img
+            class='image-stripe-state'
+            src="./assets/svg/Group-animated.svg" 
+            alt="processing-load"
+        />
+        <p class="s-16 bold color-blue-green-gradient">Processing Payment</p>
+        <p class="s-14">hold on, your payment is being processed</p>
+    {/if}
 </div>
