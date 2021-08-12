@@ -1,11 +1,11 @@
-<!-- src/routes/blog/[slug].svelte -->
 <script context="module" lang='ts'>
-    import {
-        get
-    } from '../../../api/printful'
+    import { 
+        post 
+    } from '../../../utils/init.js'
+
     import type {
         Preload
-    } from "@sapper/common";;
+    } from "@sapper/common"
 
     /**
      * Function Sapper PRE-LOAD;
@@ -14,35 +14,30 @@
      * with the loading web-page 
      * @param this
      * @param param1
-     */
-    // export async function preload({ params, query }) {
+    */
     export const preload: Preload = async function (this, {
         params
     }) {
         const {
             slug
         } = params;
-        // if (process.env.NODE_ENV != 'production') {
-        //     console.debug('shop-[slug]-index.svelte', slug)
-        // } // test-dev
-
-        const res = await get(`store/products/${slug}`)
-        if (process.env.NODE_ENV != 'production') {
-            console.debug('shop-[slug]-index.svelte', res)
-        } // test-dev
-
-        const resCountriesList = await get(`countries`)
-        // if (process.env.NODE_ENV != 'production') {
-        //     console.debug('shop-[slug]-index.svelte', resCountriesList)
-        // } // test-dev
-
-
+        // get the list of `shop-data` from Printful-API
+        const res = await post(`http://192.168.0.10:3000/shop/printful`, {
+            method: 'GET',
+            endpoint: `store/products/${slug}`,
+        })
+        // get the list of `ship-to` countries by Printful-API
+        const resCountriesList = await post(`http://192.168.0.10:3000/shop/printful`, {
+            method: 'GET',
+            endpoint: `countries`,
+        })
+        // return these pieces of data as `export let ...`
         return {
-            res, resCountriesList
+            res, 
+            resCountriesList
         };
     }
 </script>
-
 
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
@@ -50,11 +45,10 @@
 ~~~~~~~~~~~~~~~~~~~~
 -->
 
-
 <script lang="ts">
-    import {
-        post
-    } from '../../../api/printful'
+    // import { 
+    //     post 
+    // } from '../../../utils/init.js'
     
     import type {
         responseListProductVariants
@@ -88,8 +82,7 @@
     // SET-UP FOR THE ORDER PRICE ESTIMATE
     // ~~~~~~~~~~~~~~~~~~~~
 
-    // a dynamic binding Object for UserAddress;
-    let recipient: UserAddress = {
+    let recipient: UserAddress = {          // a dynamic binding Object for UserAddress;
         name: undefined,
         address1: undefined,
         zip: undefined,
@@ -98,6 +91,8 @@
         state_code: undefined,
         country_code: undefined,
     }
+    let selectedItem: Item = undefined      // contains the selected option/item of merch
+    let shipPrice: ShippingInfo = undefined // contains the selected shipping-type-option
 
     // test-dev
     // if (process.env.NODE_ENV != 'production') {
@@ -110,18 +105,16 @@
     //     recipient.country_code = 'UK'
     // } 
 
-    let selectedItem: Item = undefined      // a dynamic variable for Item
-    let itemQuantity: number = 0            // number of item Quantities
+    let itemQuantity: number = 0             // item quantity
     $: if (selectedItem != undefined) {
-        selectedItem.quantity = itemQuantity // setting the qquantity as an instantiating value
+        selectedItem.quantity = itemQuantity // setting the quantity as an instantiating value
     }
-    let items: Array<Item>                   // a dynamic binding Array<Item>
-    $: items = [selectedItem]                // declaring the final INTERFACE for ITEM
-    $: console.info('selectedItem', selectedItem)
-
     
-    let newOrder: NewOrder  // a dynamic binding Object for NewOrder;
-    $: newOrder = {
+    let items: Array<Item>                   // (Order API) a dynamic binding Array<Item>
+    $: items = [selectedItem]                // [SvelteJS - Reactivity] declaring the final INTERFACE for ITEM
+    
+    let newOrder: NewOrder                   // (Order API) a dynamic binding Object for NewOrder;
+    $: newOrder = {                          // [SvelteJS - Reactivity] declaring the final INTERFACE for NewOrder
         recipient: recipient,
         items: items
     }
@@ -130,10 +123,10 @@
     // SET-UP FOR SHIPPING RATE
     // ~~~~~~~~~~~~~~~~~~~~
     
-    let recipient_2: UserAddressInfo            // a dynamic binding Object for UserAddressInfo;
-    let selectedItem_2: ItemInfo;               // a dynamic binding Array<Object> for Item;
-    let items_2: Array<ItemInfo>                // a dynamic bidning Array<ItenInfo>;
-    let newShippingRate: RequestShippingRates   // a dynamic binding RequestShippingRates
+    let recipient_2: UserAddressInfo            // (Shipping Rate API) a static idle variable for UserAddressInfo
+    let selectedItem_2: ItemInfo;               // (Shipping Rate API) a static idle variable for ItemInfo
+    let items_2: Array<ItemInfo>                // (Shipping Rate API) a static idle variable for Array<ItemInfo>
+    let newShippingRate: RequestShippingRates   // (Shipping Rate API) a static idle variable for RequestShippingRates
 
     let promise: Promise<ResponseEstimateOrderCosts>        // promise `instantiated` to obtain the `OrderEstimateCosts`
     let promiseShipCosts: Promise<ResponseShippingRates>    // promise `instantiated` to obtain the `ResponseShippingRates`
@@ -141,9 +134,20 @@
     let getTotalCosts: boolean = false      // boolean trigger the rendering of the `total order costs` section
     let getShipRates: boolean = false       // boolean trigger the rendering of the `shippment rates` section
 
-    // a dynamic biding Object for Estimating Order Costs
-    // when all of the fields have been selected;
-    $: if (selectedItem != undefined 
+
+    /**
+     * [SvelteJS - Reactivity]
+     * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * A dynamic checker that allows for the
+     * verification if all of the form fields 
+     * have been completed, to trigger the
+     * dynamic API requests to the Printful API
+     * to obtain `estimate-order-costs` and `shipping-rates`
+     * data respectively
+    */
+    $: if (selectedItem != undefined
+        && itemQuantity != 0
         && recipient.name != undefined
         && recipient.address1 != undefined
         && recipient.city != undefined
@@ -151,6 +155,8 @@
         && recipient.email != undefined 
         && recipient.state_code != undefined
         && recipient.zip != undefined) {
+
+            console.log('all form fields have been completed!')
 
             recipient_2 = {
                 address1: recipient.address1,
@@ -172,66 +178,114 @@
                 items: items_2
             }
 
-            // form-wesbite is ready to calculate
-            // complete order costs & expenses;
-            if (process.env.NODE_ENV != 'production') {
-                console.debug('shop-[slug]-index.svelte', newOrder)
-            } // test-dev
+            // calculate an Estimate for OrderCosts & Expenses
             promise = estimateOrderCosts(newOrder)
-            getTotalCosts = true
+            getTotalCosts = true // show - render the order costs container
 
-            // form-website is ready to calculate shipping
-            // options & costs;
-            if (process.env.NODE_ENV != 'production') {
-                console.debug('shop-[slug]-index.svelte', newShippingRate)
-            } // test-dev
+            // calculate Shipping Rates and Shipping Type
             promiseShipCosts = getShippingRates(newShippingRate)
-            getShipRates = true
+            getShipRates = true // show - render the shipping field
+    } else {
+        getTotalCosts = false   // hide the order costs container
+        getShipRates = false    // hide the shipping field
     }
-
-
-    $: console.info('getTotalCosts', getTotalCosts);
-    $: console.info('getShipRates', getShipRates);
-
-    
-    /**
-     * Function / Method
-     * Description:
-     * Estimate Order Costs for 
-     * the user dynamically 
-    */
-    async function estimateOrderCosts(data: any): Promise<ResponseEstimateOrderCosts> {
-        const response = await post(`orders/estimate-costs`, data)
-        if (process.env.NODE_ENV != 'production') {
-            console.debug('shop-[slug]-index.svelte', response)
-        } // test-dev
-        return response
-    }
-    // let promise = estimateOrderCosts(newOrder)
 
 
     /**
      * Function / Method
      * [MUST FUNCTION TO POPULATE SHIPPING RATE DROPDOWN]
+     * [WORKING / COMPLETE]
+     * ~~~~~~~~~~~~~~~~~
      * Description:
-     * Obtain Avaialble Shipping Rates
-     * & Options for the User 
+     * Estimate Order Costs for 
+     * the user dynamically. This
+     * function makes a async/dynamic
+     * request to the Printful-API
+     * to estiamte order costs, taxes,
+     * printful costs...
     */
-    async function getShippingRates(data: any): Promise<ResponseShippingRates> {
-        const response = await post(`shipping/rates`, data)
-        if (process.env.NODE_ENV != 'production') {
-            console.debug('shop-[slug]-index.svelte', response)
-        } // test-dev
+    async function estimateOrderCosts(data: any): Promise<ResponseEstimateOrderCosts> {
+        const _data = {
+            method: 'POST',
+            endpoint: `orders/estimate-costs`,
+            data: data
+        }
+        const response = await post(`shop/printful`, _data)
         return response
     }
 
 
-    let shipPrice: ShippingInfo = undefined
-    $: console.info('shipPrice', shipPrice)
+    /**
+     * Function / Method
+     * [MUST FUNCTION TO POPULATE SHIPPING RATE DROPDOWN]
+     * [WORKING / COMPLETE]
+     * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * Obtain Avaialble Shipping Rates
+     * & Options for the User as well as
+     * the shipping speed and the shipping costs
+    */
+    async function getShippingRates(data: any): Promise<ResponseShippingRates> {
+        const _data = {
+            method: 'POST',
+            endpoint: `shipping/rates`,
+            data: data
+        }
+        const response = await post(`shop/printful`, _data)
+        return response
+    }
 
 
     /**
      * Function / Method
+     * [SvelteJS - Reactivity]
+     * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * Verify that the Country Field
+     * has been selected and chec wehter
+     * there are any StateCodes avaialble.
+     * 
+     * Hide / Show StateCode Field.
+    */
+    let stateCodeArray: boolean = false;
+    function getStateCodes() {
+        // loop-thorough all of the countries list and identify the selected target country;
+
+        for (let element of resCountriesList.result) {
+            // if country code matches the selected, check if it has any state codes;
+            if (element.code == recipient.country_code && element.states != null) {
+                stateCodeArray = true               // display the statecode field
+                recipient.state_code = undefined
+                clearLocation()
+                console.info('StateCode Visible')
+                return;
+            }
+        }
+        console.info('State Code Hidden')
+        stateCodeArray = false          // else keep the statecode field hidden;
+        recipient.state_code = ''       // place the state-code values as NOT undefined, but rather empty to pass the check
+        return;
+    }
+
+
+    /**
+     * Function / Method
+     * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * Clearing up the further location
+     * field data for the user upon field
+     * country / OR state code change
+    */
+    function clearLocation() {
+        recipient.address1 = undefined
+        recipient.city = undefined
+        recipient.zip = undefined
+    }
+
+
+    /**
+     * Function / Method
+     * ~~~~~~~~~~~~~~~~~
      * Descrption:
      * Loading up the Stripe Information
      * for the correct use of the website
@@ -246,6 +300,7 @@
 
     /**
      * Function / Method
+     * ~~~~~~~~~~~~~~~~~
      * Description:
      * Porcess the Printful Order and 
      * Submit it for Review
@@ -256,17 +311,11 @@
     }
 </script>
 
-
-<!-- SOLVING CORS ISSUES -->
-<!-- https://www.w3.org/wiki/CORS_Enabled -->
-
-
 <!-- 
 ~~~~~~~~~~~~
 	SVELTE INJECTION TAGS
 ~~~~~~~~~~~~
 -->
-
 
 <svelte:head>
     <!--
@@ -311,13 +360,11 @@
     <meta property="twitter:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
 </svelte:head>
 
-
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
     COMPONENT STYLE
 ~~~~~~~~~~~~~~~~~~~~
 -->
-
 
 <style>
     section {
@@ -432,13 +479,11 @@
     }
 </style>
 
-
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
 	COMPONENT HTML
 ~~~~~~~~~~~~~~~~~~~~
 -->
-
 
 <section>
     <!-- 
@@ -617,51 +662,49 @@
                 name='country_code' 
                 required
                 bind:value={recipient.country_code}
+                on:change={getStateCodes}
             >
-                <option class='s-16' value=''> - select country code - </option>
+                <option class='s-16' value={undefined}> - select country code - </option>
                 <!-- 
                 load all of the values of THIS field -->
                 {#each resCountriesList.result as item}
-                    <option class='s-16' value={ item.code }> { item.name } </option>
+                    <option class='s-16' value={item.code}> { item.name } </option>
                 {/each}
             </select>
         </fieldset>
         <!-- 
         ~~~~~~~~~~~~~~~
         STATE CODE (DROPDOWN SELECT) -->
-        <fieldset class="form-group">
-            <label 
-                for="state_code"
-            > 
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    State Code 
-                </p> 
-            </label>
-            <select 
-                class='form-control' 
-                name='state_code' 
-                required
-                bind:value={recipient.state_code}
-            >
-                <option class='s-16 bold' value=''> - select state code - </option>
-                <!-- 
-                load all of the values of THIS field -->
-                {#if recipient.country_code != undefined}
+        {#if stateCodeArray}
+            <fieldset class="form-group">
+                <label 
+                    for="state_code"
+                > 
+                    <p class='s-16'>
+                        <span style="color: #C62828">*</span> 
+                        State Code 
+                    </p> 
+                </label>
+                <select 
+                    class='form-control' 
+                    name='state_code' 
+                    required
+                    bind:value={recipient.state_code}
+                    on:change={clearLocation}
+                >
+                    <option class='s-16 bold' value=''> - select state code - </option>
+                    <!-- 
+                    load all of the values of THIS field -->
                     {#each resCountriesList.result as item}
                         {#if item.code == recipient.country_code && item.states != null}
                             {#each item.states as state}
                                 <option class='s-16' value={ state.code }> { state.name } </option>
                             {/each}
-                        {:else if item.code == recipient.country_code && item.states == null}
-                            <option class='s-16' value=''> empty field </option>
                         {/if}
                     {/each}
-                {:else}
-                    <option class='s-16' value=''> Please Select Country Code First </option>
-                {/if}
-            </select>
-        </fieldset>
+                </select>
+            </fieldset>
+        {/if}
         <!-- 
         ~~~~~~~~~~~~~~~
         CITY -->
