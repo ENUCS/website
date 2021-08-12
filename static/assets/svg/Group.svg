@@ -1,0 +1,12 @@
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group">
+<path id="Vector" d="M3 25C3 37.1506 12.8494 47 25 47C37.1506 47 47 37.1506 47 25C47 12.8494 37.1506 3 25 3" stroke="#37474F" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M38.2 24.9998C38.2 17.7101 32.2897 11.7998 25 11.7998C17.7103 11.7998 11.8 17.7101 11.8 24.9998C11.8 32.2895 17.7103 38.1998 25 38.1998" stroke="url(#paint0_linear)" stroke-width="4.4" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear" x1="25" y1="22.5998" x2="25" y2="38.1998" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00FF75"/>
+<stop offset="1" stop-color="#00A3FF"/>
+</linearGradient>
+</defs>
+</svg>
