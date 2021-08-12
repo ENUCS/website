@@ -1,7 +1,7 @@
 <script context="module" lang='ts'>
     import { 
         post 
-    } from '../../../utils/init.js'
+} from '../../../utils/init.js'
 
     import type {
         Preload
@@ -9,6 +9,7 @@
 
     /**
      * Function Sapper PRE-LOAD;
+     * ~~~~~~~~~~~~~~~~~~~~
      * Descrption:
      * This function / method preloads
      * with the loading web-page 
@@ -16,8 +17,10 @@
      * @param param1
     */
     export const preload: Preload = async function (this, { host, params }) {
+        
         // get the page `/shop/<id>` slug value (id)
         const { slug } = params;
+        // ~~~~~~~~~~~~~~~~~~~~~
         // get the page `http(s)://[domain-route] to comply with project strict CORS on Pre-loads
         let protocol: string
         if (process.env.NODE_ENV != 'production') { 
@@ -25,16 +28,19 @@
         } else {
             protocol = 'https://'
         }
+        // ~~~~~~~~~~~~~~~~~~~~~
         // get the list of `shop-data` from Printful-API
         const res = await post(`${protocol}${host}/shop/printful`, {
             method: 'GET',
             endpoint: `store/products/${slug}`,
         })
+        // ~~~~~~~~~~~~~~~~~~~~~
         // get the list of `ship-to` countries by Printful-API
         const resCountriesList = await post(`${protocol}${host}/shop/printful`, {
             method: 'GET',
             endpoint: `countries`,
         })
+        // ~~~~~~~~~~~~~~~~~~~~~
         // return these pieces of data as `export let ...`
         return {
             res, 
@@ -50,6 +56,7 @@
 -->
 
 <script lang="ts">
+
     import type {
         responseListProductVariants
     } from '../../../api/modals/proucts_printful'
@@ -74,6 +81,10 @@
         RequestShippingRates,
         ResponseShippingRates
     } from '../../../api/modals/shipping-rates-printful'
+
+    import StripeModal from './_StripeModal.svelte'
+    import ContentLoader from 'svelte-content-loader'
+    import ListLoader from '../../../components/_ListLoader.svelte'
 
     export let res: responseListProductVariants
     export let resCountriesList: responseCountryList
@@ -282,6 +293,24 @@
         shipPrice = undefined
     }
 
+    let showStripe: boolean = false
+    let amountToPay: string
+    $: console.log('amountToPay', amountToPay)
+
+    let stripeData
+    $: if(amountToPay != undefined) {
+        // stripeData = {
+        //     amountToPay: parseInt(amountToPay.match(/\d+/)[0]),
+        //     currenyPay: amountToPay.replace(/\d+/g, '')
+        // }
+    }
+
+    /**
+     * Function / Method
+    */
+    function closeStripe() {
+        showStripe = false;
+    }
 
     /**
      * Function / Method
@@ -292,7 +321,7 @@
     */
     function startStripe() {
         // load stripe and proceed to checkout
-        alert('starting Stripe Checkout');
+        showStripe = true;
         // if Stripe is Successful, process the Printful Order;
         // processPrintfulOrder()
     }
@@ -484,6 +513,16 @@
 	COMPONENT HTML
 ~~~~~~~~~~~~~~~~~~~~
 -->
+
+<!-- <ContentLoader /> -->
+<!-- <ListLoader /> -->
+
+{#if showStripe}
+    <StripeModal 
+        data={stripeData}
+        on:close={closeStripe}
+    />
+{/if}
 
 <section>
     <!-- 
@@ -865,7 +904,13 @@
                         <p class='s-22 bold'>
                             Sub-Total
                             {#if shipPrice != undefined }
-                                <span class='s-22 bold'> {data.result.retail_costs.currency} {data.result.retail_costs.total + data.result.costs.vat + parseInt(shipPrice.rate)} </span>
+                                <input class='s-22 bold'
+                                    type="number"
+                                    placeholder={(data.result.retail_costs.total + data.result.costs.vat + parseInt(shipPrice.rate))}
+                                    bind:textContent={amountToPay}
+                                    contenteditable
+                                    disabled
+                                >
                             {/if}
                         </p>
                     </div>
