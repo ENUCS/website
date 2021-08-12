@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.2",
+    "node-fetch": "^2.6.1",
     "polka": "^0.5.2",
     "sirv": "^1.0.0",
     "stripe": "^8.169.0",
