@@ -5,23 +5,37 @@
 -->
 
 <script lang='ts'>
-    import { get } from '../../api/printful'
-    import type { responseListItems } from '../../api/modals/proucts_printful'
+    import { 
+        post 
+    } from '../../utils/init.js'
+
+    import type { 
+        responseListItems 
+    } from '../../api/modals/proucts_printful'
+
     import MerchContainer from '../../components/_MerchCard.svelte'
 
     /**
-     * Function / METHOD ;
-     * Description:
+     * Function / METHOD;
+     * Description
      * Load the available products
-     * from the Printful API
+     * from the Printful API using the
+     * project PROXY on the backend
+     * 
+     * @return Promise<responseListItems>
     */
     async function getPrintfulShopItems(): Promise<responseListItems> {
-		const res = await get(`store/products`)
-        if (process.env.NODE_ENV != 'production') { console.info('shop-[slug]-index.svelte', res) } // test-dev
+        const data = {  // data to be passed to the PROXY
+            method: 'GET',
+            endpoint: `store/products`
+        }
+		const res = await post(`shop/printful`, data)
+        // if (process.env.NODE_ENV != 'production') { console.info('shop-index.svelte', res) } // test-dev
         return res
 	}
 	let promise = getPrintfulShopItems();
 </script>
+
 
 <!-- 
 ~~~~~~~~~~~~
@@ -29,6 +43,7 @@
     MOBILE FIRST
 ~~~~~~~~~~~~
 -->
+
 
 <style>
     section {
