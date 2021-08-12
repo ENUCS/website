@@ -15,19 +15,23 @@
      * @param this
      * @param param1
     */
-    export const preload: Preload = async function (this, {
-        params
-    }) {
-        const {
-            slug
-        } = params;
+    export const preload: Preload = async function (this, { host, params }) {
+        // get the page `/shop/<id>` slug value (id)
+        const { slug } = params;
+        // get the page `http(s)://[domain-route] to comply with project strict CORS on Pre-loads
+        let protocol: string
+        if (process.env.NODE_ENV != 'production') { 
+            protocol = 'http://'
+        } else {
+            protocol = 'https://'
+        }
         // get the list of `shop-data` from Printful-API
-        const res = await post(`http://192.168.0.10:3000/shop/printful`, {
+        const res = await post(`${protocol}${host}/shop/printful`, {
             method: 'GET',
             endpoint: `store/products/${slug}`,
         })
         // get the list of `ship-to` countries by Printful-API
-        const resCountriesList = await post(`http://192.168.0.10:3000/shop/printful`, {
+        const resCountriesList = await post(`${protocol}${host}/shop/printful`, {
             method: 'GET',
             endpoint: `countries`,
         })
@@ -46,10 +50,6 @@
 -->
 
 <script lang="ts">
-    // import { 
-    //     post 
-    // } from '../../../utils/init.js'
-    
     import type {
         responseListProductVariants
     } from '../../../api/modals/proucts_printful'
@@ -250,7 +250,6 @@
     let stateCodeArray: boolean = false;
     function getStateCodes() {
         // loop-thorough all of the countries list and identify the selected target country;
-
         for (let element of resCountriesList.result) {
             // if country code matches the selected, check if it has any state codes;
             if (element.code == recipient.country_code && element.states != null) {
@@ -264,7 +263,7 @@
         console.info('State Code Hidden')
         stateCodeArray = false          // else keep the statecode field hidden;
         recipient.state_code = ''       // place the state-code values as NOT undefined, but rather empty to pass the check
-        return;
+        clearLocation()                 // clear other field options
     }
 
 
@@ -277,9 +276,10 @@
      * country / OR state code change
     */
     function clearLocation() {
-        recipient.address1 = undefined
+        console.log('clearing options')
         recipient.city = undefined
         recipient.zip = undefined
+        shipPrice = undefined
     }
 
 
@@ -749,11 +749,18 @@
         ~~~~~~~~~~~~~~~
         SHIPPING-TYPE (RADIO BUTTON SELECT) -->
         <fieldset class="form-group">
-            <p class='s-16 bold'>
-                <span style="color: #C62828">*</span> 
-                Shipping Type
-            </p> 
-            <div class='ship-select-radio-container'>
+            <label
+                for="ship-type-contaier"
+                >
+                <p class='s-16 bold'>
+                    <span style="color: #C62828">*</span> 
+                    Shipping Type
+                </p>
+            </label>
+            <div 
+                class='ship-select-radio-container'
+                name="ship-type-contaier"
+                >
                 <!--
                 ~~~~~~~~~~~~~~~
                 if the state of the form is complete to 
@@ -770,7 +777,7 @@
                                 value={item}
                                 required
                             >
-                            <label for='shipType' class='s-16'>{ item.id } | { item.minDeliveryDays } - { item.maxDeliveryDays } Days Delivery { item.currency } { item.rate } </label>
+                            <label for='shipType' class='s-14'>{ item.id } | { item.minDeliveryDays } - { item.maxDeliveryDays } Days Delivery { item.currency } { item.rate } </label>
                         {/each}
                     {:catch error}
                         <p style="color: red">{error.message}</p>
