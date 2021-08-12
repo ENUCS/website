@@ -62,7 +62,7 @@ export async function post(req, res) {
         customer: customer.id,
         setup_future_usage: 'off_session',
         amount: calculateOrderAmount(items),
-        currency: 'gbp'
+        currency: items.currenyPay
     });
     res.send({
         clientSecret: paymentIntent.client_secret
