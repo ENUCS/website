@@ -43,7 +43,7 @@ body {
 
 /* 
 ==========================
-	declaring global app variables
+declaring global app variables
 ==========================
 */
 
@@ -69,9 +69,13 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
     breakpoints */
     --mobile: 375;
     --tablet: 767;
-    --destop: 1440;
+    --desktop: 1440;
 }
-
+/* 
+~~~~~~~~~~~~~~~~
+declaring colors
+~~~~~~~~~~~~~~~~
+*/
 .color-primary {
     color: #FF5555;
 }
@@ -91,22 +95,9 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
     color: #009406
 }
 
-h1 {
-    font-size: 2em;
-}
-
 a {
     text-decoration: none !important;
     color: inherit;
-}
-
-code {
-    font-family: menlo, inconsolata, monospace;
-    font-size: calc(1em - 2px);
-    color: #555;
-    background-color: #f0f0f0;
-    padding: 0.2em 0.4em;
-    border-radius: 2px;
 }
 
 p {
@@ -124,9 +115,23 @@ p {
     font-weight: bold;
 }
 
+/* 
+==========================
+set global fonts for website,
+and declaring website font classes
+==========================
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+    font-family: 'Roboto Slab', serif;
+    src: url("/fonts/RobotoSlab-VariableFont_wght.ttf") format("truetype");
+}
+
 /*
 ==========================
-VARIABLE FONT SIZES 
+VARIABLE FONT SIZES
 ==========================
 */
 
@@ -154,16 +159,10 @@ VARIABLE FONT SIZES
 /* 
 page titles */
 .s-42 {
-	font-size: calc(100vw / 8.92857142857);
-    margin-bottom: calc(100vw / 6.69642857143);
+    font-size: calc(100vw / 8.92857142857);
+    margin-bottom: calc(100vw / (var(--mobile) / 26));
 }
 
-/*
-=============================
-TABLET (& UP), 
-100vw - calaulated from 768px
-VERIFIED AND COMPLETED
-*/
 @media only screen and (min-width: 767px) {
 	.s-10 {
         font-size: calc(100vw / 76.8);
@@ -190,16 +189,10 @@ VERIFIED AND COMPLETED
     page titles */
     .s-42 {
         font-size: calc(100vw / 18.2857142857);
-        margin-bottom: calc(100vw / 13.7142857143);
+        margin-bottom: calc(100vw / (var(--tablet) / 20));
     }
 }
 
-/*
-=============================
-DESKTOP (& UP), 
-100vw - calaulated from 1440px
-VERIFIED AND COMPLETED
-*/
 @media only screen and (min-width: 1024px) {
 	.s-10 {
         font-size: calc(100vw / 144);
@@ -226,22 +219,10 @@ VERIFIED AND COMPLETED
     page titles */
     .s-42 {
         font-size: calc(100vw / 34.2857142857);
-        margin-bottom: calc(100vw / 25.7142857143);
+        margin-bottom: calc(100vw / (var(--desktop) / 20));
     }
 }
 
-/* 
-==========================
-	set global fonts for website,
-==========================
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-@font-face {
-    font-family: 'Roboto Slab', serif;
-    src: url("/fonts/RobotoSlab-VariableFont_wght.ttf") format("truetype");
-}
 
 /* 
 ==========================

@@ -167,14 +167,24 @@
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT STYLE
-    + DESKTOP OPTIMIZED
 ~~~~~~~~~~~~
 -->
 <style>
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        MOBILE FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
     /*
     ~~~~~~~~~~~~~~~~~~~~
-    merch-card-container-style-on:hover
+    merch-card-container-style
     */
+    #merch-container-loader {
+        height: calc(100vw / (var(--mobile) / 360.35));
+        background-color: transparent;
+        display: flex;
+    }
     .merch-container {
         width: auto;
         height: 100%;
@@ -194,10 +204,10 @@
     card-info-container-style
     */
     .merch-info-container {
-        padding: calc(100vw / 15.625) calc(100vw / 15.625) calc(100vw / 7.7736318408) calc(100vw / 15.625);
+        padding: calc(100vw / (var(--mobile) / 24)) calc(100vw / (var(--mobile) / 24)) calc(100vw / (var(--mobile) / 48.25)) calc(100vw / (var(--mobile) / 24));
     }
     .item-price-container {
-        padding: calc(100vw / 37.5) calc(100vw / 28.8461538462);
+        padding: calc(100vw / (var(--mobile) / 9.5)) calc(100vw / (var(--mobile) / 14));
         /* 
         constant values */
         border-radius: 9.12966px 0px 0px 0px;
@@ -209,55 +219,85 @@
         color: var(--white);
     }
     img.merch-img {
+        height: calc(100vw / (var(--mobile) / 260));
+        /* 
+        constant values */
         width: 100%;
-        height: calc(100vw / 1.44136526118);
-        object-fit: cover;
+        object-fit: contain;
+        background-color: white;
     }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~
-    RESPONSIVENESS:
-    Support for DESKTOP;
+      RESPONSIVENESS:
     ~~~~~~~~~~~~~~~~~~~~
     */
 
-    /*
-    =============================
-    DESKTOP (& UP) - 1024px 
-    100vw - measured from 1440px */
-    @media only screen and (min-width: 1024px) {
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        TABLET FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
 
+    @media only screen and (min-width: 768px) {
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        card-info-container-style
+        */
+        #merch-container-loader {
+            height: calc(100vw / (var(--tablet) / 324.1));
+        }
+        .merch-info-container {
+            padding: calc(100vw / (var(--tablet) / 20.7)) calc(100vw / (var(--tablet) / 20.7)) calc(100vw / (var(--tablet) / 43.7)) calc(100vw / (var(--tablet) / 20.7));
+        }
+        img.merch-img {
+            height: calc(100vw / (var(--tablet) / 234));
+        }
+        .item-price-container {
+            padding: calc(100vw / (var(--tablet) / 8.22)) calc(100vw / (var(--tablet) / 14.5));
+        }
+    }
+
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        DESKTOP FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
+    @media only screen and (min-width: 1024px) {
         /*
         ~~~~~~~~~~~~~~~~~~~~
         merch-card-container-style-on:hover
         */
-        .merch-container:hover {
-            background-color: #37474F;
+        a .merch-container:active,
+        a .merch-container:hover {
+            background-color: var(--primary);
             transition: all 0.25s ease;
         } .merch-container:hover p {
-            color: #FFFFFF;
+            color: var(--white);
             transition: all 0.25s ease;
         } .merch-container:hover .item-price-container {
-            background-color: #FFFFFF;
+            background-color: var(--secondary);
             transition: all 0.25s ease;
         } .merch-container:hover .item-price-container span {
-            color: #37474F;
+            color: var(--white);
             transition: all 0.25s ease;
         }
         /*
         ~~~~~~~~~~~~~~~~~~~~
         card-info-container-style
         */
+        #merch-container-loader {
+            height: calc(100vw / (var(--desktop) / 298));
+        }
         .merch-info-container {
-            padding: calc(100vw / 68.5714285714) calc(100vw / 68.5714285714) calc(100vw / 33.1110600138) calc(100vw / 68.5714285714);
+            padding: calc(100vw / (var(--desktop) / 20.72)) calc(100vw / (var(--desktop) / 20.72)) calc(100vw / (var(--desktop) / 43.49) )calc(100vw / (var(--desktop) / 20.72));
         }
         img.merch-img {
-            width: calc(100vw / 4.75247524752);
-            height: calc(100vw / 6.15384615385);
-            object-fit: cover;
+            height: calc(100vw / (var(--desktop) / 234));
         }
         .item-price-container {
-            padding: calc(100vw / 175.182481752) calc(100vw / 102.857142857);
+            padding: calc(100vw / (var(--desktop) / 8.5)) calc(100vw / (var(--desktop) / 14));
         }
     }
 </style>
@@ -267,13 +307,13 @@
 ~~~~~~~~~~~~
 -->
 {#await promise}
-    <div class='merch-container'>
+    <div id='merch-container-loader' class='merch-container'> 
         <ContentLoader {...contentLoaderProps} />
     </div>
 
 {:then data}
     {#if !show}
-        <div class='merch-container'>
+        <div id='merch-container-loader' class='merch-container'>
             <ContentLoader {...contentLoaderProps} />
         </div>
     {:else}

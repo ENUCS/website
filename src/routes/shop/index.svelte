@@ -33,49 +33,84 @@
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT STYLE
-    MOBILE FIRST
 ~~~~~~~~~~~~
 -->
 <style>
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        MOBILE FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
     section {
-        margin: calc(100vw / 3.02419354839) calc(100vw / 19.7368421053);
+        margin: calc(100vw / (var(--mobile) / 124)) calc(100vw / (var(--mobile) / 19));
     }
 
     #merch-grid {
         display: grid;
-        gap: calc(100vw / 6.08963949334);
-        grid-template-columns: repeat(auto-fill, calc(100vw / 1.11275964392));
+        gap: calc(100vw / (var(--mobile) / 61.58));
+        grid-template-columns: repeat(auto-fill, calc(100vw / (var(--mobile) / 337)));
     }
 
     #shop-item-counter {
         margin-bottom: calc(100vw / (var(--mobile) / 43));
+        padding: calc(100vw / (var(--mobile) / 5)) calc(100vw / (var(--mobile) / 12));
+        /* 
+        constant values */
+        background: var(--white);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 5px;
+        width: fit-content;
     }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~
-    RESPONSIVENESS:
-    Support for DESKTOP;
+      RESPONSIVENESS:
     ~~~~~~~~~~~~~~~~~~~~
     */
 
-    /*
-    =============================
-    DESKTOP (& UP) - 1024px 
-    100vw - measured from 1440px */
-    @media only screen and (min-width: 1024px) {
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        TABLET FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
 
+    @media only screen and (min-width: 768px) {
         section {
-            margin: 210px calc(100vw / 7.741);
+            margin: calc(100vw / (var(--tablet) / 210)) calc(100vw / (var(--tablet) / 54));;
         }
-
         #merch-grid {
             display: grid;
-            gap: calc(100vw / 24.2669362993);
-            grid-template-columns: repeat(auto-fill, calc(100vw / 4.75090729132));
+            gap: calc(100vw / (var(--tablet) / 49.9));
+            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--tablet) / 303.1)));
+        }
+        #shop-item-counter {
+            margin-bottom: calc(100vw / (var(--tablet) / 60));
+            padding: calc(100vw / (var(--tablet) / 5)) calc(100vw / (var(--tablet) / 12));
         }
     }
 
-    
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        DESKTOP FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
+    /* 1025px is used to allow for IPad Pro to use the Tabler Version */
+    @media only screen and (min-width: 1025px) {
+        section {
+            margin: calc(100vw / (var(--desktop) / 210)) calc(100vw / (var(--desktop) / 240));
+        }
+        #merch-grid {
+            display: grid;
+            gap: calc(100vw / (var(--desktop) / 55));
+            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--desktop) / 275)));
+        }
+        #shop-item-counter {
+            margin-bottom: calc(100vw / (var(--desktop) / 39));
+            padding: calc(100vw / (var(--desktop) / 5)) calc(100vw / (var(--desktop) / 12));
+        }
+    }
 </style>
 <!-- 
 ~~~~~~~~~~~~
@@ -130,13 +165,15 @@
     <h2 class='s-42 bold'>SHOP</h2>
 
     {#await promise}
-        <p>...Loading Shop Items...</p>
+        <!-- no need for awaiting promises,
+            as the <MerchContainer />
+            already has its own Promise -->
     {:then data}
-        <p 
-            id='shop-item-counter' 
-            class='s-16 bold'> 
-            {data.result.length} ITEMS 
-        </p>
+        <div id='shop-item-counter'>
+            <p class='s-16 bold'> 
+                {data.result.length} ITEMS 
+            </p>
+        </div>
         <div id='merch-grid'>
             {#each data.result as item}
                 <MerchContainer data={item} />
