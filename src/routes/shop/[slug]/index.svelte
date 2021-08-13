@@ -1,3 +1,8 @@
+<!-- 
+~~~~~~~~~~~~
+	COMPONENT JS (w/ TS)
+~~~~~~~~~~~~
+-->
 <script context="module" lang='ts'>
     import { 
         post 
@@ -60,7 +65,7 @@
 
     import type {
         responseListProductVariants
-    } from '../../../api/modals/proucts_printful'
+    } from '../../../models/printful/proucts_printful'
 
     import type {
         UserAddress,
@@ -68,11 +73,11 @@
         ResponseEstimateOrderCosts,
         NewOrder,
         Item
-    } from '../../../api/modals/orders_printful'
+    } from '../../../models/printful/orders_printful'
 
     import type {
         responseCountryList
-    } from '../../../api/modals/countries_printful'
+    } from '../../../models/printful/countries_printful'
 
     import type {
         ItemInfo,
@@ -80,7 +85,7 @@
         ShippingInfo,
         RequestShippingRates,
         ResponseShippingRates
-    } from '../../../api/modals/shipping-rates-printful'
+    } from '../../../models/printful/shipping-rates-printful'
 
     import StripeModal from './_StripeModal.svelte'
 
