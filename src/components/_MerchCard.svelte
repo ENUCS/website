@@ -1,3 +1,8 @@
+<!-- 
+~~~~~~~~~~~~
+	COMPONENT JS (w/ TS)
+~~~~~~~~~~~~
+-->
 <script lang='ts'>
     import { 
         post 
@@ -7,7 +12,11 @@
         SyncProduct, 
         responseListProductVariants, 
         SyncVariant,
-    } from '../api/modals/proucts_printful'
+    } from '../models/printful/proucts_printful'
+
+    import type { ContentLoaderProps } from '../models/content-loader-interface'
+
+    import { onMount } from 'svelte';
 
     import ContentLoader from 'svelte-content-loader'
 
@@ -105,7 +114,8 @@
 
     
     /**
-     * Description:
+    *  Function / Method;
+     * ~~~~~~~~~~~~~~~~~~~
      * Gets the min. / max. merchendaise
      * prices from a generated array
      * 
@@ -125,6 +135,34 @@
 
         return result
     };
+
+    /**
+     *  Function / Method;
+     * ~~~~~~~~~~~~~~~~~~~
+     * Description:
+     * Deliberately delays the display of the
+     * widget component for the users to show the
+     * PlaceHolder loading;
+     * 
+     * REMOVE THIS FOR PRODUCTION; 
+     * AS IT DELAYS ACCESS TO THE WEBSITE;
+    */
+    let show: boolean = false
+    onMount (async() => {
+        setTimeout(() => {
+            show = true
+        }, 5000);
+    });
+
+    /**
+     * Decalring the ContentLoaderProps
+     * values through the interface 
+    */
+    let contentLoaderProps: ContentLoaderProps = {
+        width: `100%`,
+        height: `100%`,
+        primaryColor: '#f9f9f9'
+    }
 </script>
 <!-- 
 ~~~~~~~~~~~~
@@ -143,11 +181,13 @@
         /* 
         constant values */
         display: grid;
-        background-color: var(--white);
+        background-color: var(--secondary);
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         border-radius: 10px;
         position: relative;
         overflow: hidden;
+    } a .merch-container:active {
+        background-color: var(--primary);
     }
     /*
     ~~~~~~~~~~~~~~~~~~~~
@@ -164,12 +204,12 @@
         position: absolute;
         bottom: 0;
         right: 0;
-        background-color: var(--black);
+        background-color: var(--primary);
     } .item-price-container span {
         color: var(--white);
     }
     img.merch-img {
-        width: calc(100vw / 1.11315601995);
+        width: 100%;
         height: calc(100vw / 1.44136526118);
         object-fit: cover;
     }
@@ -221,38 +261,46 @@
         }
     }
 </style>
-
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT HTML
 ~~~~~~~~~~~~
 -->
-
 {#await promise}
-        <p>...Loading Item...</p>
+    <div class='merch-container'>
+        <ContentLoader {...contentLoaderProps} />
+    </div>
+
 {:then data}
-    <a rel=prefetch 
-        href="/shop/{data.result.sync_product.id}"
-        >
+    {#if !show}
         <div class='merch-container'>
-            <img 
-                src={ data.result.sync_product.thumbnail_url }
-                alt={ data.result.sync_product.name }
-                class='merch-img'
-            />
-            <div class='merch-info-container'>
-                <p class='s-22 bold'>
-                    { data.result.sync_product.name }
-                </p>
-                <div class='item-price-container s-14 bold'>
-                    <span> { currency }</span>
-                    <span> { priceRange[0] }</span>
-                    <span> - </span>
-                    <span> { priceRange[1] }</span>
+            <ContentLoader {...contentLoaderProps} />
+        </div>
+    {:else}
+        <a rel=prefetch
+            href="/shop/{data.result.sync_product.id}"
+            >
+            <div class='merch-container'>
+                <img 
+                    src={ data.result.sync_product.thumbnail_url }
+                    alt={ data.result.sync_product.name }
+                    class='merch-img'
+                />
+                <div class='merch-info-container'>
+                    <p class='s-22 bold color-white'>
+                        { data.result.sync_product.name }
+                    </p>
+                    <div class='item-price-container s-14 bold'>
+                        <span> { priceRange[0] }</span>
+                        <span> - </span>
+                        <span> { priceRange[1] }</span>
+                        <span> { currency }</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </a>
+        </a>
+    {/if}
+
 {:catch error}
     <p style="color: red">{error.message}</p>
 {/await}
