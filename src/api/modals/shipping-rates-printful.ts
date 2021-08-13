@@ -5,11 +5,6 @@
  * https://www.printful.com/es/docs/shipping
 */
 
-
-/**
- * ItemInfo
- * INTERFACE 
-*/
 export interface ItemInfo {
     variant_id: string	                    // Catalog Variant ID of the item ordered. See Product Catalog API
     external_variant_id: string	            // (* Required if no other IDs given) External Variant ID of the item ordered. See Ecommerce Platform Sync API.
@@ -18,11 +13,6 @@ export interface ItemInfo {
     value?: string	                        // Item retail value - optional but can help to properly calculate insurance costs for large orders
 }
 
-
-/**
- * Shipping User Address
- * INTERFACE 
-*/
 export interface UserAddressInfo {
     address1: string        // Address line 1
     city: string            // City
@@ -32,11 +22,6 @@ export interface UserAddressInfo {
     phone?:	string	        // Phone number (optional)
 }
 
-
-/**
- * Shipping User Address
- * INTERFACE 
-*/
 export interface ShippingInfo {
     id: string	                // Shipping method ID
     name: string	            // Shipping method name
@@ -47,20 +32,12 @@ export interface ShippingInfo {
     locale: string	            // Locale in which shipping rate names will be returned. Available options - 'en_US' (default), 'es_ES'
 }
 
-
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~
  * FINAL RESPONSES /  REQUESTS ORDER COSTS
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-
-/**
- * JSON Request With
- * Asking for an
- * Estimate Order Costs
- * INTERFACE 
-*/
 export interface RequestShippingRates {
     recipient: UserAddressInfo          // Recipient location information
     items: Array<ItemInfo>              // Array of order items
@@ -68,13 +45,6 @@ export interface RequestShippingRates {
     locale?: string	                    // Locale in which shipping rate names will be returned. Available options - 'en_US' (default), 'es_ES'
 }
 
-
-/**
- * JSON Response With
- * the necessary information
- * to know the ShippingRates
- * INTERFACE 
-*/
 export interface ResponseShippingRates {
     code: number                        // Response status code 200
     result: Array<ShippingInfo>         // ShippingInfo

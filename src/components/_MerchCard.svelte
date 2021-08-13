@@ -9,13 +9,23 @@
         SyncVariant,
     } from '../api/modals/proucts_printful'
 
+    import ContentLoader from 'svelte-content-loader'
+
     // data passed into the component from parent;
     export let data : SyncProduct
 
     /**
-     * FUNCTION / METHOD;
+     * Function / METHOD;
+     * ~~~~~~~~~~~~~~~~~
      * Description:
-     * Load Extra Information about the product;
+     * Load Extra Information about 
+     * the product.
+     * 
+     * Targeting the ability to
+     * get the range of prices for
+     * each `product variant`.
+     * 
+     * @returns Promise<responseListProductVariants>
     */
     async function getFurtherInfo() : Promise<responseListProductVariants> {
         const _data = {
@@ -31,54 +41,52 @@
         return response
     }
     let promise = getFurtherInfo()
-
-    
-    let currency: string
-
     
     /**
-     * FUNCTION / METHOD;
+     * Function / METHOD;
+     * ~~~~~~~~~~~~~~~~~
      * Description:
-     * Assings a `currecny` used to pay for the item
+     * Assings a `currecny` used to 
+     * pay for the item
      * 
      * @param currecyType
     */
+    let currency: string
     function getItemCurrency(currecyType: string) {
         currency = currecyType
     }
-    
 
+    /**
+     * Function / METHOD;
+     * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * Main Method Handler for obtaining
+     * the Min & Max Retail Price of the Item Merch
+     * variants
+     * 
+     * @param arr
+    */
     let priceRange: [
         n0: number,
         n1: number
     ]
-
-
-    /**
-     * FUNCTION / METHOD;
-     * Description:
-     * Main Method Handler for obtaining
-     * the MinMax Retail Price of the Clothes
-     * 
-     * @param arr
-    */
     function getMinMaxRetailPrice(arr: Array<SyncVariant>) {
         let processedArray = extractRetailPriceToArray(arr)
         priceRange = getMinMaxWithMath(processedArray)
     }
 
-
     /**
-     * FUNCTION / METHOD;
+     * Function / METHOD;
+     * ~~~~~~~~~~~~~~~~~
      * Description:
      * Gets all of the prices for `this` clothing,
      * and places the values in an array `number[]`
      * ready to be calculated by getMinMaxWithMath()
      * 
      * @param arr
-     * @returns Array<>
+     * @returns number[]
     */
-    function extractRetailPriceToArray(arr: Array<SyncVariant>) {
+    function extractRetailPriceToArray(arr: Array<SyncVariant>): number[] {
         let valueArray = []
         let price: number
 
@@ -118,14 +126,12 @@
         return result
     };
 </script>
-
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT STYLE
     + DESKTOP OPTIMIZED
 ~~~~~~~~~~~~
 -->
-
 <style>
     /*
     ~~~~~~~~~~~~~~~~~~~~

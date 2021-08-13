@@ -3,15 +3,10 @@
 	COMPONENT JS (w/ TS)
 ~~~~~~~~~~~~
 -->
-
 <script lang='ts'>
-    import { 
-        post 
-    } from '../../utils/init.js'
+    import { post } from '../../utils/init.js'
 
-    import type { 
-        responseListItems 
-    } from '../../api/modals/proucts_printful'
+    import type { responseListItems } from '../../api/modals/proucts_printful'
 
     import MerchContainer from '../../components/_MerchCard.svelte'
 
@@ -35,16 +30,12 @@
 	}
 	let promise = getPrintfulShopItems();
 </script>
-
-
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT STYLE
     MOBILE FIRST
 ~~~~~~~~~~~~
 -->
-
-
 <style>
     section {
         margin: calc(100vw / 3.02419354839) calc(100vw / 19.7368421053);
@@ -86,15 +77,11 @@
 
     
 </style>
-
-
 <!-- 
 ~~~~~~~~~~~~
 	SVELTE INJECTION TAGS
 ~~~~~~~~~~~~
 -->
-
-
 <svelte:head>
 	<!-- 
 	Primary Meta Tags;
@@ -134,15 +121,11 @@
 
 	<meta property="twitter:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
 </svelte:head>
-
-
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT HTML
 ~~~~~~~~~~~~
 -->
-
-
 <section>
     <h2 class='s-42 bold'>SHOP</h2>
 

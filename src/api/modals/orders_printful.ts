@@ -5,30 +5,15 @@
  * https://www.printful.com/es/docs/orders 
 */
 
-
-/**
- * Single Printful File Option
- * INTERFACE 
-*/
 interface File {
    url: string // Source URL where the file is downloaded from
 }
 
-
-/**
- * Single Printful Item Option
- * INTERFACE 
-*/
 interface ItemOption {
    id: string // Option ID
    value: any // Option value
 }
 
-
-/**
- * Shipping address
- * INTERFACE 
-*/
 export interface UserAddress {
    name: string
    email?: string
@@ -39,11 +24,6 @@ export interface UserAddress {
    zip: string
 }
 
-
-/**
- * Single Printful Item
- * INTERFACE 
-*/
 export interface Item {
    name: string                  // Item Name
    id: number                    // Line item ID
@@ -61,35 +41,10 @@ export interface Item {
    sku?:	string	               // Product identifier (SKU) from the external system
 }
 
-
-/**
- * JSON Request Sample
- * INTERFACE 
-*/
 export interface NewOrder {
-   // urlEndpoint: string       // URL Endpoint for the REQ,
-   recipient: UserAddress    // User Shipping Address,
-   items: Array<Item>        // Array of items in the order,
+   recipient: UserAddress        // User Shipping Address,
+   items: Array<Item>            // Array of items in the order,
 }
-
-
-/**
- * Object CreateNew Order
- * CLASS 
-*/
-export class createNewOrder {
-   urlEndpoint: string       // URL Endpoint for the REQ,
-   recipient: UserAddress    // User Shipping Address,
-   items: Array<Item>        // Array of items in the order,
-  
-   constructor(recipient: UserAddress, items: Array<Item>) {
-     this.urlEndpoint = 'orders';
-     this.recipient = recipient;
-     this.items = items
-   }
-
-}
-
 
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -98,11 +53,6 @@ export class createNewOrder {
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-
-/**
- * Costs Information Data
- * INTERFACE 
-*/
 export interface Costs {
    currency: string	      // 3 letter currency code
    subtotal: string	      // Total cost of all items
@@ -114,19 +64,12 @@ export interface Costs {
    total: string	         // Grand Total (subtotal-discount+tax+vat+shipping)
 }
 
-
 /**
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~
  * FINAL RESPONSES /  REQUESTS ORDER COSTS
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-
-/**
- * JSON Response With
- * Estimate Costs Data
- * INTERFACE 
-*/
 export interface ResponseEstimateOrderCosts {
    code: number
    result: {
@@ -136,13 +79,6 @@ export interface ResponseEstimateOrderCosts {
    }
 }
 
-
-/**
- * JSON Request With
- * Asking for an
- * Estimate Order Costs
- * INTERFACE 
-*/
 export interface RequestEsimateOrderCosts {
    external_id?: string	               // Order ID from the external system
    shipping?: string	                  // Shipping method. Defaults to 'STANDARD'

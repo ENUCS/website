@@ -5,20 +5,12 @@
  * https://www.printful.com/es/docs/products
 */
 
-/**
- * A Single Sync Product gathered,
- * from the Printful Store / Shop 
-*/
 interface Page {
     total: number	            // Total number of items available
     offset: number	            // Current result set page offset
     limit: number	            // Max number of items per page
 }
 
-/**
- * A Single Sync Product gathered,
- * from the Printful Store / Shop 
-*/
 export interface SyncProduct {
     id: number	            // Sync Product ID
     external_id: string 	// Product ID from the Ecommerce platform
@@ -29,29 +21,17 @@ export interface SyncProduct {
     is_ignored?: boolean 	// Indicates if this Sync Product is ignored
 }
 
-/**
- * Get a list of Sync Products
- * from Printful
-*/
 export interface responseListItems {
     code: number
     result: Array<SyncProduct>
     paging: Page                    // Paging information
 }
 
-/**
- * Single Printful File Option
- * INTERFACE 
-*/
 export interface File {
     type: string 
     preview_url: string // Source URL where the file is downloaded from
  }
 
-/**
- * A Single Sync Product Variant gathered,
- * from Printful Store / Shop 
-*/
 export interface SyncVariant {
     id: number
     external_id: string
@@ -71,8 +51,11 @@ export interface SyncVariant {
 }
 
 /**
- *  Get a list of the Single Prouct Variants and Variations
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ * FINAL RESPONSES /  REQUESTS ORDER COSTS
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+
 export interface responseListProductVariants {
     code: number
     result: {

@@ -63,7 +63,6 @@
     } from '../../../api/modals/proucts_printful'
 
     import type {
-        createNewOrder,
         UserAddress,
         RequestEsimateOrderCosts,
         ResponseEstimateOrderCosts,
@@ -84,8 +83,6 @@
     } from '../../../api/modals/shipping-rates-printful'
 
     import StripeModal from './_StripeModal.svelte'
-    import ContentLoader from 'svelte-content-loader'
-    import ListLoader from '../../../components/_ListLoader.svelte'
 
     export let res: responseListProductVariants
     export let resCountriesList: responseCountryList
@@ -146,7 +143,6 @@
     let getTotalCosts: boolean = false      // boolean trigger the rendering of the `total order costs` section
     let getShipRates: boolean = false       // boolean trigger the rendering of the `shippment rates` section
 
-
     /**
      * [SvelteJS - Reactivity]
      * ~~~~~~~~~~~~~~~~~
@@ -156,7 +152,11 @@
      * have been completed, to trigger the
      * dynamic API requests to the Printful API
      * to obtain `estimate-order-costs` and `shipping-rates`
-     * data respectively
+     * data respectively.
+     * 
+     * If the fields have not been filled-out,
+     * `hide` the fields that need `form-data`
+     * to render correclty.
     */
     $: if (selectedItem != undefined
         && itemQuantity != 0
@@ -315,11 +315,13 @@
         shipPrice = undefined
     }
 
-    let showStripe: boolean = false
-
     /**
      * Function / Method
+     * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * Handles the closing of the Stripe Modal
     */
+    let showStripe: boolean = false
     function closeStripe() {
         showStripe = false;
     }
@@ -335,8 +337,6 @@
         // load stripe and proceed to checkout
         showStripe = true;
     }
-
-    let showOrderPlaced: boolean = false
 
     /**
      * Function / Method

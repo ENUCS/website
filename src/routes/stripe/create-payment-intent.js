@@ -1,10 +1,19 @@
+// ~~~~~~~~~~~~~~~~
+// BASE API DECLARATIONS
+// ~~~~~~~~~~~~~~~~
 import { stripeToken } from '../../config/init-printful'
 const stripe = require("stripe")(stripeToken)
 
 /**
+ * Function / METHOD;
+ * ~~~~~~~~~~~~~~~~~
+ * Description:
+ * Calculate the amount due to be paid
+ * by the user to correctly
+ * charge the correct amount
  * 
  * @param {*} items 
- * @returns 
+ * @returns (PRICE TO CHARGE)
 */
 const calculateOrderAmount = items => {
     // Replace this constant with a calculation of the order's amount
@@ -18,7 +27,7 @@ const calculateOrderAmount = items => {
     return amount
 };
 
-
+// unknonw
 const chargeCustomer = async (customerId) => {
     // Lookup the payment methods available for the customer
     const paymentMethods = await stripe.paymentMethods.list({
@@ -51,20 +60,25 @@ const chargeCustomer = async (customerId) => {
  * @param {*} res 
  */
 export async function post(req, res) {
+    // extract the data from the POST, body;
     const {
         items
     } = req.body;
+
     // Alternatively, set up a webhook to listen for the payment_intent.succeeded event
     // and attach the PaymentMethod to a new Customer
     const customer = await stripe.customers.create();
+
     // Create a PaymentIntent with the order amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
         customer: customer.id,
         setup_future_usage: 'off_session',
         amount: calculateOrderAmount(items),
         currency: items.currenyPay
-    });
+    })
+
+    // return the client_secret to process the transaction
     res.send({
         clientSecret: paymentIntent.client_secret
-    });
+    })
 }

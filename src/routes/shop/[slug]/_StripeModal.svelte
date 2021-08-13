@@ -11,7 +11,6 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
 ~~~~~~~~~~~~~~~~~~~~
 -->
 <script lang='ts'>
-
     import { post } from '../../../utils/init.js'
     import { loadStripe } from '@stripe/stripe-js'
     import { onMount } from 'svelte'
@@ -30,11 +29,13 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
     let success: boolean = false
     let thankYou: boolean = false
 
-    const sleep = t => new Promise(s => setTimeout(s, t))
-
     /**
      * Function / Method
      * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * Initiates the Stripe-API
+     * use for the component
+     * in accordance to SvelteJs method
     */
     onMount(async () => {
         // Make sure to call loadStripe outside of a component’s render to avoid
@@ -51,29 +52,15 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         secret = await post(`stripe/create-payment-intent`, { 
             items: data 
         })
-    });
-
-    const cardStyle = {
-        style: {
-            base: {
-                color: "#32325d",
-                fontFamily: 'Arial, sans-serif',
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                "::placeholder": {
-                color: "#32325d"
-                }
-            },
-            invalid: {
-                color: "#fa755a",
-                iconColor: "#fa755a"
-            }
-        }
-    };
+    })
 
     /**
      * Function / Method
      * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * Submit Function that handles the 
+     * payments for the submission
+     * of the Stripe Form
     */
     async function handlePayment() {
         // code to charge the card. Call
@@ -120,7 +107,6 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         });
     }
 
-
     /**
      * Function / Method
      * ~~~~~~~~~~~~~~~~~
@@ -134,13 +120,11 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
 		dispatch('close')
 	}
 </script>
-
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
     COMPONENT STYLE
 ~~~~~~~~~~~~~~~~~~~~
 -->
-
 <style>
     #background-modal-blur {
         position: fixed;
@@ -246,13 +230,12 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         margin-left: calc(100vw / (var(--mobile) / 11));
     }
 </style>
-
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
 	COMPONENT HTML
 ~~~~~~~~~~~~~~~~~~~~
 -->
-<div id='background-modal-blur'></div>
+<div id='background-modal-blur'/>
 
 <div id='form-modal'>
     <!--
@@ -263,7 +246,11 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         src="./assets/svg/icons/stripe-vector.svg" 
         alt="stripe-logo"
     />
-    
+    <!-- 
+    ~~~~~~~~~~~~~~~~~
+    rendering different states of 
+    the webiste for Stripe API
+     -->
     {#if !processing}
         <!-- 
         ~~~~~~~~~~~~~~~~~
@@ -305,8 +292,7 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
             </button>
         </form>
 
-    {:else if processing  
-            && success}
+    {:else if processing && success}
         <img
             class='image-stripe-state'
             src="./assets/svg/check-vector.svg" 
@@ -325,8 +311,7 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
             </div>
         {/if}
 
-    {:else if processing
-        && error}
+    {:else if processing && error}
         <img
             class='image-stripe-state'
             src="./assets/svg/error-vector.svg" 

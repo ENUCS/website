@@ -4,42 +4,45 @@
 ~~~~~~~~~~~~
 -->
 <script lang="ts">
-    import { onMount } from "svelte";
-    import { fade } from "svelte/transition";
+    import { onMount } from "svelte"
+    import { fade } from "svelte/transition"
 
-    import NavBar from '../components/view/Navbar.svelte';
-    import Footer from '../components/view/Footer.svelte';
+    import NavBar from '../components/view/Navbar.svelte'
+    import Footer from '../components/view/Footer.svelte'
+
+    export let segment: string
+    // console.log('segment:', segment)
 
     // transition config, passed onto Nav & Footer also; (temporary)
-    let transition_time: number = 1000;
+    let transition_time: number = 1000
 
-    let show: boolean = false;
+    /**
+     * Function / METHOD;
+     * ~~~~~~~~~~~~~~~~~~
+     * Description:
+     * Shows a target section after
+     * X - (transition_time) passed
+    */
+    let show: boolean = false
     onMount(() => {
         setTimeout(() => {
-            show = true;
-        }, transition_time);
-    });
-
-    export let segment: string;
-    // console.log('segment:', segment);
+            show = true
+        }, transition_time)
+    })
 </script>
-
 <!-- 
 ~~~~~~~~~~~~
 	SVELTE INJECTION TAGS
 ~~~~~~~~~~~~
 -->
-
 <svelte:head>
     <title>Computing Society | ENUCS</title>
 </svelte:head>
-
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT HTML
 ~~~~~~~~~~~~
 -->
-
 <NavBar {segment} {transition_time} />
 <main>
     {#if show}
@@ -49,7 +52,6 @@
         <Footer {segment} {transition_time} />
     {/if}
 </main>
-
 <!-- 
 ~~~~~~~~~~~~
 	COMPONENT STYLE

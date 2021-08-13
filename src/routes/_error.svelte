@@ -1,10 +1,19 @@
+<!-- 
+~~~~~~~~~~~~
+	COMPONENT JS (w/ TS)
+~~~~~~~~~~~~
+-->
 <script lang="ts">
 	export let status: number;
 	export let error: Error;
 
 	const dev = process.env.NODE_ENV === 'development';
 </script>
-
+<!-- 
+~~~~~~~~~~~~
+	COMPONENT STYLE
+~~~~~~~~~~~~
+-->
 <style>
 	h1, p {
 		margin: 0 auto;
@@ -26,11 +35,19 @@
 		}
 	}
 </style>
-
+<!-- 
+~~~~~~~~~~~~
+	SVELTE INJECTION TAGS
+~~~~~~~~~~~~
+-->
 <svelte:head>
 	<title>{status}</title>
 </svelte:head>
-
+<!-- 
+~~~~~~~~~~~~
+	COMPONENT HTML
+~~~~~~~~~~~~
+-->
 <h1>{status}</h1>
 
 <p>{error.message}</p>

@@ -1,6 +1,5 @@
 // ~~~~~~~~~~~~~~~~
 // BASE API DECLARATIONS
-// https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
 // ~~~~~~~~~~~~~~~~
 
 const fetch = process.browser ? window.fetch : require('node-fetch').default
@@ -8,7 +7,8 @@ const base = 'https://api.printful.com'
 import { printfulToken } from '../../config/init-printful'
 
 /**
- * FUNCTION SEND;
+ * Function / METHOD;
+ * ~~~~~~~~~~~~~~~~~
  * This is a SEND METHOD
  * for the ability to be used as a
  * single REQUEST main METHOD
@@ -20,8 +20,10 @@ import { printfulToken } from '../../config/init-printful'
  * @returns 
 */
 async function send(path, opts) {
+    
     // PRINTFUL Works with FETCH-API - BASIC Authentication - https://stackoverflow.com/questions/43842793/basic-authentication-with-fetch
     opts.headers['Authorization'] = `Basic ${printfulToken}`
+
     // console.log('checking header opts', opts)
 
     var promise = Promise.race([
@@ -57,7 +59,8 @@ async function send(path, opts) {
 // ~~~~~~~~~~~~~~~~
 
 /**
- * FUNCTION POST;
+ * Function / METHOD;
+ * ~~~~~~~~~~~~~~~~~
  * This is a POST REQUEST
  * for the use of the PRINTFUL API
  * to obtain the data as a server side
@@ -68,7 +71,8 @@ async function send(path, opts) {
  * @returns
 */
 export async function post(req, res) {
-    const data = req.body                       // getting the target endpoint for the data res
+    // getting the target endpoint for the data res
+    const data = req.body
 
     // check what method should be used on the PROXY REQUEST;
     let response

@@ -12,6 +12,17 @@
 
     let viewportDesktop: boolean
 
+    /**
+     * Function / METHOD;
+     * ~~~~~~~~~~~~~~~~~
+     * Description:
+     * This function loads when all of the
+     * rest of the components have loaded
+     * and rendered, checking via JS the viewport
+     * of the client device and changing between
+     * appropiate components to display the correct
+     * component, tailored to a specifc device.
+    */
     onMount(async() => {
         var wInit = document.documentElement.clientWidth
         if (wInit > 1024) {
@@ -36,6 +47,7 @@
 <!-- 
 ~~~~~~~~~~~~
 	SVELTE INJECTION TAGS
+    SEO Stuff
 ~~~~~~~~~~~~
 -->
 
