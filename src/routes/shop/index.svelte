@@ -6,7 +6,7 @@
 <script lang='ts'>
     import { post } from '../../utils/init.js'
 
-    import type { responseListItems } from '../../api/modals/proucts_printful'
+    import type { responseListItems } from '../../models/printful/proucts_printful'
 
     import MerchContainer from '../../components/_MerchCard.svelte'
 
@@ -134,7 +134,7 @@
     {:then data}
         <p 
             id='shop-item-counter' 
-            class='s-14 bold'> 
+            class='s-16 bold'> 
             {data.result.length} ITEMS 
         </p>
         <div id='merch-grid'>
