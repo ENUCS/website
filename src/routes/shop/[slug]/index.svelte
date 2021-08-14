@@ -53,13 +53,11 @@
         };
     }
 </script>
-
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
 	COMPONENT JS (w/ TS)
 ~~~~~~~~~~~~~~~~~~~~
 -->
-
 <script lang="ts">
     import { goto } from '@sapper/app';
 
@@ -87,10 +85,18 @@
         ResponseShippingRates
     } from '../../../models/printful/shipping-rates-printful'
 
+    import type {
+        ResponseVariant
+    } from '../../../models/printful/printful-catalog-api'
+
     import StripeModal from './_StripeModal.svelte'
 
     export let res: responseListProductVariants
     export let resCountriesList: responseCountryList
+
+    let promise: Promise<ResponseEstimateOrderCosts>        // promise `instantiated` to obtain the `OrderEstimateCosts`
+    let promiseShipCosts: Promise<ResponseShippingRates>    // promise `instantiated` to obtain the `ResponseShippingRates`
+    let promiseVariantInfo: Promise<ResponseVariant>        // promise `instantiated` to obtain the `ResponseVariant`
 
     // ~~~~~~~~~~~~~~~~~~~~
     // SET-UP FOR THE ORDER PRICE ESTIMATE
@@ -108,20 +114,10 @@
     let selectedItem: Item = undefined      // contains the selected option/item of merch
     let shipPrice: ShippingInfo = undefined // contains the selected shipping-type-option
 
-    // test-dev
-    // if (process.env.NODE_ENV != 'production') {
-    //     recipient.name = 'm'
-    //     recipient.address1 = 'London'
-    //     recipient.zip = 'EH10 4PJ'
-    //     recipient.email = 'whateveremail@gmial.com'
-    //     recipient.city = 'London'
-    //     recipient.state_code = ''
-    //     recipient.country_code = 'UK'
-    // } 
-
     let itemQuantity: number = 0             // item quantity
     $: if (selectedItem != undefined) {
-        selectedItem.quantity = itemQuantity // setting the quantity as an instantiating value
+        selectedItem.quantity = itemQuantity              // setting the quantity as an instantiating value
+        promiseVariantInfo = getPrintfulVariantInfo(selectedItem.variant_id)   // get further info of the product-target-variant
     }
     
     let items: Array<Item>                   // (Order API) a dynamic binding Array<Item>
@@ -141,9 +137,6 @@
     let selectedItem_2: ItemInfo;               // (Shipping Rate API) a static idle variable for ItemInfo
     let items_2: Array<ItemInfo>                // (Shipping Rate API) a static idle variable for Array<ItemInfo>
     let newShippingRate: RequestShippingRates   // (Shipping Rate API) a static idle variable for RequestShippingRates
-
-    let promise: Promise<ResponseEstimateOrderCosts>        // promise `instantiated` to obtain the `OrderEstimateCosts`
-    let promiseShipCosts: Promise<ResponseShippingRates>    // promise `instantiated` to obtain the `ResponseShippingRates`
 
     let getTotalCosts: boolean = false      // boolean trigger the rendering of the `total order costs` section
     let getShipRates: boolean = false       // boolean trigger the rendering of the `shippment rates` section
@@ -276,6 +269,24 @@
     }
 
     /**
+     * Function / METHOD;
+     * ~~~~~~~~~~~~~~~~~ 
+     * Description:
+     * Function ASYNC Method
+     * returns the data of the
+     * single Variant Copy
+    */
+    async function getPrintfulVariantInfo(id: number): Promise<ResponseVariant> {
+        // ~~~~~~~~~~~~~~~~~~~~~
+        // get the list of `shop-data` from Printful-API
+        const response = await post(`shop/printful`, {
+            method: 'GET',
+            endpoint: `products/variant/${id}`,
+        })
+        return response
+    }
+
+    /**
      * Function / Method
      * [SvelteJS - Reactivity]
      * ~~~~~~~~~~~~~~~~~
@@ -292,10 +303,10 @@
         for (let element of resCountriesList.result) {
             // if country code matches the selected, check if it has any state codes;
             if (element.code == recipient.country_code && element.states != null) {
-                stateCodeArray = true               // display the statecode field
-                recipient.state_code = undefined
-                clearLocation()
-                console.info('StateCode Visible')
+                stateCodeArray = true                   // display the statecode field
+                recipient.state_code = undefined        // re-set the `state-code` field value
+                clearLocation()                         // clear all the other `location-geo` information
+                console.info('StateCode Visible')       // simple check
                 return;
             }
         }
@@ -365,13 +376,11 @@
         goto('/shop')
     }
 </script>
-
 <!-- 
 ~~~~~~~~~~~~
 	SVELTE INJECTION TAGS
 ~~~~~~~~~~~~
 -->
-
 <svelte:head>
     <!--
     ~~~~~~~~~~~~
@@ -414,14 +423,18 @@
 
     <meta property="twitter:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
 </svelte:head>
-
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
     COMPONENT STYLE
 ~~~~~~~~~~~~~~~~~~~~
 -->
-
 <style>
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        MOBILE FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
     section {
         margin: calc(100vw / 3.02419354839) calc(100vw / 19.7368421053);
     }
@@ -443,6 +456,21 @@
     #item-img {
         width: calc(100vw / (var(--mobile) / 340.88));
         height: calc(100vw / (var(--mobile) / 364.62));
+        filter: drop-shadow(0px 4.10843px 4.10843px rgba(0, 0, 0, 0.25));
+        border-radius: 10.2711px;
+        background-color: var(--white);
+    }
+    .awaiting-image {
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    #no-image-icon {
+        width: calc(100vw / (var(--mobile) / 35.5));
+        height: calc(100vw / (var(--mobile) / 25.5));
+        margin-bottom: calc(100vw / (var(--mobile) / 18.5));
     }
     /* 
     ~~~~~~~~~~~~~~~~~~~~
@@ -492,6 +520,15 @@
         background-color: #FF5555;
         width: calc(100vw / (var(--mobile) / 314.54));
     }
+
+    table#further-item-info {
+        margin-top: calc(100vw / (var(--mobile) / 15));
+        padding: calc(100vw / (var(--mobile) / 13));
+
+        background: #F4F4F4;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10.27px;
+    }
     /*
     ~~~~~~~~~~~~~~~~~~~~
     final submissions
@@ -504,16 +541,18 @@
 
     /*
     ~~~~~~~~~~~~~~~~~~~~
-    RESPONSIVENESS:
-    Support for DESKTOP;
+      RESPONSIVENESS:
     ~~~~~~~~~~~~~~~~~~~~
     */
 
-    /*
-    =============================
-    DESKTOP (& UP) - 1024px 
-    100vw - measured from 1440px */
-    @media only screen and (min-width: 1024px) {
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        DESKTOP FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
+    /* 1025px is used to allow for IPad Pro to use the Tabler Version */
+    @media only screen and (min-width: 1025px) {
 
         #checkout-container {
             display: grid;
@@ -533,15 +572,11 @@
         }
     }
 </style>
-
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~
 	COMPONENT HTML
 ~~~~~~~~~~~~~~~~~~~~
 -->
-
-<!-- <ContentLoader /> -->
-<!-- <ListLoader /> -->
 
 {#if showStripe}
     <StripeModal 
@@ -556,7 +591,11 @@
     ~~~~~~~~~~~~~~~
     page-title -->
     <h2 class='s-42 bold'>
-        SHOP / <span class='color-primary'> { res.result.sync_product.name } </span>
+        SHOP / 
+        <br />
+        <span class='color-primary s-22'> 
+            { res.result.sync_product.name } 
+        </span>
     </h2>
     <!-- 
     ~~~~~~~~~~~~~~~
@@ -573,14 +612,15 @@
     ~~~~~~~~~~~~~~~
     user-product-card-view -->
     {#if selectedItem != undefined}
+        <!--
+        ~~~~~~~~~~~~~~~
+        item-variant-iamge -->
         {#each res.result.sync_variants as item}
             {#if item.name == selectedItem.name}
                 {#each item.files as itemFiles}
                     {#if itemFiles.type == 'preview'}
                         <img 
                             id='item-img'
-                            width="250px"
-                            height="250px"
                             src={itemFiles.preview_url}
                             alt=""
                         />
@@ -588,6 +628,78 @@
                 {/each}
             {/if}
         {/each}
+        <!-- 
+        ~~~~~~~~~~~~~~~
+        load further info on the item -->
+        {#await promiseVariantInfo}
+            <p>...Loading Item Information...</p>
+        {:then data}
+            <table id='further-item-info'>
+                <!-- item-color -->
+                <tr>
+                    <td>
+                        <p class='s-16 bold'>Color</p>
+                    </td>
+                    <td>
+                        <p>{data.result.variant.color} {data.result.variant.color_code}</p>
+                    </td>
+                </tr>
+                <!-- size-item -->
+                <tr>
+                    <td>
+                        <p class='s-16 bold'>Size</p>
+                    </td>
+                    <td>
+                        <p>{data.result.variant.size}</p>
+                    </td>
+                </tr>
+                <!-- price-item -->
+                <tr>
+                    <td>
+                        <p class='s-16 bold'>Price</p>
+                    </td>
+                    <td>
+                        <p class='s-16 bold'>£ {selectedItem.retail_price}</p>
+                    </td>
+                </tr>
+                <!-- in-stock -->
+                <tr>
+                    <td>
+                        <p class='s-16 bold'>In Stock</p>
+                    </td>
+                    <td>
+                        {#if data.result.variant.in_stock}
+                            <img 
+                                id='in-stock-img'
+                                src='./assets/svg/in-stock-checkmark-vector.svg'
+                                alt=""
+                            />
+                        {:else}
+                            <img 
+                                id='in-stock-img'
+                                src='./assets/svg/in-stock-error-vector.svg'
+                                alt=""
+                            />
+                        {/if}
+                    </td>
+                </tr>
+            </table>
+        {:catch error}
+            <p style="color: red">{error.message}</p>
+        {/await}
+    {:else}
+        <div id='item-img' class='awaiting-image'>
+            <img
+                id='no-image-icon'
+                src='./assets/svg/no-image-vector.svg'
+                alt="no-vector"
+            />
+            <p class='s-16' style='color: #C62828'> 
+                Please select an item 
+                <br />
+                option to preview image
+            </p>
+        </div>
     {/if}
     <!-- 
     ~~~~~~~~~~~~~~~
@@ -849,7 +961,7 @@
                         <p style="color: red">{error.message}</p>
                     {/await}
                 {:else}
-                    <p class='s-16' style="color: red"> please complete all fields </p>
+                    <p class='s-16' style="color: red"> - please complete all fields to select shipping -</p>
                 {/if}
             </div>
         </fieldset>
