@@ -42,10 +42,10 @@ export interface SyncVariant {
     retail_price: string
     currency: string
     product: {
-        variant_id: number // Variant ID
-        product_id: number // Product ID of this variant
-        image: string // URL of a sample image for this variant
-        name: string // Display name of this variant
+        variant_id: number  // Variant ID
+        product_id: number  // Product ID of this variant
+        image: string       // URL of a sample image for this variant
+        name: string        // Display name of this variant
     }
     files: Array<File>
 }
