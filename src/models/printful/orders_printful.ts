@@ -6,7 +6,9 @@
 */
 
 interface File {
+   type: string 
    url: string // Source URL where the file is downloaded from
+   preview_url: string // Source URL where the file is downloaded from
 }
 
 interface ItemOption {
@@ -25,23 +27,29 @@ export interface UserAddress {
 }
 
 export interface Item {
-   name: string                  // Item Name
-   id: number                    // Line item ID
-   external_id?: number          // Line item ID from the external system
-   variant_id: number            // Variant ID of the item ordered. See Products API
-   sync_variant_id: number       //	Sync variant ID of the item ordered.
-   external_variant_id: string   // External variant ID of the item ordered.
-   warehouse_product_variant_id: number  // Warehousing product variant ID of the item ordered. See Warehouse Products API
+   name?: string                  // Item Name
+   id?: number                    // Line item ID
+   external_id?: string          // Line item ID from the external system
+   variant_id?: number            // Variant ID of the item ordered. See Products API
+   sync_variant_id?: number       //	Sync variant ID of the item ordered.
+   external_variant_id?: string   // External variant ID of the item ordered.
+   warehouse_product_variant_id?: number  // Warehousing product variant ID of the item ordered. See Warehouse Products API
    quantity: number              // Number of items ordered
    files: Array<File>            // Array of attached printfiles / preview images
-   options: Array<ItemOption>    // Array of additional options for this product
+   options?: Array<ItemOption>    // Array of additional options for this product
    price?: string                // Printful price of the item
-   retail_price: string          // Original retail price of the item to be displayed on the packing slip
-   product?: string              // Short information about the Product and Variant
+   retail_price?: string          // Original retail price of the item to be displayed on the packing slip
+   product: {
+      variant_id: number  // Variant ID
+      product_id: number  // Product ID of this variant
+      image: string       // URL of a sample image for this variant
+      name: string        // Display name of this variant
+   }
    sku?:	string	               // Product identifier (SKU) from the external system
 }
 
 export interface NewOrder {
+   shipping?: string
    recipient: UserAddress        // User Shipping Address,
    items: Array<Item>            // Array of items in the order,
 }

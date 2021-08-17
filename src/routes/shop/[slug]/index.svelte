@@ -25,7 +25,7 @@
         
         // get the page `/shop/<id>` slug value (id)
         const { slug } = params;
-        // ~~~~~~~~~~~~~~~~~~~~~
+
         // get the page `http(s)://[domain-route] to comply with project strict CORS on Pre-loads
         let protocol: string
         if (process.env.NODE_ENV != 'production') { 
@@ -33,19 +33,65 @@
         } else {
             protocol = 'https://'
         }
-        // ~~~~~~~~~~~~~~~~~~~~~
-        // get the list of `shop-data` from Printful-API
-        const res = await post(`${protocol}${host}/shop/printful`, {
+
+        // get the entire list of `shop-data` from Printful-API
+        const res: responseListProductVariants = await post(`${protocol}${host}/shop/printful`, {
             method: 'GET',
             endpoint: `store/products/${slug}`,
         })
+
         // ~~~~~~~~~~~~~~~~~~~~~
-        // get the list of `ship-to` countries by Printful-API
+        // WORKING
+        // for (let element of res.result.sync_variants) {
+        //     const resVariant: ResponseVariant = await post(`${protocol}${host}/shop/printful`, {
+        //         method: 'GET',
+        //         endpoint: `products/variant/${element.variant_id}`,
+        //     })
+        //     // append the new information to the official `res` and data;
+        //     res.result.sync_variants.filter(vairant => {
+        //         if (vairant.variant_id == element.variant_id) {
+        //             // console.log('resVariant.result.variant', resVariant.result.variant)
+        //             vairant.further_variant_info = resVariant.result.variant
+        //         }
+        //     });
+        // }
+        
+        // declare all of the differet item variant_ids (no-duplicates);
+        let syncVariantProductId = res.result.sync_variants[0].product.product_id
+
+        // Returns information about a specific product and a list of variants for this product;
+        const resAllVariant: ResponseAllProductVariant = await post(`${protocol}${host}/shop/printful`, {
+            method: 'GET',
+            endpoint: `products/${syncVariantProductId}`,
+        })
+
+        // make a unique set (array) of values for the `variant_ids`;
+        let syncVariantArray = res.result.sync_variants
+        const itemProductIds = syncVariantArray.map(variant => variant.variant_id)
+        const itemProductIdArray = Array.from(new Set(itemProductIds))
+
+        // iterate over the response of ALLTHE VARIENTS, and identify the matching `variant_ids` for this product;
+        resAllVariant.result.variants.filter(variant => {
+
+            // if ID's of the `ALL LIST` match the Array of IDs for this product from the shop;
+            if (itemProductIdArray.includes(variant.id)) {
+
+                // append `this` varient information to the overall initial `res` of the product, which is then passed to the component;
+                res.result.sync_variants.filter(vairant2 => {
+                    if (vairant2.variant_id == variant.id) {
+                        vairant2.further_variant_info = variant
+                    }
+                })
+            }
+        })
+
+        // get the list of `ship-to` countries by Printful-API, used to identify and populate
+        // the `shipping-country & state-codes input dropdown fields;
         const resCountriesList = await post(`${protocol}${host}/shop/printful`, {
             method: 'GET',
             endpoint: `countries`,
         })
-        // ~~~~~~~~~~~~~~~~~~~~~
+
         // return these pieces of data as `export let ...`
         return {
             res, 
@@ -62,6 +108,7 @@
     import { goto } from '@sapper/app';
 
     import type {
+        SyncVariant,
         responseListProductVariants
     } from '../../../models/printful/proucts_printful'
 
@@ -86,23 +133,49 @@
     } from '../../../models/printful/shipping-rates-printful'
 
     import type {
-        ResponseVariant
+        ResponseVariant,
+        ResponseAllProductVariant
     } from '../../../models/printful/printful-catalog-api'
+
+    import { fade } from 'svelte/transition';
 
     import StripeModal from './_StripeModal.svelte'
 
     export let res: responseListProductVariants
     export let resCountriesList: responseCountryList
 
-    let promise: Promise<ResponseEstimateOrderCosts>        // promise `instantiated` to obtain the `OrderEstimateCosts`
-    let promiseShipCosts: Promise<ResponseShippingRates>    // promise `instantiated` to obtain the `ResponseShippingRates`
-    let promiseVariantInfo: Promise<ResponseVariant>        // promise `instantiated` to obtain the `ResponseVariant`
+    // SORT COUNTRY LIST BY NAME
+    resCountriesList.result = resCountriesList.result.sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1);
 
-    // ~~~~~~~~~~~~~~~~~~~~
-    // SET-UP FOR THE ORDER PRICE ESTIMATE
-    // ~~~~~~~~~~~~~~~~~~~~
+    // ~~~~~~~~~~~~~~~~
+    // DECLARE ITEM / PRODUCT VALUES
+    // ~~~~~~~~~~~~~~~~
+    
+    // declare item properties, & options;
+    let varaintsArray = res.result.sync_variants
 
-    let recipient: UserAddress = {          // a dynamic binding Object for UserAddress;
+    const mapColors = new Map()
+    // declare item colors (no-duplicates);
+    varaintsArray.map(variant => {
+        mapColors.set(variant.further_variant_info.color, variant.further_variant_info.color_code)
+        return
+    })
+    const itemColors = Array.from(mapColors)
+
+    // declare item sizes (no-duplicates);
+    const itemSizesArray = varaintsArray.map(variant => variant.further_variant_info.size)
+    let itemSizes = Array.from(new Set(itemSizesArray))
+
+    // initiaiting component `Promises`;
+    let promise: Promise<ResponseEstimateOrderCosts>
+    let promiseShipCosts: Promise<ResponseShippingRates>
+    
+    // ~~~~~~~~~~~~~~~~~~~~
+    // SET-UP FOR THE ORDER
+    // PRICE ESTIMATE
+    // ~~~~~~~~~~~~~~~~~~~~
+    
+    let recipient: UserAddress = {              // a dynamic binding Object for UserAddress;
         name: undefined,
         address1: undefined,
         zip: undefined,
@@ -111,20 +184,20 @@
         state_code: undefined,
         country_code: undefined,
     }
-    let selectedItem: Item = undefined      // contains the selected option/item of merch
-    let shipPrice: ShippingInfo = undefined // contains the selected shipping-type-option
+    let temp_selectedItem: SyncVariant = undefined
+    let selectedItem: Item = undefined          // contains the selected option/item of merch
+    let shipPrice: ShippingInfo = undefined     // contains the selected shipping-type-option
 
-    let itemQuantity: number = 0             // item quantity
+    let itemQuantity: number = 0                // item quantity
     $: if (selectedItem != undefined) {
-        selectedItem.quantity = itemQuantity              // setting the quantity as an instantiating value
-        promiseVariantInfo = getPrintfulVariantInfo(selectedItem.variant_id)   // get further info of the product-target-variant
+        selectedItem.quantity = itemQuantity    // setting the quantity as an instantiating value
     }
     
-    let items: Array<Item>                   // (Order API) a dynamic binding Array<Item>
-    $: items = [selectedItem]                // [SvelteJS - Reactivity] declaring the final INTERFACE for ITEM
+    let items: Array<Item>                      // (Order API) a dynamic binding Array<Item>
+    $: items = [selectedItem]                   // [SvelteJS - Reactivity] declaring the final INTERFACE for ITEM
     
-    let newOrder: NewOrder                   // (Order API) a dynamic binding Object for NewOrder;
-    $: newOrder = {                          // [SvelteJS - Reactivity] declaring the final INTERFACE for NewOrder
+    let newOrder: NewOrder                      // (Order API) a dynamic binding Object for NewOrder;
+    $: newOrder = {                             // [SvelteJS - Reactivity] declaring the final INTERFACE for NewOrder
         recipient: recipient,
         items: items
     }
@@ -143,6 +216,8 @@
 
     /**
      * [SvelteJS - Reactivity]
+     * ~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
      * ~~~~~~~~~~~~~~~~~
      * Description:
      * A dynamic checker that allows for the
@@ -168,6 +243,7 @@
 
             console.log('all form fields have been completed!')
 
+            // Filling fields necessary for shipping-cost,
             recipient_2 = {
                 address1: recipient.address1,
                 zip: recipient.zip,
@@ -269,26 +345,9 @@
     }
 
     /**
-     * Function / METHOD;
-     * ~~~~~~~~~~~~~~~~~ 
-     * Description:
-     * Function ASYNC Method
-     * returns the data of the
-     * single Variant Copy
-    */
-    async function getPrintfulVariantInfo(id: number): Promise<ResponseVariant> {
-        // ~~~~~~~~~~~~~~~~~~~~~
-        // get the list of `shop-data` from Printful-API
-        const response = await post(`shop/printful`, {
-            method: 'GET',
-            endpoint: `products/variant/${id}`,
-        })
-        return response
-    }
-
-    /**
      * Function / Method
-     * [SvelteJS - Reactivity]
+     * ~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
      * ~~~~~~~~~~~~~~~~~
      * Description:
      * Verify that the Country Field
@@ -319,6 +378,8 @@
     /**
      * Function / Method
      * ~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
+     * ~~~~~~~~~~~~~~~~~
      * Description:
      * Clearing up the further location
      * field data for the user upon field
@@ -334,6 +395,8 @@
     /**
      * Function / Method
      * ~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
+     * ~~~~~~~~~~~~~~~~~
      * Description:
      * Handles the closing of the Stripe Modal
     */
@@ -344,6 +407,8 @@
 
     /**
      * Function / Method
+     * ~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
      * ~~~~~~~~~~~~~~~~~
      * Descrption:
      * Loading up the Stripe Information
@@ -357,23 +422,114 @@
     /**
      * Function / Method
      * ~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
+     * ~~~~~~~~~~~~~~~~~
      * Description:
      * Porcess the Printful Order and 
      * Submit it for Review
     */
     async function processPrintfulOrder() {
         // if Stripe is Successful, process the Printful Order;
-        showStripe = false; // close stripe modal
-        // alert('Processing the Order')
+        showStripe = false; // close stripe modal,
+        let finalOrderCreate: NewOrder = newOrder
+        finalOrderCreate.shipping = shipPrice.id  // assign the shipping type option to the order,
         
         const _data = {
             method: 'POST',
             endpoint: `orders`,
-            data: newOrder
+            data: finalOrderCreate
         }
         const response = await post(`shop/printful`, _data)
         console.log(response)
         goto('/shop')
+    }
+
+    let selected_Color: string = undefined
+    let selected_Size: string = undefined
+    let selected_ImageURL: string = undefined
+
+    let rerender: boolean = true
+    
+    $: console.log('selected_Color', selected_Color)
+    $: console.log('selected_Size', selected_Size)
+
+    /**
+     * Function / Method;
+     * ~~~~~~~~~~~~~~~~~~~~
+     * [REACTIVE]
+     * ~~~~~~~~~~~~~~~~~~~~
+     * Description:
+     * check if the selected color is changed, if so, 
+     * change the image to the correct color (first item in array)
+    */
+    $: if (selected_Color != undefined) {
+
+        // declaring the search target
+        itemSizes = []
+        let syncVariantArray = res.result.sync_variants
+
+        // search for an occurance(s) of a item with this color, and assign the `preview` Object, to the image URL Preview,
+        syncVariantArray.filter((variant) => { 
+            if (variant.further_variant_info.color == selected_Color) {
+                // get the first image of this variant occurance, and its files for preview;
+                variant.files.find((file) => { 
+                    if (file.type == 'preview') {
+                        selected_ImageURL = file.preview_url
+                    }
+                })
+                // push the value of the size to the array;
+                itemSizes.push(variant.further_variant_info.size)
+            }
+        })
+    } 
+    
+    /**
+     * Function / Method;
+     * ~~~~~~~~~~~~~~~~~~~~
+     * [REACTIVE]
+     * ~~~~~~~~~~~~~~~~~~~~
+     * Description:
+     * if both color & size of the item have been selected,
+     * search for the target item with matching qualities and,
+     * assign it to the `selected_item` value,
+    */
+    $: if (selected_Color != undefined && selected_Size != undefined) {
+        // declaring the search target
+        let syncVariantArray = res.result.sync_variants
+        let found = false
+        rerender = false
+        // search for the respective selected item, that matches with the color & size
+        // and declare it as the `selectedItem` variable
+        syncVariantArray.find((variant) => { 
+            // get the first occrance of the variant that:
+            if (variant.further_variant_info.color == selected_Color 
+                && variant.further_variant_info.size == selected_Size) { 
+                selectedItem = variant                          // set the variant to equal this option
+                selectedItem.quantity = itemQuantity            // set the quantity of the selected item
+                temp_selectedItem = <SyncVariant> selectedItem  // set a temporary selected item
+                found = true
+            }
+        })
+        // if this variant was not found, reset;
+        if (!found) {
+            selected_Size = undefined
+            selectedItem = undefined
+            temp_selectedItem = undefined
+        }
+        setTimeout(async() => {
+            rerender = true
+        }, 0.1)
+        // console.log('selectedItem', selectedItem)
+    }
+
+    // negative itemQuantity is NOT allowed;
+    let minusBtnDisabled: boolean = true;
+    $: if (selectedItem != undefined) {
+        if (parseInt(selectedItem.retail_price) * selectedItem.quantity == 0) {
+            minusBtnDisabled = true
+        } else {
+            minusBtnDisabled = false
+        }
     }
 </script>
 <!-- 
@@ -460,6 +616,11 @@
         border-radius: 10.2711px;
         background-color: var(--white);
     }
+    #image-preview-box {
+        display: flex;
+        background: #FF5555;
+        border-radius: 0px 10px 0px 0px;
+    }
     .awaiting-image {
         text-align: center;
         display: flex;
@@ -479,22 +640,123 @@
     form {
         margin-top: calc(100vw / (var(--mobile) / 43.38));
     }
-    form fieldset#select-option-top {
-        margin-bottom: calc(100vw / (var(--mobile) / 43.74));
-    }
     form #ship-header {
+        margin-top: calc(100vw / (var(--mobile) / 60));
         margin-bottom: calc(100vw / (var(--mobile) / 19.11));
     }
-    label p {
-        font-family: 'Roboto Slab';
+    form label p, form legend p {
+        /* font-family: 'Roboto Slab'; */
         font-weight: bold;
         margin-bottom: calc(100vw / (var(--mobile) / 7.35));
     }
+    /* form fieldset p {
+        font-weight: bold;
+        margin-bottom: calc(100vw / (var(--mobile) / 15));
+    } */
     input[type='radio'] {
         width: calc(100vw / (var(--mobile) / 15));
         height: auto;
         margin-right: calc(100vw / (var(--mobile) / 7));
     }
+    input[type='radio'].remove-checkbox {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+    #item-colors-container {
+        display: grid;
+        /* gap: calc(100vw / (var(--desktop) / 55)); */
+    }
+    /* color-item-select CSS */
+    .item-options-color-select-radio {
+        /* height: calc(100vw / (var(--mobile) / 59)); */
+        padding: calc(100vw / (var(--mobile) / 8)) calc(100vw / (var(--mobile) / 17));
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+    }
+    .item-options-color-select-radio.selected-color {
+        /* padding: calc(100vw / (var(--mobile) / 8)) calc(100vw / (var(--mobile) / 17)); */
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 2.5px;
+        border: 2px solid;
+        border-image: linear-gradient(180deg, #00FF75 40.91%, #00A3FF 100%);
+        border-image-slice: 9;
+    }
+    .color-point {
+        width: calc(100vw / (var(--mobile) / 56));
+        height: 100%;
+        margin-bottom: calc(100vw / (var(--mobile) / 6));
+        background: #000000;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+    }
+    /* size-item-select CSS */
+    #item-sizes-container {
+        display: grid;
+        /* gap: calc(100vw / (var(--desktop) / 55)); */
+        grid-template-columns: repeat(auto-fill, calc(100vw / (var(--mobile) / 76)));
+        grid-template-rows: repeat(auto-fill, calc(100vw / (var(--mobile) / 41)));
+        height: calc(100vw / (var(--mobile) / 82));
+    }
+    .item-options-size-select-radio {
+        height: calc(100vw / (var(--mobile) / 41));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .item-options-size-select-radio.selected-size {
+        background: #37474F;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    /* quantity-item-select CSS */
+    input[type='number']#quantity-input {
+        width: calc(100vw / (var(--mobile) / 49.2));
+        height: calc(100vw / (var(--mobile) / 41));
+        margin: 0 calc(100vw / (var(--mobile) / 5));
+
+        background: #FFFFFF;
+        border: 1.64px solid #E8E8E8;
+        box-sizing: border-box;
+        border-radius: 2.5px;
+    }
+    .item-quantity-select-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        align-items: stretch;
+    }
+    .quantity-btn {
+        width: calc(100vw / (var(--mobile) / 41));
+        height: calc(100vw / (var(--mobile) / 41));
+
+        background: #37474F;
+        border-radius: 2.5px;
+        box-shadow: none;
+    }
+    /* quick price check */
+    #price-container {
+        margin-top: calc(100vw / (var(--mobile) / 35));
+        width: fit-content;
+    }
+    #price-check {
+        padding: calc(100vw / (var(--mobile) / 7.5)) calc(100vw / (var(--mobile) / 13.5));
+    }
+    /* in-stock OR not-container */
+    #item-stock-container {
+        padding: calc(100vw / (var(--mobile) / 4)) calc(100vw / (var(--mobile) / 9));
+        
+        display: flex;
+        width: fit-content;
+    } #item-stock-container img {
+        margin-left: calc(100vw / (var(--mobile) / 4.14));
+    }
+    /* ship-input field */
     .ship-select-radio-container {
         display: flex;
         align-items: center;
@@ -503,7 +765,7 @@
     }
     /* 
     ~~~~~~~~~~~~~~~~~~~~
-    table CSS STYLE
+    table CSS STYLE (ORDER INFO)
     */
     table {
         border-collapse: separate;
@@ -511,31 +773,23 @@
     }
     td {
         padding-bottom: calc(100vw / (var(--mobile) / 7.35)) ;
-        padding-right: calc(100vw / (var(--mobile) / 7.35));
+        padding-right: calc(100vw / (var(--mobile) / 19.5));
     }
     hr {
+        width: calc(100vw / (var(--mobile) / 314.54));
         margin: calc(100vw / (var(--mobile) / 16.17)) 0;
+
         opacity: 0.25;
         border: 1.46983px solid #FF5555;
         background-color: #FF5555;
-        width: calc(100vw / (var(--mobile) / 314.54));
-    }
-
-    table#further-item-info {
-        margin-top: calc(100vw / (var(--mobile) / 15));
-        padding: calc(100vw / (var(--mobile) / 13));
-
-        background: #F4F4F4;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        border-radius: 10.27px;
     }
     /*
     ~~~~~~~~~~~~~~~~~~~~
     final submissions
     */
     #checkout-btn {
-        margin-top: calc(100vw / (var(--mobile) / 6.2));
-        background-image: url('/assets/svg/card-vector.svg');
+        margin-top: calc(100vw / (var(--mobile) / 23));
+        background-image: url('/assets/svg/white-card-vector.svg');
         background-size: calc(100vw / (var(--mobile) / 22.05)) calc(100vw / (var(--mobile) / 16.17));
     }
 
@@ -577,7 +831,6 @@
 	COMPONENT HTML
 ~~~~~~~~~~~~~~~~~~~~
 -->
-
 {#if showStripe}
     <StripeModal 
         data={stripeData}
@@ -599,7 +852,7 @@
     </h2>
     <!-- 
     ~~~~~~~~~~~~~~~
-    back-button -->
+    back-button to `shop` page -->
     <a rel='prefetch' href="/shop">
         <button id='back-to-shop' 
             class='btn-primary btn-left-icon'>
@@ -608,85 +861,24 @@
             </p>
         </button>
     </a>
-    <!-- 
+    <!--
     ~~~~~~~~~~~~~~~
-    user-product-card-view -->
-    {#if selectedItem != undefined}
-        <!--
-        ~~~~~~~~~~~~~~~
-        item-variant-iamge -->
-        {#each res.result.sync_variants as item}
-            {#if item.name == selectedItem.name}
-                {#each item.files as itemFiles}
-                    {#if itemFiles.type == 'preview'}
-                        <img 
-                            id='item-img'
-                            src={itemFiles.preview_url}
-                            alt=""
-                        />
-                    {/if}
-                {/each}
-            {/if}
-        {/each}
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        load further info on the item -->
-        {#await promiseVariantInfo}
-            <p>...Loading Item Information...</p>
-        {:then data}
-            <table id='further-item-info'>
-                <!-- item-color -->
-                <tr>
-                    <td>
-                        <p class='s-16 bold'>Color</p>
-                    </td>
-                    <td>
-                        <p>{data.result.variant.color} {data.result.variant.color_code}</p>
-                    </td>
-                </tr>
-                <!-- size-item -->
-                <tr>
-                    <td>
-                        <p class='s-16 bold'>Size</p>
-                    </td>
-                    <td>
-                        <p>{data.result.variant.size}</p>
-                    </td>
-                </tr>
-                <!-- price-item -->
-                <tr>
-                    <td>
-                        <p class='s-16 bold'>Price</p>
-                    </td>
-                    <td>
-                        <p class='s-16 bold'>£ {selectedItem.retail_price}</p>
-                    </td>
-                </tr>
-                <!-- in-stock -->
-                <tr>
-                    <td>
-                        <p class='s-16 bold'>In Stock</p>
-                    </td>
-                    <td>
-                        {#if data.result.variant.in_stock}
-                            <img 
-                                id='in-stock-img'
-                                src='./assets/svg/in-stock-checkmark-vector.svg'
-                                alt=""
-                            />
-                        {:else}
-                            <img 
-                                id='in-stock-img'
-                                src='./assets/svg/in-stock-error-vector.svg'
-                                alt=""
-                            />
-                        {/if}
-                    </td>
-                </tr>
-            </table>
-        {:catch error}
-            <p style="color: red">{error.message}</p>
-        {/await}
+    item-variant-iamge -->
+    {#if selected_ImageURL}
+        <div>
+            <img 
+                id='item-img'
+                src={selected_ImageURL}
+                alt=""
+            />
+            <div id='image-preview-box'>
+                <img 
+                    src='./assets/white-card-vector.svg'
+                    alt=""
+                />
+                image preview 
+            </div>
+        </div>
     {:else}
         <div id='item-img' class='awaiting-image'>
             <img
@@ -694,7 +886,7 @@
                 src='./assets/svg/no-image-vector.svg'
                 alt="no-vector"
             />
-            <p class='s-16' style='color: #C62828'> 
+            <p class='s-16 color-red'> 
                 Please select an item 
                 <br />
                 option to preview image
@@ -707,55 +899,130 @@
     <form on:submit|preventDefault={startStripe}>
         <!-- 
         ~~~~~~~~~~~~~~~
-        SIZE / OPTION (DROPDOWN SELECT) -->
-        <fieldset class="form-group">
-            <label 
-                for="size"
-            >
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    Size / Option 
-                </p> 
-            </label>
-            <select 
-                class='form-control' 
-                name='size' 
-                required
-                bind:value={selectedItem}
-            >
-                <option class='s-16' value={undefined}> - SELECT SIZE / OPTION - </option>
-                <!-- 
-                load all of the values of THIS field -->
-                {#each res.result.sync_variants as item}
-                    <option class='s-16' value={item}> {item.name} </option>
+        SELECT COLOR -->
+        <fieldset>
+            <legend>
+                <p class='s-18 bold'> Select Color </p>
+            </legend>
+            <div id='item-colors-container'>
+                {#each itemColors as item}
+                    <label class='item-options-color-select-radio'
+                        class:selected-color={selected_Color == item[0]}>
+                        <div class='color-point' style='background-color: {item[1]}' />
+                        <input
+                            name='selectcolor' 
+                            class='remove-checkbox'
+                            type='radio' 
+                            bind:group={selected_Color} 
+                            value={item[0]} 
+                            required
+                            />
+                        <span class='s-14'>{item[0]}</span>
+                    </label>
                 {/each}
-            </select>
+            </div>
+        </fieldset>
+
+        <hr />
+
+        <!-- 
+        ~~~~~~~~~~~~~~~
+        SELECT SIZE -->
+        <fieldset>
+            <legend>
+                <p class='s-18 bold'>Select Size</p>
+            </legend>
+            <div id='item-sizes-container'>
+                {#each itemSizes as item}
+                    {#if rerender}
+                        <label class='item-options-size-select-radio'
+                            class:selected-size={selected_Size == item}>
+                            <input
+                                class='remove-checkbox'
+                                type=radio 
+                                bind:group={selected_Size} 
+                                name='selectSize'
+                                value={item} 
+                                required 
+                                />
+                            <span class={selected_Size == item ? 's-20 color-primary bold' : 's-20'}>{ item }</span>
+                        </label>
+                    {/if}
+                {/each}
+            </div>
+        </fieldset>
+
+        <hr />
+
+        <!-- 
+        ~~~~~~~~~~~~~~~
+        SELECT QUANTITY -->
+        <fieldset>
+            <p class='s-18 bold' style='margin-bottom: 10px'>Select Quantity</p>
+            <div class='item-quantity-select-container'>
+                <button
+                    class='quantity-btn'
+                    type='button'
+                    disabled={minusBtnDisabled}
+                    on:click={() => itemQuantity--}> 
+                    <span class='s-22 bold color-primary'> - </span>
+                </button>
+                <input 
+                    type="number" 
+                    name="quantity"
+                    placeholder="1"
+                    bind:value={itemQuantity}
+                    id='quantity-input'
+                    class='s-22'
+                    required />
+                <button 
+                    class='quantity-btn'
+                    type='button' 
+                    on:click={() => itemQuantity++}> 
+                    <span class='s-22 bold color-primary'> + </span>
+                </button>
+            </div>
         </fieldset>
         <!-- 
         ~~~~~~~~~~~~~~~
-        QUANTITY / OPTION (DROPDOWN SELECT) -->
-        <fieldset class="form-group"
-            id='select-option-top'>
-            <label 
-                for="quantity"
-            >
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    Quantity 
-                </p> 
-            </label>
-            <select 
-                class='form-control' 
-                name='quantity' 
-                required
-                bind:value={itemQuantity}
-            >
-                <option class='s-16' value={0}> - SELECT QUANTITY - </option>
-                {#each {length: 10} as _, i}
-                    <option class='s-16' value={i + 1}> {i + 1} </option>
-                {/each}
-            </select>
-        </fieldset>
+        SIMPLE PRICE TOTAL UP -->
+        {#if selectedItem != undefined}
+            <div>
+                {#if (parseInt(selectedItem.retail_price) * selectedItem.quantity) == 0}
+                    <div id='price-container'>
+                        <div id='price-check'>
+                            <p class='s-18'> Item(s) Price 
+                                <span class='s-14 color-red'>select quantity</span> 
+                            </p>
+                        </div>
+                    </div>
+                {:else}
+                    <div id='price-container'>
+                        <div id='price-check'>
+                            <p class='s-18 color-secondary'> Item(s) Price 
+                                <span class='s-22 bold color-secondary'>£ {parseInt(selectedItem.retail_price) * selectedItem.quantity}</span>  
+                            </p>
+                        </div>
+                        <div id='item-stock-container'>
+                            <p class='s-14'> In stock </p>
+                            {#if temp_selectedItem.further_variant_info.in_stock}
+                                <img 
+                                    id='in-stock-img'
+                                    src='./assets/svg/in-stock-checkmark-vector.svg'
+                                    alt=""
+                                />
+                            {:else}
+                                <img 
+                                    id='in-stock-img'
+                                    src='./assets/svg/in-stock-error-vector.svg'
+                                    alt=""
+                                />
+                            {/if}
+                        </div>
+                    </div>
+                {/if}
+            </div>
+        {/if}
         <!-- 
         ~~~~~~~~~~~~~~~
         SHIPPING DETAILS HEADER -->
@@ -812,7 +1079,7 @@
             > 
                 <p class='s-16'>
                     <span style="color: #C62828">*</span> 
-                    Shipping Address 
+                    Address
                 </p> 
             </label>
             <input 
@@ -945,23 +1212,27 @@
                 establish the shipping type & costs -->
                 {#if getShipRates}
                     {#await promiseShipCosts}
-                        <p>...loading shipping options...</p>
+                        <p class='s-14'>...loading shipping options...</p>
                     {:then data}
                         {#each data.result as item}
-                            <input 
-                                type=radio 
-                                name='ship-typ'
-                                bind:group={shipPrice} 
-                                value={item}
-                                required
-                            >
-                            <label for='shipType' class='s-14'>{ item.id } | { item.minDeliveryDays } - { item.maxDeliveryDays } Days Delivery { item.currency } { item.rate } </label>
+                            <label style="display: flex;">
+                                <input 
+                                    type=radio 
+                                    name='ship-typ'
+                                    bind:group={shipPrice} 
+                                    value={item}
+                                    required
+                                />
+                                <span class='s-14'>
+                                    <span class='bold'>{ item.id } | </span>{ item.minDeliveryDays } - { item.maxDeliveryDays } Days Delivery { item.currency } { item.rate } 
+                                </span>
+                            </label>
                         {/each}
                     {:catch error}
-                        <p style="color: red">{error.message}</p>
+                        <p class='color-red'>{error.message}</p>
                     {/await}
                 {:else}
-                    <p class='s-16' style="color: red"> - please complete all fields to select shipping -</p>
+                    <p class='s-14 color-red'> please fill all fields for shipping</p>
                 {/if}
             </div>
         </fieldset>
@@ -978,74 +1249,76 @@
                     order breakdown table -->
                     <div>
                         <hr />
-                            <p class='s-22 bold' style="color: #C62828">
+                            <p class='s-22 bold m-b-10 color-red'>
                                 Order Breakdown
                             </p>
                             <table>
                                 <tr>
                                     <td>
-                                        <p class='s-16 bold'>Shipping costs</p>
+                                        <p class='s-16 bold color-secondary'>Shipping costs</p>
                                     </td>
                                     <td>
                                         {#if shipPrice != undefined }
-                                            <p class='s-16'>
-                                                {shipPrice.currency} {shipPrice.rate}
+                                            <p class='s-16 color-secondary'>
+                                                {shipPrice.rate} {shipPrice.currency}
                                             </p>
                                         {:else}
-                                            <p class='s-16' style='color: #C62828'>
-                                                please select shippment type
+                                            <p class='s-14 color-red'>
+                                                please select shippment
                                             </p>
                                         {/if}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class='s-16 bold'>Quantity</p>
+                                        <p class='s-16 bold color-secondary'>Quantity</p>
                                     </td>
                                     <td>
-                                        <p class='s-16'>
+                                        <p class='s-16 color-secondary'>
                                             x{itemQuantity}
                                         </p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class='s-16 bold'>Item Cost (+ VAT)</p>
+                                        <p class='s-16 bold color-secondary'>Item Cost (+ VAT)</p>
                                     </td>
                                     <td>
-                                        <p class='s-16'>{data.result.retail_costs.currency} {data.result.retail_costs.total + data.result.costs.vat} </p>
+                                        <p class='s-16 color-secondary'> {data.result.retail_costs.total + data.result.costs.vat} {data.result.retail_costs.currency} </p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p class='s-16 bold'>Delivery Time</p>
+                                        <p class='s-16 bold color-secondary'>Delivery Time</p>
                                     </td>
                                     <td>
                                         {#if shipPrice != undefined }
-                                            <p class='s-16'>
+                                            <p class='s-16 color-secondary'>
                                                 {shipPrice.minDeliveryDays} - {shipPrice.maxDeliveryDays} Days
                                             </p>
                                         {:else}
-                                            <p class='s-16' style='color: #C62828'>
-                                                please select shippment type
+                                            <p class='s-14 color-red'>
+                                                please select shippment
                                             </p>
+                                        {/if}
+                                    </td>
+                                </tr>
+                                <!-- 
+                                ~~~~~~~~~~~~~~~
+                                FINAL CHECKOUT INFORMATION - 
+                                TOTAL PRICE TO PAY-->
+                                <tr>
+                                    <td style='vertical-align: bottom;'>
+                                        <p class='s-22 bold color-secondary'>Total</p>
+                                    </td>
+                                    <td>
+                                        {#if shipPrice != undefined }
+                                            <span class='s-32 bold color-secondary' disabled> {parseInt(data.result.retail_costs.total) + parseInt(data.result.costs.vat) + parseInt(shipPrice.rate)} {data.result.retail_costs.currency} </span>
                                         {/if}
                                     </td>
                                 </tr>
                             </table>
                         <hr />
-                    </div>
-                    <!-- 
-                    ~~~~~~~~~~~~~~~
-                    FINAL CHECKOUT INFORMATION - 
-                    TOTAL PRICE TO PAY-->
-                    <div>
-                        <p class='s-22 bold'>
-                            Sub-Total
-                            {#if shipPrice != undefined }
-                                <span disabled> {data.result.retail_costs.currency} {parseInt(data.result.retail_costs.total) + parseInt(data.result.costs.vat) + parseInt(shipPrice.rate)} </span>
-                            {/if}
-                        </p>
                     </div>
                 </div>
             {:catch error}
@@ -1054,13 +1327,12 @@
         {/if}  
         <!-- 
         ~~~~~~~~~~~~~~~
-        CHECOUT STRIPE OPEN -->
+        CHECKOUT STRIPE OPEN -->
         <button 
             id='checkout-btn'
-            class='btn-secondary 
-                btn-right-icon'
+            class='btn-blue btn-left-icon'
             type="submit">
-            <p class='s-20 bold'>
+            <p class='s-18'>
                 PROCEED TO CHECKOUT
             </p>
         </button>
