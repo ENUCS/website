@@ -39,22 +39,6 @@
             method: 'GET',
             endpoint: `store/products/${slug}`,
         })
-
-        // ~~~~~~~~~~~~~~~~~~~~~
-        // WORKING
-        // for (let element of res.result.sync_variants) {
-        //     const resVariant: ResponseVariant = await post(`${protocol}${host}/shop/printful`, {
-        //         method: 'GET',
-        //         endpoint: `products/variant/${element.variant_id}`,
-        //     })
-        //     // append the new information to the official `res` and data;
-        //     res.result.sync_variants.filter(vairant => {
-        //         if (vairant.variant_id == element.variant_id) {
-        //             // console.log('resVariant.result.variant', resVariant.result.variant)
-        //             vairant.further_variant_info = resVariant.result.variant
-        //         }
-        //     });
-        // }
         
         // declare all of the differet item variant_ids (no-duplicates);
         let syncVariantProductId = res.result.sync_variants[0].product.product_id
@@ -241,8 +225,6 @@
         && recipient.state_code != undefined
         && recipient.zip != undefined) {
 
-            console.log('all form fields have been completed!')
-
             // Filling fields necessary for shipping-cost,
             recipient_2 = {
                 address1: recipient.address1,
@@ -311,7 +293,6 @@
             data: data
         }
         const response = await post(`shop/printful`, _data)
-        console.log(response)
         // itercept key data elements and store in the JS;
         stripeData.amountToPay = parseInt(response.result.retail_costs.total) + parseInt(response.result.costs.vat)
         stripeData.currenyPay = response.result.retail_costs.currency
@@ -319,7 +300,6 @@
     }
     
     $: if (shipPrice != undefined) {
-        console.log('shipPrice changed', shipPrice)
         stripeData.amountToPay += parseInt(shipPrice.rate)
     }
 
@@ -365,11 +345,9 @@
                 stateCodeArray = true                   // display the statecode field
                 recipient.state_code = undefined        // re-set the `state-code` field value
                 clearLocation()                         // clear all the other `location-geo` information
-                console.info('StateCode Visible')       // simple check
                 return;
             }
         }
-        console.info('State Code Hidden')
         stateCodeArray = false          // else keep the statecode field hidden;
         recipient.state_code = ''       // place the state-code values as NOT undefined, but rather empty to pass the check
         clearLocation()                 // clear other field options
@@ -440,22 +418,24 @@
             data: finalOrderCreate
         }
         const response = await post(`shop/printful`, _data)
-        console.log(response)
+        // console.log(response)
         goto('/shop')
     }
 
     let selected_Color: string = undefined
     let selected_Size: string = undefined
-    let selected_ImageURL: string = undefined
+    let selected_ImageURLs: string[] = undefined
+    let selected_ImagePos: number = 0
 
     let rerender: boolean = true
     
-    $: console.log('selected_Color', selected_Color)
-    $: console.log('selected_Size', selected_Size)
+    // $: console.log('selected_Color', selected_Color)
+    // $: console.log('selected_Size', selected_Size)
 
     /**
      * Function / Method;
      * ~~~~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
      * [REACTIVE]
      * ~~~~~~~~~~~~~~~~~~~~
      * Description:
@@ -469,23 +449,20 @@
         let syncVariantArray = res.result.sync_variants
 
         // search for an occurance(s) of a item with this color, and assign the `preview` Object, to the image URL Preview,
-        syncVariantArray.filter((variant) => { 
+        syncVariantArray.filter((variant) => {
             if (variant.further_variant_info.color == selected_Color) {
-                // get the first image of this variant occurance, and its files for preview;
-                variant.files.find((file) => { 
-                    if (file.type == 'preview') {
-                        selected_ImageURL = file.preview_url
-                    }
-                })
                 // push the value of the size to the array;
                 itemSizes.push(variant.further_variant_info.size)
             }
         })
+        // initiate the function to get the item images
+        getItemImages()
     } 
     
     /**
      * Function / Method;
      * ~~~~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
      * [REACTIVE]
      * ~~~~~~~~~~~~~~~~~~~~
      * Description:
@@ -529,6 +506,87 @@
             minusBtnDisabled = true
         } else {
             minusBtnDisabled = false
+        }
+    }
+
+    /**
+     * Function / Method;
+     * ~~~~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
+     * [MOTHER FUNCTION]
+     * ~~~~~~~~~~~~~~~~~~~~
+     * Description:
+     * ~~~~~~~~~~~~~~~~~~~~
+     * An ASYNC function to trigger
+     * the callback to the Server/Backend
+     * to retrive the files for the specific item
+     * that match this item variants SKU ID;
+    */
+    async function getItemImages() {
+        let syncVariantArray = res.result.sync_variants
+        // extract and search for the correct images relate to the item selected;
+        for (let variant of syncVariantArray) {
+            // get the first item variant of this variant occurance, and its files for preview;
+            if (variant.further_variant_info.color == selected_Color) {
+                // assign returned array to the images array for `THIS` item;
+                selected_ImageURLs = await getPreivewFiles(variant.sku)
+                selected_ImagePos = 0
+                break
+            }
+        }
+    }
+
+    /**
+     * Function / Method;
+     * ~~~~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
+     * [FETCH TO SERVER FUNCTION]
+     * ~~~~~~~~~~~~~~~~~~~~
+     * Description:
+     * ~~~~~~~~~~~~~~~~~~~~
+     * This is a fetch-to-the-server
+     * function method that searches
+     * for the correct data-files
+     * to display to the user for
+     * preview and slideshow
+    */
+    async function getPreivewFiles(skuId: string): Promise < string[] > {
+        // returns a list of target matching Product Item SKU img/assets;
+        const response = await post(`shop/file_retrieve`, {
+            sku: skuId
+        })
+        return response
+    }
+
+    /**
+     * Function / Method;
+     * ~~~~~~~~~~~~~~~~~~~~
+     * [✅ WORKING]
+     * ~~~~~~~~~~~~~~~~~~~~
+     * Description:
+     * ~~~~~~~~~~~~~~~~~~~~
+     * A simple decrease/increase toggle
+     * value for the slideshow of the 
+     * image for the item
+    */
+    function toggleImagePos(pos: number) {
+        // check if the position is to increase the POS;
+        if (pos == 1) {
+            // check if the POS has reached the limit, thus revert the array of value flow;
+            if ((selected_ImagePos + 1) == selected_ImageURLs.length) {
+                selected_ImagePos = 0
+                return
+            }
+            selected_ImagePos++
+        } 
+        // decrease the POSition value
+        else if (pos == -1) {
+            // check if the limit- (lowerbound) has been reached, thus revert;
+            if (selected_ImagePos == 0) {
+                selected_ImagePos = selected_ImageURLs.length - 1
+                return
+            }
+            selected_ImagePos--
         }
     }
 </script>
@@ -609,17 +667,41 @@
     ~~~~~~~~~~~~~~~~~~~~
     item image CSS STYLE
     */
-    #item-img {
+    #item-img-container {
         width: calc(100vw / (var(--mobile) / 340.88));
         height: calc(100vw / (var(--mobile) / 364.62));
         filter: drop-shadow(0px 4.10843px 4.10843px rgba(0, 0, 0, 0.25));
         border-radius: 10.2711px;
         background-color: var(--white);
+        position: relative;
+        overflow: hidden;
+    }
+    #item-img {
+        width: inherit;
+        height: 100%;
+    }
+    #image-counter {
+        z-index: 10;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 0px 0px 5px 5px;
+        position: absolute;
+        top: 0;
+        /* left: calc(100vw / (var(--mobile) / 44)); */
+        left: 0;
+        padding: calc(100vw / (var(--mobile) / 6)) calc(100vw / (var(--mobile) / 11));
     }
     #image-preview-box {
+        z-index: 10;
+        position: absolute;
+        bottom: 0;
+        left: 0;
         display: flex;
         background: #FF5555;
         border-radius: 0px 10px 0px 0px;
+        padding: calc(100vw / (var(--mobile) / 5));
+    } #image-preview-box img {
+        margin-right: 4px;
     }
     .awaiting-image {
         text-align: center;
@@ -632,6 +714,28 @@
         width: calc(100vw / (var(--mobile) / 35.5));
         height: calc(100vw / (var(--mobile) / 25.5));
         margin-bottom: calc(100vw / (var(--mobile) / 18.5));
+    }
+    .toggle-slideshow {
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        width: calc(100vw / (var(--mobile) / 44));
+
+        position: absolute;
+        border-radius: 2.5px 0px 0px 2.5px;
+        transition: all 0.3s ease-in-out;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    } .toggle-slideshow:hover {
+        background: rgba(0, 0, 0, 0.15);
+    }
+    #next.toggle-slideshow {
+        right: 0;
+    }
+    #prev.toggle-slideshow {
+        left: 0;
     }
     /* 
     ~~~~~~~~~~~~~~~~~~~~
@@ -743,16 +847,22 @@
     #price-container {
         margin-top: calc(100vw / (var(--mobile) / 35));
         width: fit-content;
+        display: flex;
+        align-items: stretch;
     }
     #price-check {
-        padding: calc(100vw / (var(--mobile) / 7.5)) calc(100vw / (var(--mobile) / 13.5));
+        padding-right: calc(100vw / (var(--mobile) / 13.5));
+    } #price-check span {
+        margin-left: calc(100vw / (var(--mobile) / 8));
     }
     /* in-stock OR not-container */
     #item-stock-container {
-        padding: calc(100vw / (var(--mobile) / 4)) calc(100vw / (var(--mobile) / 9));
+        border-left: 2.5px solid #DFDFDF;
+        padding-left: calc(100vw / (var(--mobile) / 9));
         
         display: flex;
-        width: fit-content;
+        white-space: nowrap;
+        align-items: center;
     } #item-stock-container img {
         margin-left: calc(100vw / (var(--mobile) / 4.14));
     }
@@ -864,23 +974,47 @@
     <!--
     ~~~~~~~~~~~~~~~
     item-variant-iamge -->
-    {#if selected_ImageURL}
-        <div>
-            <img 
+    {#if selected_ImageURLs}
+        <div id='item-img-container'>
+            <div id='image-counter'>
+                <p class='s-12 bold'>
+                    {selected_ImagePos + 1} / {selected_ImageURLs.length}
+                    <span class='s-12 bols'> view - {selected_ImageURLs[selected_ImagePos][0]} </span>
+                </p>
+            </div>
+            <img
                 id='item-img'
-                src={selected_ImageURL}
+                src='./assets/img/printful/{selected_ImageURLs[selected_ImagePos][1]}'
                 alt=""
             />
             <div id='image-preview-box'>
                 <img 
-                    src='./assets/white-card-vector.svg'
+                    src='./assets/svg/camera-vector.svg'
                     alt=""
                 />
-                image preview 
+                <span class='s-10 color-white bold'>
+                    image preview 
+                </span>
+            </div>
+            <div id='next' 
+                class='toggle-slideshow'
+                on:click={() => toggleImagePos(1)}>
+                <img
+                    src='./assets/svg/next-vector.svg'
+                    alt=""
+                />
+            </div>
+            <div id='prev' 
+                class='toggle-slideshow'
+                on:click={() => toggleImagePos(-1)}>
+                <img
+                    src='./assets/svg/back-vector.svg'
+                    alt=""
+                />
             </div>
         </div>
     {:else}
-        <div id='item-img' class='awaiting-image'>
+        <div id='item-img-container' class='awaiting-image'>
             <img
                 id='no-image-icon'
                 src='./assets/svg/no-image-vector.svg'
@@ -896,7 +1030,7 @@
     <!-- 
     ~~~~~~~~~~~~~~~
     form to fill out by the user -->
-    <form on:submit|preventDefault={startStripe}>
+    <form autocomplete="off" on:submit|preventDefault={startStripe}>
         <!-- 
         ~~~~~~~~~~~~~~~
         SELECT COLOR -->
@@ -991,7 +1125,7 @@
                 {#if (parseInt(selectedItem.retail_price) * selectedItem.quantity) == 0}
                     <div id='price-container'>
                         <div id='price-check'>
-                            <p class='s-18'> Item(s) Price 
+                            <p class='s-18 bold'> Sub-total 
                                 <span class='s-14 color-red'>select quantity</span> 
                             </p>
                         </div>
@@ -999,7 +1133,7 @@
                 {:else}
                     <div id='price-container'>
                         <div id='price-check'>
-                            <p class='s-18 color-secondary'> Item(s) Price 
+                            <p class='s-18 bold color-secondary'> Sub-total
                                 <span class='s-22 bold color-secondary'>£ {parseInt(selectedItem.retail_price) * selectedItem.quantity}</span>  
                             </p>
                         </div>
