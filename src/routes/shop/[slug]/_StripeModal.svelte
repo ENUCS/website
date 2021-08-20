@@ -229,6 +229,150 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
     } #redirect-hint p {
         margin-left: calc(100vw / (var(--mobile) / 11));
     }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~
+      RESPONSIVENESS:
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        TABLET FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
+    /* 767px is used to allow for IPad to use the Tablet Version */
+    @media only screen and (min-width: 767px) {
+
+        #stripe-logo {
+            width: calc(100vw / (var(--tablet) / 90));
+            height: calc(100vw / (var(--tablet) / 37.45));
+            margin-bottom: calc(100vw / (var(--tablet) / 47.55));
+        }
+        #form-modal {
+            /* 
+            */
+            width: calc(100vw / (var(--tablet) / 328));
+            height: calc(100vw / (var(--tablet) / 282));
+            padding: calc(100vw / (var(--tablet) / 15)) calc(100vw / (var(--tablet) / 27)) calc(100vw / (var(--tablet) / 27)) calc(100vw / (var(--tablet) / 27));
+        }
+        #close-stripe-modal {
+            right: calc(100vw / (var(--tablet) / 15));
+            top: calc(100vw / (var(--tablet) / 15));
+        }
+        .image-stripe-state {
+            width: calc(100vw / (var(--tablet) / 44));
+            height: calc(100vw / (var(--tablet) / 44));
+            margin-bottom: calc(100vw / (var(--tablet) / 12));
+        }
+        /* 
+        */
+        form {
+            
+        }
+        label[for='card-details'] {
+            margin-bottom: calc(100vw / (var(--tablet) / 14));
+        }
+
+        #card-element {
+            border-radius: 4px 4px 0 0;
+            padding: calc(100vw / (var(--tablet) / 12));
+            border: calc(100vw / (var(--tablet) / 1)) solid rgba(50, 50, 93, 0.1);
+            max-height: calc(100vw / (var(--tablet) / 44));
+            width: 100%;
+            background: white;
+            box-sizing: border-box;
+            width: calc(100vw / (var(--tablet) / 273.03));
+        }
+
+        /* 
+        buttons and links */
+        button {
+            background: #2A2F45;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 6.37931px;
+            margin-top: calc(100vw / (var(--tablet) / 22));
+            width: 100%;
+            width: calc(100vw / (var(--tablet) / 273.03));
+        }
+        /* 
+        */
+        #redirect-hint {
+            margin-top: calc(100vw / (var(--tablet) / 23));
+        } #redirect-hint p {
+            margin-left: calc(100vw / (var(--tablet) / 11));
+        }
+    }
+
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        DESKTOP FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
+    /* 1025px is used to allow for IPad Pro to use the Tablet Version */
+    @media only screen and (min-width: 1025px) {
+        
+        #stripe-logo {
+            width: calc(100vw / (var(--desktop) / 90));
+            height: calc(100vw / (var(--desktop) / 37.45));
+            margin-bottom: calc(100vw / (var(--desktop) / 47.55));
+        }
+        #form-modal {
+            /* 
+            */
+            width: calc(100vw / (var(--desktop) / 328));
+            height: calc(100vw / (var(--desktop) / 282));
+            padding: calc(100vw / (var(--desktop) / 15)) calc(100vw / (var(--desktop) / 27)) calc(100vw / (var(--desktop) / 27)) calc(100vw / (var(--desktop) / 27));
+        }
+        #close-stripe-modal {
+            right: calc(100vw / (var(--desktop) / 15));
+            top: calc(100vw / (var(--desktop) / 15));
+        }
+        .image-stripe-state {
+            width: calc(100vw / (var(--desktop) / 44));
+            height: calc(100vw / (var(--desktop) / 44));
+            margin-bottom: calc(100vw / (var(--desktop) / 12));
+        }
+        /* 
+        */
+        form {
+            
+        }
+        label[for='card-details'] {
+            margin-bottom: calc(100vw / (var(--desktop) / 14));
+        }
+
+        #card-element {
+            border-radius: 4px 4px 0 0;
+            padding: calc(100vw / (var(--desktop) / 12));
+            border: calc(100vw / (var(--desktop) / 1)) solid rgba(50, 50, 93, 0.1);
+            max-height: calc(100vw / (var(--desktop) / 44));
+            width: 100%;
+            background: white;
+            box-sizing: border-box;
+            width: calc(100vw / (var(--desktop) / 273.03));
+        }
+
+        /* 
+        buttons and links */
+        button {
+            background: #2A2F45;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 6.37931px;
+            margin-top: calc(100vw / (var(--desktop) / 22));
+            width: 100%;
+            width: calc(100vw / (var(--desktop) / 273.03));
+        }
+        /* 
+        */
+        #redirect-hint {
+            margin-top: calc(100vw / (var(--desktop) / 23));
+        } #redirect-hint p {
+            margin-left: calc(100vw / (var(--desktop) / 11));
+        }
+    }
 </style>
 <!-- 
 ~~~~~~~~~~~~~~~~~~~~

@@ -648,7 +648,6 @@
         MOBILE FIRST 
     ~~~~~~~~~~~~~~~~~~~~
     */
-
     section {
         margin: calc(100vw / 3.02419354839) calc(100vw / 19.7368421053);
     }
@@ -663,6 +662,11 @@
         background-size: contain;
         margin: calc(100vw / (var(--mobile) / 32)) 0 calc(100vw / (var(--mobile) / 43)) 0;
     }
+
+    #form-cotaienr {
+
+    }
+
     /* 
     ~~~~~~~~~~~~~~~~~~~~
     item image CSS STYLE
@@ -911,19 +915,251 @@
 
     /* 
     ~~~~~~~~~~~~~~~~~~~~
+        TABLET FIRST 
+    ~~~~~~~~~~~~~~~~~~~~
+    */
+
+    /* 767px is used to allow for IPad to use the Tablet Version */
+    @media only screen and (min-width: 767px) {
+
+        section {
+            margin: calc(100vw / (var(--tablet) / 75)) calc(100vw / (var(--tablet) / 35));
+        }
+
+        #back-to-shop {
+            background-position: left 0 top 50%;
+            margin: calc(100vw / (var(--tablet) / 32)) 0 calc(100vw / (var(--tablet) / 43)) 0;
+        }
+
+        #form-cotaienr {
+            position: relative;
+            display: grid;
+            justify-content: space-between;
+            gap: 40px;
+            flex-direction: row;
+            align-items: flex-start;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* 
+        ~~~~~~~~~~~~~~~~~~~~
+        item image CSS STYLE
+        */
+        #item-img-container {
+            height: auto;
+            width: calc(100vw / (var(--tablet) / 341));
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        form {
+            width: calc(100vw / (var(--tablet) / 315));
+            margin-top: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        } form #shipping-form-contaier {
+            width: calc(100vw / (var(--tablet) / 315));
+        } form #item-option-contaier {
+            margin-top: calc(100vw / (var(--tablet) / 374)); 
+            width: calc(100vw / (var(--tablet) / 341)); 
+        } form #ship-header {
+            margin-top: 0;
+            margin-bottom: calc(100vw / (var(--tablet) / 19.11));
+        }
+
+        hr {
+            width: 100%;
+        }
+
+        .item-options-size-select-radio {
+            height: calc(100vw / (var(--tablet) / 41));
+        }
+
+        #item-sizes-container {
+            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--tablet) / 76)));
+            grid-template-rows: repeat(auto-fill, calc(100vw / (var(--tablet) / 41)));
+            height: calc(100vw / (var(--tablet) / 82));
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: calc(100vw / (var(--tablet) / 314.54));
+            /* height: calc(100vw / (var(--tablet) / 50)); */
+            height: calc(100vw / (var(--tablet) / 33.81));
+            padding: calc(100vw / (var(--tablet) / 7));
+        }
+        input[type='radio'] {
+            width: calc(100vw / (var(--tablet) / 15));
+            margin-right: calc(100vw / (var(--tablet) / 7));
+        }
+        input[type='number']#quantity-input {
+            width: calc(100vw / (var(--tablet) / 49.2));
+            height: calc(100vw / (var(--tablet) / 41));
+            margin: 0 calc(100vw / (var(--tablet) / 5));
+        }
+        .quantity-btn {
+            width: calc(100vw / (var(--tablet) / 41));
+            height: calc(100vw / (var(--tablet) / 41));
+        }
+
+        #checkout-btn {
+            margin-top: calc(100vw / (var(--tablet) / 23));
+            background-size: calc(100vw / (var(--tablet) / 22.05)) calc(100vw / (var(--tablet) / 16.17));
+        }
+
+        .toggle-slideshow {
+            width: calc(100vw / (var(--tablet) / 44));
+        }
+        #image-counter {
+            padding: calc(100vw / (var(--tablet) / 6)) calc(100vw / (var(--tablet) / 11));
+        }
+        #image-preview-box {
+            padding: calc(100vw / (var(--tablet) / 5));
+        }
+
+        td {
+            padding-bottom: calc(100vw / (var(--tablet) / 7.35));
+            padding-right: calc(100vw / (var(--tablet) / 19.5));
+        }
+    }
+
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
         DESKTOP FIRST 
     ~~~~~~~~~~~~~~~~~~~~
     */
 
-    /* 1025px is used to allow for IPad Pro to use the Tabler Version */
+    /* 1025px is used to allow for IPad Pro to use the Tablet Version */
     @media only screen and (min-width: 1025px) {
 
-        #checkout-container {
-            display: grid;
-            /* grid-auto-flow: column; */
-            gap: calc(100vw / 22.1538461538);
-            grid-template-columns: repeat(auto-fill, calc(100vw / 6.20689655172));
+        section {
+            margin: calc(100vw / (var(--desktop) / 210)) calc(100vw / (var(--desktop) / 250));
         }
+
+        #back-to-shop {
+            background-position: left 0 top 50%;
+            margin: calc(100vw / (var(--desktop) / 32)) 0 calc(100vw / (var(--desktop) / 43)) 0;
+        }
+
+        #form-cotaienr {
+            position: relative;
+            display: grid;
+            justify-content: space-between;
+            gap: calc(100vw / (var(--desktop) / 467));;
+            flex-direction: row;
+            align-items: flex-start;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* 
+        ~~~~~~~~~~~~~~~~~~~~
+        item image CSS STYLE
+        */
+        #item-img-container {
+            height: calc(100vw / (var(--desktop) / 467));
+            width: calc(100vw / (var(--desktop) / 467));
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        form {
+            width: calc(100vw / (var(--desktop) / 315));
+            margin-top: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(100vw / (var(--desktop) / 120));
+        } form #shipping-form-contaier {
+            width: calc(100vw / (var(--desktop) / 315));
+        } form #item-option-contaier {
+            margin-top: calc(100vw / (var(--desktop) / 513));
+            width: calc(100vw / (var(--desktop) / 467));
+        } form #ship-header {
+            margin-top: 0;
+            margin-bottom: calc(100vw / (var(--desktop) / 19.11));
+        }
+        form label p, 
+        form legend p {
+            margin-bottom: calc(100vw / (var(--desktop) / 7.35));
+        }
+
+        fieldset {
+            margin-bottom: calc(100vw / (var(--desktop) / 11.76));
+        }
+
+        hr {
+            width: 100%;
+            margin: calc(100vw / (var(--desktop) / 16.17)) 0;
+        }
+
+        .item-options-size-select-radio {
+            height: calc(100vw / (var(--desktop) / 41));
+        }
+        .item-options-color-select-radio {
+            padding: calc(100vw / (var(--desktop) / 8)) calc(100vw / (var(--desktop) / 17));
+        }
+
+        .color-point {
+            width: calc(100vw / (var(--desktop) / 56));
+            margin-bottom: calc(100vw / (var(--desktop) / 6));
+        }
+
+        #item-sizes-container {
+            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--desktop) / 76)));
+            grid-template-rows: repeat(auto-fill, calc(100vw / (var(--desktop) / 41)));
+            height: calc(100vw / (var(--desktop) / 82));
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select {
+            width: calc(100vw / (var(--desktop) / 314.54));
+            /* height: calc(100vw / (var(--desktop) / 50)); */
+            height: calc(100vw / (var(--desktop) / 33.81));
+            padding: calc(100vw / (var(--desktop) / 7));
+        }
+        input[type='radio'] {
+            width: calc(100vw / (var(--desktop) / 15));
+            margin-right: calc(100vw / (var(--desktop) / 7));
+        }
+        input[type='number']#quantity-input {
+            width: calc(100vw / (var(--desktop) / 49.2)) !important;
+            height: calc(100vw / (var(--desktop) / 41)) !important;
+            margin: 0 calc(100vw / (var(--desktop) / 5)) !important;
+            padding: 0 0;
+        }
+        .quantity-btn {
+            width: calc(100vw / (var(--desktop) / 41));
+            height: calc(100vw / (var(--desktop) / 41));
+        }
+
+        #checkout-btn {
+            margin-top: calc(100vw / (var(--desktop) / 23));
+            background-size: calc(100vw / (var(--desktop) / 22.05)) calc(100vw / (var(--desktop) / 16.17));
+        }
+
+        .toggle-slideshow {
+            width: calc(100vw / (var(--desktop) / 44));
+        }
+        #image-counter {
+            padding: calc(100vw / (var(--desktop) / 6)) calc(100vw / (var(--desktop) / 11));
+        }
+        #image-preview-box {
+            padding: calc(100vw / (var(--desktop) / 5));
+        }
+
+        td {
+            padding-bottom: calc(100vw / (var(--desktop) / 7.35));
+            padding-right: calc(100vw / (var(--desktop) / 19.5));
+        }
+
+        #price-container {
+            margin-top: calc(100vw / (var(--desktop) / 35));
+        }
+
         /* 
         ~~~~~~~~~~~~~~~~~~~~
         hover-effects */
@@ -931,7 +1167,7 @@
             background-image: url('/assets/svg/back-arrow-icon-hover.svg');
         }
         input:hover {
-            padding: calc(100vw / (var(--mobile) / 5));
+            padding: calc(100vw / (var(--desktop) / 5));
             border: 2.5px solid #FF5555;
         }
     }
@@ -971,504 +1207,515 @@
             </p>
         </button>
     </a>
-    <!--
-    ~~~~~~~~~~~~~~~
-    item-variant-iamge -->
-    {#if selected_ImageURLs}
-        <div id='item-img-container'>
-            <div id='image-counter'>
-                <p class='s-12 bold'>
-                    {selected_ImagePos + 1} / {selected_ImageURLs.length}
-                    <span class='s-12 bols'> view - {selected_ImageURLs[selected_ImagePos][0]} </span>
-                </p>
-            </div>
-            <img
-                id='item-img'
-                src='./assets/img/printful/{selected_ImageURLs[selected_ImagePos][1]}'
-                alt=""
-            />
-            <div id='image-preview-box'>
-                <img 
-                    src='./assets/svg/camera-vector.svg'
-                    alt=""
-                />
-                <span class='s-10 color-white bold'>
-                    image preview 
-                </span>
-            </div>
-            <div id='next' 
-                class='toggle-slideshow'
-                on:click={() => toggleImagePos(1)}>
-                <img
-                    src='./assets/svg/next-vector.svg'
-                    alt=""
-                />
-            </div>
-            <div id='prev' 
-                class='toggle-slideshow'
-                on:click={() => toggleImagePos(-1)}>
-                <img
-                    src='./assets/svg/back-vector.svg'
-                    alt=""
-                />
-            </div>
-        </div>
-    {:else}
-        <div id='item-img-container' class='awaiting-image'>
-            <img
-                id='no-image-icon'
-                src='./assets/svg/no-image-vector.svg'
-                alt="no-vector"
-            />
-            <p class='s-16 color-red'> 
-                Please select an item 
-                <br />
-                option to preview image
-            </p>
-        </div>
-    {/if}
     <!-- 
     ~~~~~~~~~~~~~~~
-    form to fill out by the user -->
-    <form autocomplete="off" on:submit|preventDefault={startStripe}>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        SELECT COLOR -->
-        <fieldset>
-            <legend>
-                <p class='s-18 bold'> Select Color </p>
-            </legend>
-            <div id='item-colors-container'>
-                {#each itemColors as item}
-                    <label class='item-options-color-select-radio'
-                        class:selected-color={selected_Color == item[0]}>
-                        <div class='color-point' style='background-color: {item[1]}' />
-                        <input
-                            name='selectcolor' 
-                            class='remove-checkbox'
-                            type='radio' 
-                            bind:group={selected_Color} 
-                            value={item[0]} 
-                            required
-                            />
-                        <span class='s-14'>{item[0]}</span>
-                    </label>
-                {/each}
-            </div>
-        </fieldset>
-
-        <hr />
-
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        SELECT SIZE -->
-        <fieldset>
-            <legend>
-                <p class='s-18 bold'>Select Size</p>
-            </legend>
-            <div id='item-sizes-container'>
-                {#each itemSizes as item}
-                    {#if rerender}
-                        <label class='item-options-size-select-radio'
-                            class:selected-size={selected_Size == item}>
-                            <input
-                                class='remove-checkbox'
-                                type=radio 
-                                bind:group={selected_Size} 
-                                name='selectSize'
-                                value={item} 
-                                required 
-                                />
-                            <span class={selected_Size == item ? 's-20 color-primary bold' : 's-20'}>{ item }</span>
-                        </label>
-                    {/if}
-                {/each}
-            </div>
-        </fieldset>
-
-        <hr />
-
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        SELECT QUANTITY -->
-        <fieldset>
-            <p class='s-18 bold' style='margin-bottom: 10px'>Select Quantity</p>
-            <div class='item-quantity-select-container'>
-                <button
-                    class='quantity-btn'
-                    type='button'
-                    disabled={minusBtnDisabled}
-                    on:click={() => itemQuantity--}> 
-                    <span class='s-22 bold color-primary'> - </span>
-                </button>
-                <input 
-                    type="number" 
-                    name="quantity"
-                    placeholder="1"
-                    bind:value={itemQuantity}
-                    id='quantity-input'
-                    class='s-22'
-                    required />
-                <button 
-                    class='quantity-btn'
-                    type='button' 
-                    on:click={() => itemQuantity++}> 
-                    <span class='s-22 bold color-primary'> + </span>
-                </button>
-            </div>
-        </fieldset>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        SIMPLE PRICE TOTAL UP -->
-        {#if selectedItem != undefined}
-            <div>
-                {#if (parseInt(selectedItem.retail_price) * selectedItem.quantity) == 0}
-                    <div id='price-container'>
-                        <div id='price-check'>
-                            <p class='s-18 bold'> Sub-total 
-                                <span class='s-14 color-red'>select quantity</span> 
-                            </p>
-                        </div>
-                    </div>
-                {:else}
-                    <div id='price-container'>
-                        <div id='price-check'>
-                            <p class='s-18 bold color-secondary'> Sub-total
-                                <span class='s-22 bold color-secondary'>£ {parseInt(selectedItem.retail_price) * selectedItem.quantity}</span>  
-                            </p>
-                        </div>
-                        <div id='item-stock-container'>
-                            <p class='s-14'> In stock </p>
-                            {#if temp_selectedItem.further_variant_info.in_stock}
-                                <img 
-                                    id='in-stock-img'
-                                    src='./assets/svg/in-stock-checkmark-vector.svg'
-                                    alt=""
-                                />
-                            {:else}
-                                <img 
-                                    id='in-stock-img'
-                                    src='./assets/svg/in-stock-error-vector.svg'
-                                    alt=""
-                                />
-                            {/if}
-                        </div>
-                    </div>
-                {/if}
-            </div>
-        {/if}
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        SHIPPING DETAILS HEADER -->
-        <h2 class='s-22 bold'
-            id='ship-header'> 
-            Shipping Details 
-        </h2>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        NAME -->
-        <fieldset class="form-group">
-            <label 
-                for="name"
-            > 
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    Name 
-                </p> 
-            </label>
-            <input 
-                class="form-control s-16"
-                name="name" 
-                type="text" 
-                required 
-                bind:value={recipient.name}
-            >
-        </fieldset>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        EMAIL -->
-        <fieldset class="form-group">
-            <label 
-                for="vorname"
-            > 
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    Email 
-                </p> 
-            </label>
-            <input 
-                class="form-control s-16" 
-                name="email" 
-                type="email" 
-                required 
-                bind:value={recipient.email}
-            >
-        </fieldset>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        SHIPPING ADDRESS -->
-        <fieldset class="form-group">
-            <label 
-                for="ship_address"
-            > 
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    Address
-                </p> 
-            </label>
-            <input 
-                class="form-control s-16" 
-                name="ship_address" 
-                type="text" 
-                required 
-                bind:value={recipient.address1}
-            >
-        </fieldset>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        COUNTRY CODE (DROPDOWN SELECT) -->
-        <fieldset class="form-group">
-            <label 
-                for="country_code"
-            > 
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    Country Code 
-                </p> 
-            </label>
-            <select 
-                class='form-control' 
-                name='country_code' 
-                required
-                bind:value={recipient.country_code}
-                on:change={getStateCodes}
-            >
-                <option class='s-16' value={undefined}> - select country code - </option>
-                <!-- 
-                load all of the values of THIS field -->
-                {#each resCountriesList.result as item}
-                    <option class='s-16' value={item.code}> { item.name } </option>
-                {/each}
-            </select>
-        </fieldset>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        STATE CODE (DROPDOWN SELECT) -->
-        {#if stateCodeArray}
-            <fieldset class="form-group">
-                <label 
-                    for="state_code"
-                > 
-                    <p class='s-16'>
-                        <span style="color: #C62828">*</span> 
-                        State Code 
-                    </p> 
-                </label>
-                <select 
-                    class='form-control' 
-                    name='state_code' 
-                    required
-                    bind:value={recipient.state_code}
-                    on:change={clearLocation}
-                >
-                    <option class='s-16 bold' value=''> - select state code - </option>
-                    <!-- 
-                    load all of the values of THIS field -->
-                    {#each resCountriesList.result as item}
-                        {#if item.code == recipient.country_code && item.states != null}
-                            {#each item.states as state}
-                                <option class='s-16' value={ state.code }> { state.name } </option>
-                            {/each}
-                        {/if}
-                    {/each}
-                </select>
-            </fieldset>
-        {/if}
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        CITY -->
-        <fieldset class="form-group">
-            <label 
-                for="city"
-            > 
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    City 
-                </p> 
-            </label>
-            <input 
-                class="form-control s-16" 
-                name="city" 
-                type="text" 
-                required 
-                bind:value={recipient.city}
-            >
-        </fieldset>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        ZIP-POSTCODE -->
-        <fieldset class="form-group">
-            <label 
-                for="post_code"
-            > 
-                <p class='s-16'>
-                    <span style="color: #C62828">*</span> 
-                    Zip / Postcode 
-                </p> 
-            </label>
-            <input 
-                class="form-control s-16" 
-                name="post_code"
-                type="text" 
-                required 
-                bind:value={recipient.zip}
-            >
-        </fieldset>
-        <!-- 
-        ~~~~~~~~~~~~~~~
-        SHIPPING-TYPE (RADIO BUTTON SELECT) -->
-        <fieldset class="form-group">
-            <label
-                for="ship-type-contaier"
-                >
-                <p class='s-16 bold'>
-                    <span style="color: #C62828">*</span> 
-                    Shipping Type
-                </p>
-            </label>
-            <div 
-                class='ship-select-radio-container'
-                name="ship-type-contaier"
-                >
-                <!--
-                ~~~~~~~~~~~~~~~
-                if the state of the form is complete to 
-                establish the shipping type & costs -->
-                {#if getShipRates}
-                    {#await promiseShipCosts}
-                        <p class='s-14'>...loading shipping options...</p>
-                    {:then data}
-                        {#each data.result as item}
-                            <label style="display: flex;">
-                                <input 
-                                    type=radio 
-                                    name='ship-typ'
-                                    bind:group={shipPrice} 
-                                    value={item}
-                                    required
-                                />
-                                <span class='s-14'>
-                                    <span class='bold'>{ item.id } | </span>{ item.minDeliveryDays } - { item.maxDeliveryDays } Days Delivery { item.currency } { item.rate } 
-                                </span>
-                            </label>
-                        {/each}
-                    {:catch error}
-                        <p class='color-red'>{error.message}</p>
-                    {/await}
-                {:else}
-                    <p class='s-14 color-red'> please fill all fields for shipping</p>
-                {/if}
-            </div>
-        </fieldset>
+    dynamic form and single product view START -->
+    <div id='form-cotaienr'>
         <!--
         ~~~~~~~~~~~~~~~
-        SUBTOTAL BREAKDOWN INFORMATION -->
-        {#if getTotalCosts}
-            {#await promise}
-                <p>...Calcualting Order Prices...</p>
-            {:then data}
-                <div>
-                    <!-- 
-                    ~~~~~~~~~~~~~~~
-                    order breakdown table -->
-                    <div>
-                        <hr />
-                            <p class='s-22 bold m-b-10 color-red'>
-                                Order Breakdown
-                            </p>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <p class='s-16 bold color-secondary'>Shipping costs</p>
-                                    </td>
-                                    <td>
-                                        {#if shipPrice != undefined }
-                                            <p class='s-16 color-secondary'>
-                                                {shipPrice.rate} {shipPrice.currency}
-                                            </p>
-                                        {:else}
-                                            <p class='s-14 color-red'>
-                                                please select shippment
-                                            </p>
-                                        {/if}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class='s-16 bold color-secondary'>Quantity</p>
-                                    </td>
-                                    <td>
-                                        <p class='s-16 color-secondary'>
-                                            x{itemQuantity}
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class='s-16 bold color-secondary'>Item Cost (+ VAT)</p>
-                                    </td>
-                                    <td>
-                                        <p class='s-16 color-secondary'> {data.result.retail_costs.total + data.result.costs.vat} {data.result.retail_costs.currency} </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class='s-16 bold color-secondary'>Delivery Time</p>
-                                    </td>
-                                    <td>
-                                        {#if shipPrice != undefined }
-                                            <p class='s-16 color-secondary'>
-                                                {shipPrice.minDeliveryDays} - {shipPrice.maxDeliveryDays} Days
-                                            </p>
-                                        {:else}
-                                            <p class='s-14 color-red'>
-                                                please select shippment
-                                            </p>
-                                        {/if}
-                                    </td>
-                                </tr>
-                                <!-- 
-                                ~~~~~~~~~~~~~~~
-                                FINAL CHECKOUT INFORMATION - 
-                                TOTAL PRICE TO PAY-->
-                                <tr>
-                                    <td style='vertical-align: bottom;'>
-                                        <p class='s-22 bold color-secondary'>Total</p>
-                                    </td>
-                                    <td>
-                                        {#if shipPrice != undefined }
-                                            <span class='s-32 bold color-secondary' disabled> {parseInt(data.result.retail_costs.total) + parseInt(data.result.costs.vat) + parseInt(shipPrice.rate)} {data.result.retail_costs.currency} </span>
-                                        {/if}
-                                    </td>
-                                </tr>
-                            </table>
-                        <hr />
-                    </div>
+        item-variant-iamge -->
+        {#if selected_ImageURLs}
+            <div id='item-img-container'>
+                <div id='image-counter'>
+                    <p class='s-12 bold'>
+                        {selected_ImagePos + 1} / {selected_ImageURLs.length}
+                        <span class='s-12 bols'> view - {selected_ImageURLs[selected_ImagePos][0]} </span>
+                    </p>
                 </div>
-            {:catch error}
-                <p style="color: red">{error.message}</p>
-            {/await}
-        {/if}  
+                <img
+                    id='item-img'
+                    src='./assets/img/printful/{selected_ImageURLs[selected_ImagePos][1]}'
+                    alt=""
+                />
+                <div id='image-preview-box'>
+                    <img 
+                        src='./assets/svg/camera-vector.svg'
+                        alt=""
+                    />
+                    <span class='s-10 color-white bold'>
+                        image preview 
+                    </span>
+                </div>
+                <div id='next' 
+                    class='toggle-slideshow'
+                    on:click={() => toggleImagePos(1)}>
+                    <img
+                        src='./assets/svg/next-vector.svg'
+                        alt=""
+                    />
+                </div>
+                <div id='prev' 
+                    class='toggle-slideshow'
+                    on:click={() => toggleImagePos(-1)}>
+                    <img
+                        src='./assets/svg/back-vector.svg'
+                        alt=""
+                    />
+                </div>
+            </div>
+        {:else}
+            <div id='item-img-container' class='awaiting-image'>
+                <img
+                    id='no-image-icon'
+                    src='./assets/svg/no-image-vector.svg'
+                    alt="no-vector"
+                />
+                <p class='s-16 color-red'> 
+                    Please select an item 
+                    <br />
+                    option to preview image
+                </p>
+            </div>
+        {/if}
         <!-- 
         ~~~~~~~~~~~~~~~
-        CHECKOUT STRIPE OPEN -->
-        <button 
-            id='checkout-btn'
-            class='btn-blue btn-left-icon'
-            type="submit">
-            <p class='s-18'>
-                PROCEED TO CHECKOUT
-            </p>
-        </button>
-    </form>
+        form to fill out by the user -->
+        <form autocomplete="off" on:submit|preventDefault={startStripe}>
+            <div id='item-option-contaier'>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                SELECT COLOR -->
+                <fieldset>
+                    <legend>
+                        <p class='s-18 bold'> Select Color </p>
+                    </legend>
+                    <div id='item-colors-container'>
+                        {#each itemColors as item}
+                            <label class='item-options-color-select-radio'
+                                class:selected-color={selected_Color == item[0]}>
+                                <div class='color-point' style='background-color: {item[1]}' />
+                                <input
+                                    name='selectcolor' 
+                                    class='remove-checkbox'
+                                    type='radio' 
+                                    bind:group={selected_Color} 
+                                    value={item[0]} 
+                                    required
+                                    />
+                                <span class='s-14'>{item[0]}</span>
+                            </label>
+                        {/each}
+                    </div>
+                </fieldset>
+
+                <hr />
+
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                SELECT SIZE -->
+                <fieldset>
+                    <legend>
+                        <p class='s-18 bold'>Select Size</p>
+                    </legend>
+                    <div id='item-sizes-container'>
+                        {#each itemSizes as item}
+                            {#if rerender}
+                                <label class='item-options-size-select-radio'
+                                    class:selected-size={selected_Size == item}>
+                                    <input
+                                        class='remove-checkbox'
+                                        type=radio 
+                                        bind:group={selected_Size} 
+                                        name='selectSize'
+                                        value={item} 
+                                        required 
+                                        />
+                                    <span class={selected_Size == item ? 's-20 color-primary bold' : 's-20'}>{ item }</span>
+                                </label>
+                            {/if}
+                        {/each}
+                    </div>
+                </fieldset>
+
+                <hr />
+
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                SELECT QUANTITY -->
+                <fieldset>
+                    <p class='s-18 bold' style='margin-bottom: 10px'>Select Quantity</p>
+                    <div class='item-quantity-select-container'>
+                        <button
+                            class='quantity-btn'
+                            type='button'
+                            disabled={minusBtnDisabled}
+                            on:click={() => itemQuantity--}> 
+                            <span class='s-22 bold color-primary'> - </span>
+                        </button>
+                        <input 
+                            type="number" 
+                            name="quantity"
+                            placeholder="1"
+                            bind:value={itemQuantity}
+                            id='quantity-input'
+                            class='s-22'
+                            required />
+                        <button 
+                            class='quantity-btn'
+                            type='button' 
+                            on:click={() => itemQuantity++}> 
+                            <span class='s-22 bold color-primary'> + </span>
+                        </button>
+                    </div>
+                </fieldset>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                SIMPLE PRICE TOTAL UP -->
+                {#if selectedItem != undefined}
+                    <div>
+                        {#if (parseInt(selectedItem.retail_price) * selectedItem.quantity) == 0}
+                            <div id='price-container'>
+                                <div id='price-check'>
+                                    <p class='s-18 bold'> Sub-total 
+                                        <span class='s-14 color-red'>select quantity</span> 
+                                    </p>
+                                </div>
+                            </div>
+                        {:else}
+                            <div id='price-container'>
+                                <div id='price-check'>
+                                    <p class='s-18 bold color-secondary'> Sub-total
+                                        <span class='s-22 bold color-secondary'>£ {parseInt(selectedItem.retail_price) * selectedItem.quantity}</span>  
+                                    </p>
+                                </div>
+                                <div id='item-stock-container'>
+                                    <p class='s-14'> In stock </p>
+                                    {#if temp_selectedItem.further_variant_info.in_stock}
+                                        <img 
+                                            id='in-stock-img'
+                                            src='./assets/svg/in-stock-checkmark-vector.svg'
+                                            alt=""
+                                        />
+                                    {:else}
+                                        <img 
+                                            id='in-stock-img'
+                                            src='./assets/svg/in-stock-error-vector.svg'
+                                            alt=""
+                                        />
+                                    {/if}
+                                </div>
+                            </div>
+                        {/if}
+                    </div>
+                {/if}
+            </div>
+
+            <div id='shipping-form-contaier'>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                SHIPPING DETAILS HEADER -->
+                <h2 class='s-22 bold'
+                    id='ship-header'> 
+                    Shipping Details 
+                </h2>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                NAME -->
+                <fieldset class="form-group">
+                    <label 
+                        for="name"
+                    > 
+                        <p class='s-16'>
+                            <span style="color: #C62828">*</span> 
+                            Name 
+                        </p> 
+                    </label>
+                    <input 
+                        class="form-control s-16"
+                        name="name" 
+                        type="text" 
+                        required 
+                        bind:value={recipient.name}
+                    >
+                </fieldset>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                EMAIL -->
+                <fieldset class="form-group">
+                    <label 
+                        for="vorname"
+                    > 
+                        <p class='s-16'>
+                            <span style="color: #C62828">*</span> 
+                            Email 
+                        </p> 
+                    </label>
+                    <input 
+                        class="form-control s-16" 
+                        name="email" 
+                        type="email" 
+                        required 
+                        bind:value={recipient.email}
+                    >
+                </fieldset>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                SHIPPING ADDRESS -->
+                <fieldset class="form-group">
+                    <label 
+                        for="ship_address"
+                    > 
+                        <p class='s-16'>
+                            <span style="color: #C62828">*</span> 
+                            Address
+                        </p> 
+                    </label>
+                    <input 
+                        class="form-control s-16" 
+                        name="ship_address" 
+                        type="text" 
+                        required 
+                        bind:value={recipient.address1}
+                    >
+                </fieldset>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                COUNTRY CODE (DROPDOWN SELECT) -->
+                <fieldset class="form-group">
+                    <label 
+                        for="country_code"
+                    > 
+                        <p class='s-16'>
+                            <span style="color: #C62828">*</span> 
+                            Country Code 
+                        </p> 
+                    </label>
+                    <select 
+                        class='form-control' 
+                        name='country_code' 
+                        required
+                        bind:value={recipient.country_code}
+                        on:change={getStateCodes}
+                    >
+                        <option class='s-16' value={undefined}> - select country code - </option>
+                        <!-- 
+                        load all of the values of THIS field -->
+                        {#each resCountriesList.result as item}
+                            <option class='s-16' value={item.code}> { item.name } </option>
+                        {/each}
+                    </select>
+                </fieldset>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                STATE CODE (DROPDOWN SELECT) -->
+                {#if stateCodeArray}
+                    <fieldset class="form-group">
+                        <label 
+                            for="state_code"
+                        > 
+                            <p class='s-16'>
+                                <span style="color: #C62828">*</span> 
+                                State Code 
+                            </p> 
+                        </label>
+                        <select 
+                            class='form-control' 
+                            name='state_code' 
+                            required
+                            bind:value={recipient.state_code}
+                            on:change={clearLocation}
+                        >
+                            <option class='s-16 bold' value=''> - select state code - </option>
+                            <!-- 
+                            load all of the values of THIS field -->
+                            {#each resCountriesList.result as item}
+                                {#if item.code == recipient.country_code && item.states != null}
+                                    {#each item.states as state}
+                                        <option class='s-16' value={ state.code }> { state.name } </option>
+                                    {/each}
+                                {/if}
+                            {/each}
+                        </select>
+                    </fieldset>
+                {/if}
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                CITY -->
+                <fieldset class="form-group">
+                    <label 
+                        for="city"
+                    > 
+                        <p class='s-16'>
+                            <span style="color: #C62828">*</span> 
+                            City 
+                        </p> 
+                    </label>
+                    <input 
+                        class="form-control s-16" 
+                        name="city" 
+                        type="text" 
+                        required 
+                        bind:value={recipient.city}
+                    >
+                </fieldset>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                ZIP-POSTCODE -->
+                <fieldset class="form-group">
+                    <label 
+                        for="post_code"
+                    > 
+                        <p class='s-16'>
+                            <span style="color: #C62828">*</span> 
+                            Zip / Postcode 
+                        </p> 
+                    </label>
+                    <input 
+                        class="form-control s-16" 
+                        name="post_code"
+                        type="text" 
+                        required 
+                        bind:value={recipient.zip}
+                    >
+                </fieldset>
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                SHIPPING-TYPE (RADIO BUTTON SELECT) -->
+                <fieldset class="form-group">
+                    <label
+                        for="ship-type-contaier"
+                        >
+                        <p class='s-16 bold'>
+                            <span style="color: #C62828">*</span> 
+                            Shipping Type
+                        </p>
+                    </label>
+                    <div 
+                        class='ship-select-radio-container'
+                        name="ship-type-contaier"
+                        >
+                        <!--
+                        ~~~~~~~~~~~~~~~
+                        if the state of the form is complete to 
+                        establish the shipping type & costs -->
+                        {#if getShipRates}
+                            {#await promiseShipCosts}
+                                <p class='s-14'>...loading shipping options...</p>
+                            {:then data}
+                                {#each data.result as item}
+                                    <label style="display: flex;">
+                                        <input 
+                                            type=radio 
+                                            name='ship-typ'
+                                            bind:group={shipPrice} 
+                                            value={item}
+                                            required
+                                        />
+                                        <span class='s-14'>
+                                            <span class='bold'>{ item.id } | </span>{ item.minDeliveryDays } - { item.maxDeliveryDays } Days Delivery { item.currency } { item.rate } 
+                                        </span>
+                                    </label>
+                                {/each}
+                            {:catch error}
+                                <p class='color-red'>{error.message}</p>
+                            {/await}
+                        {:else}
+                            <p class='s-14 color-red'> please fill all fields for shipping</p>
+                        {/if}
+                    </div>
+                </fieldset>
+                <!--
+                ~~~~~~~~~~~~~~~
+                SUBTOTAL BREAKDOWN INFORMATION -->
+                {#if getTotalCosts}
+                    {#await promise}
+                        <p>...Calcualting Order Prices...</p>
+                    {:then data}
+                        <div>
+                            <!-- 
+                            ~~~~~~~~~~~~~~~
+                            order breakdown table -->
+                            <div>
+                                <hr />
+                                    <p class='s-22 bold m-b-10 color-red'>
+                                        Order Breakdown
+                                    </p>
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p class='s-16 bold color-secondary'>Shipping costs</p>
+                                            </td>
+                                            <td>
+                                                {#if shipPrice != undefined }
+                                                    <p class='s-16 color-secondary'>
+                                                        {shipPrice.rate} {shipPrice.currency}
+                                                    </p>
+                                                {:else}
+                                                    <p class='s-14 color-red'>
+                                                        please select shippment
+                                                    </p>
+                                                {/if}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class='s-16 bold color-secondary'>Quantity</p>
+                                            </td>
+                                            <td>
+                                                <p class='s-16 color-secondary'>
+                                                    x{itemQuantity}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class='s-16 bold color-secondary'>Item Cost (+ VAT)</p>
+                                            </td>
+                                            <td>
+                                                <p class='s-16 color-secondary'> {data.result.retail_costs.total + data.result.costs.vat} {data.result.retail_costs.currency} </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class='s-16 bold color-secondary'>Delivery Time</p>
+                                            </td>
+                                            <td>
+                                                {#if shipPrice != undefined }
+                                                    <p class='s-16 color-secondary'>
+                                                        {shipPrice.minDeliveryDays} - {shipPrice.maxDeliveryDays} Days
+                                                    </p>
+                                                {:else}
+                                                    <p class='s-14 color-red'>
+                                                        please select shippment
+                                                    </p>
+                                                {/if}
+                                            </td>
+                                        </tr>
+                                        <!-- 
+                                        ~~~~~~~~~~~~~~~
+                                        FINAL CHECKOUT INFORMATION - 
+                                        TOTAL PRICE TO PAY-->
+                                        <tr>
+                                            <td style='vertical-align: bottom;'>
+                                                <p class='s-22 bold color-secondary'>Total</p>
+                                            </td>
+                                            <td>
+                                                {#if shipPrice != undefined }
+                                                    <span class='s-32 bold color-secondary' disabled> {parseInt(data.result.retail_costs.total) + parseInt(data.result.costs.vat) + parseInt(shipPrice.rate)} {data.result.retail_costs.currency} </span>
+                                                {/if}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                <hr />
+                            </div>
+                        </div>
+                    {:catch error}
+                        <p style="color: red">{error.message}</p>
+                    {/await}
+                {/if}  
+                <!-- 
+                ~~~~~~~~~~~~~~~
+                CHECKOUT STRIPE OPEN -->
+                <button 
+                    id='checkout-btn'
+                    class='btn-blue btn-left-icon'
+                    type="submit">
+                    <p class='s-18'>
+                        PROCEED TO CHECKOUT
+                    </p>
+                </button>
+            </div>
+
+        </form>
+    </div>
 </section>

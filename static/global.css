@@ -311,6 +311,20 @@ button {
     background-repeat: no-repeat;
 }
 
+@media only screen and (min-width: 767px) {
+	.btn-left-icon {
+        padding: calc(100vw / (var(--tablet) / 9)) calc(100vw / (var(--tablet) / 17)) calc(100vw / (var(--tablet) / 9)) calc(100vw / (var(--tablet) / 63)) !important;
+        background-position: left calc(100vw / (var(--tablet) / 20)) top 50%;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+	.btn-left-icon {
+        padding: calc(100vw / (var(--desktop) / 9)) calc(100vw / (var(--desktop) / 17)) calc(100vw / (var(--desktop) / 9)) calc(100vw / (var(--desktop) / 63)) !important;
+        background-position: left calc(100vw / (var(--desktop) / 20)) top 50%;
+    }
+}
+
 /* 
 ==========================
 	FORM & INPUT STYLES 
