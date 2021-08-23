@@ -2,18 +2,18 @@
 	"background_color": "#FFFFFF",
 	"theme_color": "#00E0FF",
 	"name": "enucs-website",
-	"short_name": "enucs-web",
+	"short_name": "enucs-website",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
 		{
-			"src": "enucs-favicon-192x192.png",
+			"src": "assets/img/enucs-brand/enucs-favicon-192x192-v2.png",
 			"sizes": "192x192",
 			"type": "image/png",
 			"purpose": "any maskable"
 		},
 		{
-			"src": "main-logo-512x512.png",
+			"src": "assets/img/enucs-brand/main-logo-512x512.png",
 			"sizes": "512x512",
 			"type": "image/png",
 			"purpose": "any maskable"
