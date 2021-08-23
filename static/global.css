@@ -1,8 +1,7 @@
-/* 
-==========================
-	setting the website layout
-==========================
-*/
+/* ==========================
+	setting the default 
+    website layout
+========================== */
 
 body,
 html {
@@ -17,18 +16,16 @@ h3,
 h4,
 h5,
 h6 {
-    margin: 0 0 0.5em 0;
+    /* margin: 0 0 0.5em 0; */
     font-weight: 400;
     line-height: 1.2;
 }
 
 body {
-    color: #000000;
+    color: var(--black);
     background-color: var(--white);
-    /*  */
     margin: 0 !important;
-    /*  */
-    font-family: Roboto Slab;
+    font-family: Roboto;
     font-size: 14px;
     line-height: 1.5;
     /* 
@@ -41,11 +38,10 @@ body {
     box-sizing: border-box;
 }
 
-/* 
-==========================
-declaring global app variables
-==========================
-*/
+/* ==========================
+    declaring global app CSS 
+    variables
+========================== */
 
 /* to learn more -> 
 https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
@@ -72,34 +68,24 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
     --tablet: 767;
     --desktop: 1440;
 }
-/* 
-~~~~~~~~~~~~~~~~
-declaring colors
-~~~~~~~~~~~~~~~~
-*/
-
 
 a {
     text-decoration: none !important;
     color: inherit;
+    display: flex;
 }
 
 p {
-    font-family: 'Roboto', sans-serif;
 	font-style: normal;
 	font-weight: normal;
-	/* font-size: 14px; */
 	line-height: 150%;
     margin: 0;
     color: var(--dark);
 }
 
-/* 
-==========================
-set global fonts for website,
-and declaring website font classes
-==========================
-*/
+/*  ==========================
+    set website FONTS
+========================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
@@ -108,11 +94,10 @@ and declaring website font classes
     src: url("/fonts/RobotoSlab-VariableFont_wght.ttf") format("truetype");
 }
 
-/*
-==========================
-VARIABLE FONT SIZES 
-==========================
-*/
+/* ==========================
+    VARIABLE FONT SIZES 
+    & other STYLES for text
+========================== */
 
 .color-primary {
     color: #FF5555;
@@ -125,6 +110,9 @@ VARIABLE FONT SIZES
 }
 .color-white {
     color: var(--white)
+}
+.color-blue {
+    color: var(--blue);
 }
 .color-blue-green-gradient {
     background: -webkit-linear-gradient(rgba(0, 255, 117, 1), rgba(0, 163, 255, 1));
@@ -139,9 +127,20 @@ VARIABLE FONT SIZES
     color: #009406
 }
 
+.no-wrap {
+    white-space: nowrap;
+}
+.underline {
+    text-decoration: underline;
+}
 .bold {
     font-style: normal;
     font-weight: bold;
+} .not-bold {
+    font-weight: normal;
+}
+.uppercase {
+    text-transform: uppercase;
 }
 
 .s-10 {
@@ -241,21 +240,157 @@ page titles */
     }
 }
 
-/*
-##########################
-    MARGIN STYLE
-##########################
-*/
+/* ##########################
+    DEFAULT MARGIN STYLES
+########################## */
 
-.m-b-10 {
-    margin-bottom: calc(100vw / (var(--mobile) / 10));
+/* 
+~~~~~~~~~~
+top-margins 
+*/
+.m-t-10 {
+    margin-top: 10px;
+}
+.m-t-15 {
+    margin-top: 15px;
+}
+.m-t-20 {
+    margin-top: 20px;
+}
+.m-t-25 {
+    margin-top: 25px;
+}
+.m-t-30 {
+    margin-top: 30px;
+}
+.m-t-35 {
+    margin-top: 35px;
+}
+.m-t-40 {
+    margin-top: 40px;
+}
+.m-t-45 {
+    margin-top: 45px;
+}
+.m-t-80 {
+    margin-top: 80px;
 }
 
 /* 
-==========================
-    BUTTON STYLES 
-==========================
+~~~~~~~~~~
+right-margins 
 */
+.m-r-5 {
+    margin-right: 5px;
+}
+.m-r-10 {
+    margin-right: 10px;
+}
+
+/* 
+~~~~~~~~~~
+bottom-margins 
+*/
+.m-b-5 {
+    margin-bottom: 5px;
+}
+.m-b-10 {
+    margin-bottom: calc(100vw / (var(--mobile) / 10));
+}
+.m-b-20 {
+    margin-bottom: 20px;
+}
+.m-b-35 {
+    margin-bottom: 35px;
+}
+.m-b-40 {
+    margin-bottom: calc(100vw / (var(--mobile) / 40));
+}
+.m-b-55 {
+    margin-bottom: 55px;
+}
+
+@media only screen and (min-width: 1024px) {
+    /* top-margins */
+    .m-t-40 {
+        margin-top: 40px;
+    }
+    /* bottom-margins */
+    .m-b-10 {
+        margin-bottom: calc(100vw / (var(--desktop) / 10));
+    }
+}
+
+/*
+##########################
+    CONTAINER STYLE
+##########################
+*/
+
+/* mobile */
+
+section {
+    min-height: 100vh;
+    margin: calc(100vw / (var(--mobile) / 55)) calc(100vw / (var(--mobile) / 19));
+}
+
+@media only screen and (min-width: 768px) {
+    section {
+        margin: calc(100vw / (var(--tablet) / 210)) calc(100vw / (var(--tablet) / 54));;
+    }
+}
+
+/* 1025px is used to allow for IPad Pro to use the Tabler Version */
+@media only screen and (min-width: 1025px) {
+    section {
+        margin: calc(100vw / (var(--desktop) / 210)) calc(100vw / (var(--desktop) / 240));
+    }
+}
+
+.row-space-out {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.row-space-even {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-evenly;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.row-space-start {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: start;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.row-space-center {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+
+/* ==========================
+    BUTTON STYLES 
+========================== */
 
 button {
     /* 
@@ -298,6 +433,12 @@ button {
     background-color: var(--blue);
 } .btn-blue p {
     color: var(--white);
+}
+
+.btn-white {
+    background-color: var(--white);
+} .btn-white p {
+    color: var(--black);
 }
 
 .btn-right-icon {
