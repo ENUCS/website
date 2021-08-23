@@ -1,8 +1,13 @@
+<!-- ===================
+	COMPONENT JS - BASIC 
+    [TypeScript Written]
+=================== -->
+
 <script lang='ts'>
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
 
-    export let segment: string;
+    // export let segment: string;
 
     // transition config, passed onto Nav & Footer also; (temporary)
     export let transition_time: number;
@@ -15,34 +20,18 @@
     });
 </script>
 
-<!-- 
-~~~~~~~~~~~~
+<!-- ===================
 	COMPONENT STYLE
-    + this is the CSS for this PAGE '/team'
-~~~~~~~~~~~~
--->
+=================== -->
 
 <style>
     footer {
-        /* dimensions */
-        margin: 0 calc(100vw / 7.741);
-        /* inner-container-view */
         display: grid;
-        text-align: -webkit-center;
-        text-align: -moz-center;
         grid-gap: 20px;
-        justify-content: center;
-        justify-items: center;
+        justify-items: start;
         position: relative;
-    } footer #social-group {
-        /* inner-container-view */
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        align-content: center;
-        justify-items: center;
-    } footer #social-group a {
-        margin-left: 25px;
+        padding: 20px;
+        box-shadow: 0px -1px 2.5px rgb(0 0 0 / 25%);
     }
     /* 
     RESPONSIVE FOR TABLET (&+) [1024px] */
@@ -64,52 +53,60 @@
     }
 </style>
 
-<!-- 
-~~~~~~~~~~~~
+<!-- ===================
 	COMPONENT HTML
-    + this is the HTML for this PAGE '/team'
-~~~~~~~~~~~~
--->
+=================== -->
 
 <!-- {#if show} -->
     <footer transition:fade>
         <img 
-            src=".\assets\img\edinburgh-napier-brand-img.png" 
-            alt="ednapier_logo"
-            width="118.54px" height="35.41px"
-        />
-        <a href="mailto:info@enuets.com">
-            info@enucs.org.uk
-        </a>
-        <img 
-            src='./assets/img/enucs_logo_brand_nav.png' 
+            src='./assets/img/enucs-brand/main-logo-512x512.png' 
             alt='enucs-brand-logo' 
             height='28px' width='87.11px' 
         />
-        <a href="https://www.napierstudents.com/organisation/societies/7541/">
-            join us
+        <a href="mailto:contact@enucs.org.uk">
+            <p class='s-16 bold underline color-secondary'>
+                info@enucs.org.uk
+            </p>
         </a>
         <!-- 
         social media group -->
-        <div id='social-group'>
+        <div class='row-space-out' style='width: 75%; '>
+            <a href="https://www.napierstudents.com/organisation/societies/7541/">
+                <button 
+                    class='btn-primary'
+                    disabled>
+                    <p class='s-16'>
+                        join us
+                    </p>
+                </button>
+            </a>
             <a rel='external' href="https://twitter.com/enucs">
                 <img 
+                    class='social-img'
                     src='./assets/svg/icons/twitter-icon.svg' 
                     alt='' 
                 />
             </a>
-            <a rel='external' href="https://www.facebook.com/enucs/">
+            <a rel='external' href='https://www.facebook.com/enucs/'>
                 <img 
+                    class='social-img'
                     src='./assets/svg/icons/facebook-icon.svg' 
                     alt='' 
                 />
             </a>
-            <a rel='external' href="https://discord.gg/hnh3fFq">
+            <a rel='external' href='https://discord.gg/hnh3fFq'>
                 <img 
+                    class='social-img'
                     src='./assets/svg/icons/discord-icon.svg' 
                     alt='' 
                 />
             </a>
         </div>
+        <img 
+            src=".\assets\img\edinburgh-napier-brand-img.png" 
+            alt="ednapier_logo"
+            width="118.54px" height="35.41px"
+        />
     </footer>
 <!-- {/if} -->
