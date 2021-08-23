@@ -1,25 +1,25 @@
-<!-- 
-~~~~~~~~~~~~
-	COMPONENT JS (w/ TS)
-~~~~~~~~~~~~
--->
+<!-- ===================
+	COMPONENT JS - BASIC 
+    [TypeScript Written]
+=================== -->
+
 <script lang='ts'>
     import { post } from '../../utils/init.js'
-
     import type { responseListItems } from '../../models/printful/proucts_printful'
-
-    import MerchContainer from '../../components/_MerchCard.svelte'
+    import MerchContainer from './_MerchCard.svelte'
+    import LoadingModel from '../../components/_LoadingModel.svelte'
+    import { fade } from 'svelte/transition';
 
     /**
-     * Function / METHOD;
-     * Description
+     * Description:
+     * ~~~~~~~~~~~~~~~~~
      * Load the available products
      * from the Printful API using the
      * project PROXY on the backend
      * 
      * @return Promise<responseListItems>
     */
-    async function getPrintfulShopItems(): Promise<responseListItems> {
+    async function getPrintfulShopItems(): Promise< responseListItems > {
         const data = {  // data to be passed to the PROXY
             method: 'GET',
             endpoint: `store/products`
@@ -28,95 +28,62 @@
         // if (process.env.NODE_ENV != 'production') { console.info('shop-index.svelte', res) } // test-dev
         return res
 	}
-	let promise = getPrintfulShopItems();
+	let promise = getPrintfulShopItems()
+
+    let loading: boolean = false
+    function initLoading() {
+        loading = true
+    }
 </script>
-<!-- 
-~~~~~~~~~~~~
+
+<!-- ===================
 	COMPONENT STYLE
-~~~~~~~~~~~~
--->
+=================== -->
+
 <style>
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         MOBILE FIRST 
-    ~~~~~~~~~~~~~~~~~~~~
     */
-
-    section {
-        margin: calc(100vw / (var(--mobile) / 124)) calc(100vw / (var(--mobile) / 19));
-    }
 
     #merch-grid {
         display: grid;
-        gap: calc(100vw / (var(--mobile) / 61.58));
+        gap: calc(100vw / (var(--mobile) / 25));
         grid-template-columns: repeat(auto-fill, calc(100vw / (var(--mobile) / 337)));
     }
-
-    #shop-item-counter {
-        margin-bottom: calc(100vw / (var(--mobile) / 43));
-        padding: calc(100vw / (var(--mobile) / 5)) calc(100vw / (var(--mobile) / 12));
-        /* 
-        constant values */
-        background: var(--white);
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        border-radius: 5px;
-        width: fit-content;
-    }
-
-    /*
-    ~~~~~~~~~~~~~~~~~~~~
-      RESPONSIVENESS:
-    ~~~~~~~~~~~~~~~~~~~~
-    */
 
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         TABLET FIRST 
-    ~~~~~~~~~~~~~~~~~~~~
     */
 
     @media only screen and (min-width: 768px) {
-        section {
-            margin: calc(100vw / (var(--tablet) / 210)) calc(100vw / (var(--tablet) / 54));;
-        }
         #merch-grid {
             display: grid;
             gap: calc(100vw / (var(--tablet) / 49.9));
             grid-template-columns: repeat(auto-fill, calc(100vw / (var(--tablet) / 303.1)));
-        }
-        #shop-item-counter {
-            margin-bottom: calc(100vw / (var(--tablet) / 60));
-            padding: calc(100vw / (var(--tablet) / 5)) calc(100vw / (var(--tablet) / 12));
         }
     }
 
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         DESKTOP FIRST 
-    ~~~~~~~~~~~~~~~~~~~~
     */
 
     /* 1025px is used to allow for IPad Pro to use the Tabler Version */
     @media only screen and (min-width: 1025px) {
-        section {
-            margin: calc(100vw / (var(--desktop) / 210)) calc(100vw / (var(--desktop) / 240));
-        }
         #merch-grid {
             display: grid;
             gap: calc(100vw / (var(--desktop) / 55));
             grid-template-columns: repeat(auto-fill, calc(100vw / (var(--desktop) / 275)));
         }
-        #shop-item-counter {
-            margin-bottom: calc(100vw / (var(--desktop) / 39));
-            padding: calc(100vw / (var(--desktop) / 5)) calc(100vw / (var(--desktop) / 12));
-        }
     }
 </style>
-<!-- 
-~~~~~~~~~~~~
-	SVELTE INJECTION TAGS
-~~~~~~~~~~~~
--->
+
+<!-- ===================
+	SVELTE INJECTION TAGS 
+=================== -->
+
 <svelte:head>
 	<!-- 
 	Primary Meta Tags;
@@ -156,27 +123,36 @@
 
 	<meta property="twitter:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
 </svelte:head>
-<!-- 
-~~~~~~~~~~~~
+
+<!-- ===================
 	COMPONENT HTML
-~~~~~~~~~~~~
--->
+=================== -->
+
+{#if loading}
+    <LoadingModel />
+{/if}
+
 <section>
-    <h2 class='s-42 bold'>SHOP</h2>
+    <h2 class='s-42 bold m-t-30' 
+        in:fade>
+        SHOP
+    </h2>
 
     {#await promise}
         <!-- no need for awaiting promises,
             as the <MerchContainer />
             already has its own Promise -->
     {:then data}
-        <div id='shop-item-counter'>
+        <button class='btn-primary m-b-40'
+            disabled in:fade>
             <p class='s-16 bold'> 
                 {data.result.length} ITEMS 
             </p>
-        </div>
+        </button>
         <div id='merch-grid'>
             {#each data.result as item}
-                <MerchContainer data={item} />
+                <MerchContainer data={item} 
+                    on:loading={() => initLoading()} />
             {/each}
         </div>
 
