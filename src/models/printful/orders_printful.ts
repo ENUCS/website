@@ -16,6 +16,7 @@ interface ItemOption {
    value: any // Option value
 }
 
+// missing some fields from the printful API spec.
 export interface UserAddress {
    name: string
    email?: string
@@ -26,26 +27,27 @@ export interface UserAddress {
    zip: string
 }
 
+// exact to printful API spec.
 export interface Item {
-   name?: string                  // Item Name
-   id?: number                    // Line item ID
-   external_id?: string          // Line item ID from the external system
-   variant_id?: number            // Variant ID of the item ordered. See Products API
-   sync_variant_id?: number       //	Sync variant ID of the item ordered.
-   external_variant_id?: string   // External variant ID of the item ordered.
+   name?: string                    // Item Name
+   id?: number                      // Line item ID
+   external_id?: string             // Line item ID from the external system
+   variant_id?: number              // Variant ID of the item ordered. See Products API
+   sync_variant_id?: number         //	Sync variant ID of the item ordered.
+   external_variant_id?: string     // External variant ID of the item ordered.
    warehouse_product_variant_id?: number  // Warehousing product variant ID of the item ordered. See Warehouse Products API
-   quantity: number              // Number of items ordered
-   files: Array<File>            // Array of attached printfiles / preview images
-   options?: Array<ItemOption>    // Array of additional options for this product
-   price?: string                // Printful price of the item
-   retail_price?: string          // Original retail price of the item to be displayed on the packing slip
+   quantity: number                 // Number of items ordered
+   files: Array<File>               // Array of attached printfiles / preview images
+   options?: Array<ItemOption>      // Array of additional options for this product
+   price?: string                   // Printful price of the item
+   retail_price?: string            // Original retail price of the item to be displayed on the packing slip
    product: {
-      variant_id: number  // Variant ID
-      product_id: number  // Product ID of this variant
-      image: string       // URL of a sample image for this variant
-      name: string        // Display name of this variant
+      variant_id: number            // Variant ID
+      product_id: number            // Product ID of this variant
+      image: string                 // URL of a sample image for this variant
+      name: string                  // Display name of this variant
    }
-   sku?:	string	               // Product identifier (SKU) from the external system
+   sku?:	string	                  // Product identifier (SKU) from the external system
 }
 
 export interface NewOrder {
@@ -88,11 +90,11 @@ export interface ResponseEstimateOrderCosts {
 }
 
 export interface RequestEsimateOrderCosts {
-   external_id?: string	               // Order ID from the external system
-   shipping?: string	                  // Shipping method. Defaults to 'STANDARD'
-   recipient: UserAddress	            // Shipping address
-   items: Array<Item>	               // Array of items in the order
-   retail_costs?: Costs	               // Retail costs that are to be displayed on the packing slip for international shipments. 
+   external_id?: string	               // (optional) Order ID from the external system
+   shipping?: string	                  // (optional) - but will just use STANDARD instead - Shipping method. Defaults to 'STANDARD'
+   recipient: UserAddress	            // (* required) Shipping address
+   items: Array< Item >	               // (* required) Array of items in the order
+   retail_costs?: Costs	               // (* optional) Retail costs that are to be displayed on the packing slip for international shipments. 
                                        // Retail costs are used only if every item in order contains the retail_price attribute.
    // gift?: Gift	                     // Optional gift message for the packing slip
    // packing_slip?: OrderPackingSlip	// Custom packing slip for this order
