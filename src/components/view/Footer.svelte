@@ -24,6 +24,9 @@
         justify-items: start;
         position: relative;
     }
+    #social-icons-container {
+        width: 75%;
+    }
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         TABLET FIRST 
@@ -32,18 +35,18 @@
         footer {
             padding: calc(100vh / 29) calc(100vw / 20.833);
             /* const. */
-            /* position: absolute;
-            bottom: 0;
-            right: 0;
-            left: 0; */
-
-            /* replacable. */
             display: flex;
             justify-content: space-between;
             align-content: center;
             flex-wrap: nowrap;
             flex-direction: row;
             align-items: center;
+        }
+        footer #social-icons-container {
+            width: auto;
+        }
+        footer #social-icons-container a {
+            margin-right: 35px;
         }
     }
     /* 
@@ -75,7 +78,7 @@
     </a>
     <!-- 
     social media group -->
-    <div class='row-space-out' style='width: 75%; '>
+    <div id='social-icons-container' class='row-space-out'>
         <a href="https://www.napierstudents.com/organisation/societies/7541/">
             <button 
                 class='btn-primary'
