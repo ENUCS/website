@@ -4,27 +4,17 @@
 =================== -->
 
 <script lang='ts'>
-    import { onMount } from "svelte";
-    import { fade, fly, slide } from "svelte/transition";
+    import { onMount } from "svelte"
+    import { fade, fly, slide } from "svelte/transition"
 
-    import { cart } from "../../stores/basket.js";
+    import { cart } from "../../stores/basket.js"
 
     let cartQuantity: number
     $: cartQuantity = $cart.cartItemsQty
 
-    export let segment: string;
+    export let segment: string
 
-    // transition config, passed onto Nav & Footer also; (temporary)
-    export let transition_time: number;
-
-    let show: boolean = false;
-    onMount(() => {
-        setTimeout(() => {
-            show = true;
-        }, transition_time);
-    });
-
-    let mobileNavShow: boolean = true;
+    let mobileNavShow: boolean = true
     let mobileNavToggleMenu: boolean = false
 
     /**
@@ -60,36 +50,10 @@
 =================== -->
 
 <style>
-    nav {
-        /* position: relative; */
-        /* dimensions */
-        position: sticky;
-        top: 0;
-        padding: calc(100vh / 29) calc(100vw / 20.833);
-        z-index: 2;
-        background: white;
-        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    } nav ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-    } nav ul li {
-        display: inline;
-        cursor: pointer;
-        float: left;
-    } nav ul li a {
-        display: block;
-        color: black;
-        font-weight: bold;
-        text-align: center;
-        margin-left: 10px;
-        text-decoration: none;
-    } nav ul li a:hover, .active {
-        color: rgb(255, 0, 0);
-        text-decoration: underline;
-    }
-
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        MOBILE FIRST 
+    */
     nav #mobile-nav {
         position: absolute;
         top: 100%;
@@ -97,8 +61,7 @@
         z-index: 100;
         background-color: #FFFFFF;
         box-shadow: 0px 4px 4px rgb(0 0 0 / 25%), inset 0px 4px 4px rgb(0 0 0 / 25%);
-	} 
-    nav #mobile-nav ul {
+	} nav #mobile-nav ul {
         display: grid;
         list-style-type: none;
         margin: 0;
@@ -109,13 +72,10 @@
         justify-items: center;
         align-items: baseline;
         align-content: space-evenly;
-    } 
-    nav #mobile-nav ul li {
-
+    } nav #mobile-nav ul li {
         width: 100vw;
         height: 43px;
-    }
-    nav #mobile-nav ul li a {
+    } nav #mobile-nav ul li a {
         margin-left: 0;
         height: inherit;
 
@@ -135,59 +95,88 @@
         color: white;
 
     }
-
-    /* Shopping Cart - STYLE */
+    /* 
+    ~~~~~~~~~~~~~~~~
+        TABLET / DESKTOP FIRST 
+    */
+    nav {
+        position: sticky;
+        top: 0;
+        /* padding: calc(100vw / (var(--tablet) / 55)) calc(100vw / (var(--mobile) / 19)); */
+        padding: calc(100vh / 29) calc(100vw / 20.833);
+        z-index: 2;
+        background: white;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    } nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    } nav ul li {
+        display: inline;
+        cursor: pointer;
+        float: left;
+    } nav ul li a {
+        display: block;
+        color: black;
+        text-align: center;
+        margin-left: 10px;
+    } nav ul li a:hover, .active {
+        color: rgb(255, 0, 0);
+        text-decoration: underline;
+    }
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~~
+    Shopping Cart - STYLE */
 	#basket-icon {
-		/* dimensions */
         height: 20px;
         width: 17.5px;
-		/* organize display, */
+        /* const. */
 		position: relative;
-		/* color & design, */
 		background-image: url('/assets/svg/navbar-shop-cart.svg');
 		background-repeat: no-repeat;
 		background-position: center;
-	}
-    #basket-icon.switchBasket {
+	} #basket-icon.switchBasket {
+        /* const. */
 		background-image: url('/assets/svg/navbar-shop-cart-selected.svg') !important;
     }
-
 	#basket-container {
-		/* organize display, */
+		grid-gap: 5.5px;
+        /* const. */
 		display: grid;
 		grid-auto-flow: column;
-		grid-gap: 5.5px;
 		align-items: center;
-		cursor: pointer;
 	} 
-
 	#basket-num {
 		text-align: center;
 		position: absolute;
 		top: -5px;
 		left: 20px;
   	}
-    
     /* 
-    RESPONSIVE FOR TABLET (&+) [1024px] */
-    @media screen and (min-width: 1024px) {
+    ~~~~~~~~~~~~~~~~~~~~
+        TABLET FIRST 
+    */
+    @media screen and (min-width: 767px) {
         nav {
-            /* dimensions */
-            padding: 0;
-            margin: 0 calc(100vw / 7.741);
-            /* position of container */
-            position: absolute;
-            top: 17px;
-            right: 0;
-            left: 0;
-            z-index: 1000;
+            padding: calc(100vh / 29) calc(100vw / 20.833);
         }
-
-        #basket-container:hover {
-		    /* color & design, */
+    }
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        DESKTOP FIRST 
+        1025px is used to allow for IPad Pro to use the Tabler Version
+    */
+    @media screen and (min-width: 1025px) {
+        nav {
+            padding: calc(100vh / 29) calc(100vw / (var(--desktop) / 240));
+        }
+        /* 
+        shopping-cart-hover-change-style */
+        #basket-container {
+            cursor: pointer;
+        } #basket-container:hover {
             color: #60CF70;
         } #basket-container:hover #basket-icon {
-            /* color & design, */
             background-image: url('/assets/svg/navbar-shop-cart.svg');
         }
     }
@@ -197,7 +186,6 @@
 	COMPONENT HTML
 =================== -->
 
-<!-- {#if show} -->
 <nav 
     role="navigation" 
     aria-label='Navigation Bar'
@@ -224,7 +212,9 @@
                         href="/" 
                         class:active={segment === undefined}
                         >
-                        HOME
+                        <p class='s-t-16 s-14 bold'>
+                            HOME
+                        </p>
                     </a>
                 </li>
                 <li>
@@ -232,7 +222,9 @@
                         href="/team" 
                         class:active={segment === 'team'}
                         >
-                        TEAM
+                        <p class='s-t-16 s-14 bold'>
+                            TEAM
+                        </p>
                     </a>
                 </li>
                 <li>
@@ -240,7 +232,9 @@
                         href="/shop" 
                         class:active={segment === 'shop'}
                         >
-                        SHOP
+                        <p class='s-t-16 s-14 bold'>
+                            SHOP
+                        </p>
                     </a>
                 </li>
                 <li>
@@ -250,9 +244,11 @@
                         class:active={segment === 'basket'}
                         >
                         <div id='basket-container'>
-                            <span class='s-16 bold'> BASKET </span>
+                            <span class='s-t-16 s-14 bold'> BASKET </span>
                             <div id='basket-icon'>
-                                <div id='basket-num'> <p> {cartQuantity} </p> </div>
+                                <div id='basket-num'> 
+                                    <p class='color-secondary s-10 bold'> {cartQuantity} </p> 
+                                </div>
                             </div>
                         </div>
                     </a>
@@ -326,7 +322,9 @@
                             <div id='basket-container'>
                                 <span class='s-16 bold'> BASKET </span>
                                 <div id='basket-icon' class:switchBasket={segment === 'basket'}>
-                                    <div id='basket-num'> <p class='color-secondary s-10 bold'> {cartQuantity} </p> </div>
+                                    <div id='basket-num'> 
+                                        <p class='color-secondary s-10 bold'> {cartQuantity} </p> 
+                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -336,4 +334,3 @@
         {/if}
     {/if}
 </nav>
-<!-- {/if} -->

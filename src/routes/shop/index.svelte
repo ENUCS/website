@@ -43,34 +43,29 @@
 <style>
     /* 
     ~~~~~~~~~~~~~~~~~~~~
-        MOBILE FIRST 
+        MOBILE FIRST
     */
-
     #merch-grid {
         display: grid;
         gap: calc(100vw / (var(--mobile) / 25));
         grid-template-columns: repeat(auto-fill, calc(100vw / (var(--mobile) / 337)));
     }
-
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         TABLET FIRST 
     */
-
     @media only screen and (min-width: 768px) {
         #merch-grid {
             display: grid;
-            gap: calc(100vw / (var(--tablet) / 49.9));
-            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--tablet) / 303.1)));
+            gap: calc(100vw / (var(--tablet) / 45));
+            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--tablet) / 300)));
         }
     }
-
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         DESKTOP FIRST 
+        1025px is used to allow for IPad Pro to use the Tabler Version
     */
-
-    /* 1025px is used to allow for IPad Pro to use the Tabler Version */
     @media only screen and (min-width: 1025px) {
         #merch-grid {
             display: grid;

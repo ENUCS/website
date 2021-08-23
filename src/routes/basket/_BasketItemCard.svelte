@@ -32,7 +32,7 @@
     */
     .cart-card {
         width: 100%;
-        max-width: 339px;
+        max-width: 445px;
         height: 121px;
         position: relative;
         background: var(--white);
@@ -40,6 +40,7 @@
         border-radius: 2.5px;
         display: flex;
         overflow: hidden;
+        justify-content: space-between;
     }
     .cart-card img.img-item-preview {
         width: 123px;
@@ -50,10 +51,11 @@
         padding: 10px 5px;
     }
     .cart-card .delete-item-box {
-        background: #000000;
+        background: var(--black);
         height: 100%;
         width: 28px;
         object-fit: scale-down;
+        cursor: pointer;
     }
 
     .price-item-box {
@@ -63,6 +65,17 @@
         border-radius: 0px 2.5px 0px 0px;
         padding: 4px 6px;
         color: white;
+    }
+
+     /* ===================
+        DESKTOP FIRST 
+        1025px is used to allow for IPad Pro to use the Tablet Version
+    =================== */
+
+    @media only screen and (min-width: 1025px) {
+        .cart-card:hover {
+            box-shadow: 0px 0px 4px rgb(0 0 0 / 30%);
+        }
     }
 </style>
 
@@ -80,6 +93,7 @@
                 class='img-item-preview'
                 src={file.preview_url}
                 alt="prview-img"
+                title="remove-image-from-basket"
             />
         {/if}
     {/each}

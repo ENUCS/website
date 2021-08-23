@@ -1,8 +1,8 @@
-<!-- 
-~~~~~~~~~~~~
-	COMPONENT JS (w/ TS)
-~~~~~~~~~~~~
--->
+<!-- ===================
+	COMPONENT JS - BASIC 
+    [TypeScript Written]
+=================== -->
+
 <script lang='ts'>
     import { post } from '../../utils/init.js'
 
@@ -159,9 +159,7 @@
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         MOBILE FIRST 
-    ~~~~~~~~~~~~~~~~~~~~
     */
-
     /*
     ~~~~~~~~~~~~~~~~~~~~
     merch-card-container-style
@@ -212,19 +210,10 @@
         object-fit: contain;
         background-color: white;
     }
-
-    /*
-    ~~~~~~~~~~~~~~~~~~~~
-      RESPONSIVENESS:
-    ~~~~~~~~~~~~~~~~~~~~
-    */
-
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         TABLET FIRST 
-    ~~~~~~~~~~~~~~~~~~~~
     */
-
     @media only screen and (min-width: 768px) {
         /*
         ~~~~~~~~~~~~~~~~~~~~
@@ -243,13 +232,10 @@
             padding: calc(100vw / (var(--tablet) / 8.22)) calc(100vw / (var(--tablet) / 14.5));
         }
     }
-
     /* 
     ~~~~~~~~~~~~~~~~~~~~
         DESKTOP FIRST 
-    ~~~~~~~~~~~~~~~~~~~~
     */
-
     @media only screen and (min-width: 1024px) {
         /*
         ~~~~~~~~~~~~~~~~~~~~

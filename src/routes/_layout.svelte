@@ -58,13 +58,13 @@
 	COMPONENT HTML
 =================== -->
 
-<NavBar {segment} {transition_time} />
 <main>
     {#if show}
+        <NavBar {segment} />
         <div transition:fade>
             <slot />
         </div>
-        <Footer {segment} {transition_time} />
+        <Footer />
     {/if}
 </main>
 
@@ -76,21 +76,21 @@
     main {
         /* 
         so nothing exceeds the main-page-boundries */
-        /* position: relative; */
+        position: relative;
         z-index: 0;
         margin: 0 auto;
         width: 100%;
         overflow: hidden;
         /* 
         make sure the initial page height is always full-device-height as a minumim */
-        min-height: 100vh;
+        /* min-height: 100vh; */
     }
 
     /* 
     RESPONSIVE FOR TABLET (&+) [1024px] */
     @media screen and (min-width: 1024px) {
         main {
-            min-height: 100vh;
+            /* min-height: 100vh; */
         }
     }
 </style>

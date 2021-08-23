@@ -79,12 +79,21 @@
 =================== -->
 
 <style>
-    section {
-        display: grid;
-        justify-items: center;
+    h2 {
+        text-align: center;
     }
     #team-member-grid {
         display: grid;
-        gap: 55px
+        gap: 55px;
+    }
+    @media only screen and (min-width: 768px) {
+        h2 {
+            text-align: start;
+        }
+        #team-member-grid {
+            display: grid;
+            gap: 154px;
+            grid-template-columns: repeat(auto-fill, 150px);
+        }
     }
 </style>

@@ -368,11 +368,9 @@
     #back-to-shop {
         background-image: url('/assets/svg/back-arrow-icon.svg');
         background-position: left 0 top 50%;
-        /* background-size: calc(100vw / (var(--mobile) / 30)) calc(100vw / (var(--mobile) / 28)); */
         background-size: contain;
         margin: calc(100vw / (var(--mobile) / 32)) 0 calc(100vw / (var(--mobile) / 43)) 0;
     }
-
     /* 
     ~~~~~~~~~~~~~~~~~~~~
     item image CSS STYLE
@@ -380,29 +378,31 @@
     #item-img-container {
         width: calc(100vw / (var(--mobile) / 340.88));
         height: calc(100vw / (var(--mobile) / 364.62));
-        /* filter: drop-shadow(0px 4.10843px 4.10843px rgba(0, 0, 0, 0.25)); */
-        box-shadow: 0px 0px 7.5px rgb(0 0 0 / 25%);
         border-radius: 10.2711px;
+        /* const. */
+        box-shadow: 0px 0px 7.5px rgb(0 0 0 / 25%);
         background-color: var(--white);
         position: relative;
-        /* overflow: hidden; */
     }
     #item-img {
         width: inherit;
         height: 100%;
+        /* const. */
     }
     #image-info {
+        /* const. */
         position: absolute;
         top: 100%;
     }
     #image-counter {
+        padding: calc(100vw / (var(--mobile) / 6)) calc(100vw / (var(--mobile) / 11));
         border-radius: 0 10.2711px 0 0;
+        /* const. */
         z-index: 1;
         position: absolute;
-        padding: calc(100vw / (var(--mobile) / 6)) calc(100vw / (var(--mobile) / 11));
         right: 0%;
         top: 0%;
-        background: #37474F;
+        background: var(--secondary);
         width: fit-content;
     } #image-preview-box {
         padding: 5px calc(100vw / (var(--mobile) / 10)) 5px calc(100vw / (var(--mobile) / 30)) !important;
@@ -410,39 +410,29 @@
         background-image: url('/assets/svg/camera-vector.svg');
         background-repeat: no-repeat;
     }
-    .awaiting-image {
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
     #no-image-icon {
         width: calc(100vw / (var(--mobile) / 35.5));
         height: calc(100vw / (var(--mobile) / 25.5));
         margin-bottom: calc(100vw / (var(--mobile) / 18.5));
     }
     .toggle-slideshow {
+        width: calc(100vw / (var(--mobile) / 44));
+        border-radius: 2.5px 0px 0px 2.5px;
+        /* const. */
         top: 0;
         bottom: 0;
         height: 100%;
-        width: calc(100vw / (var(--mobile) / 44));
-
         position: absolute;
-        border-radius: 2.5px 0px 0px 2.5px;
         transition: all 0.3s ease-in-out;
-
         display: flex;
         align-items: center;
         justify-content: center;
     } .toggle-slideshow:hover {
         background: rgba(0, 0, 0, 0.15);
-    }
-    #next.toggle-slideshow {
+    } #next.toggle-slideshow {
         right: 0;
         border-radius: 0 10.2711px 10.2711px 0;
-    }
-    #prev.toggle-slideshow {
+    } #prev.toggle-slideshow {
         left: 0;
         border-radius: 10.2711px 0 0 10.2711px;
     }
@@ -451,22 +441,21 @@
     form CSS STYLE
     */
     form {
-    }
-    form label p, 
-    form legend p {
+
+    } form label p, 
+      form legend p {
         font-weight: bold;
         margin-bottom: calc(100vw / (var(--mobile) / 7.35));
-    }
-    input[type='radio'] {
+    } form input[type='radio'] {
         width: calc(100vw / (var(--mobile) / 15));
         height: auto;
         margin-right: calc(100vw / (var(--mobile) / 7));
-    }
-    input[type='radio'].remove-checkbox {
+    } form input[type='radio'].remove-checkbox {
         position: absolute;
         opacity: 0;
         pointer-events: none;
     }
+    
     #item-colors-container {
         display: grid;
         gap: 2.5px;
@@ -492,8 +481,6 @@
     .color-point {
         width: calc(100vw / (var(--mobile) / 56));
         height: 100%;
-        margin-bottom: calc(100vw / (var(--mobile) / 6));
-        background: #000000;
         top: 0;
         bottom: 0;
         right: 0;
@@ -537,17 +524,10 @@
         -webkit-appearance: none;
         margin: 0;
     }
-    .item-quantity-select-container {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-content: center;
-        align-items: stretch;
-    }
     .quantity-btn {
         width: calc(100vw / (var(--mobile) / 41));
         height: calc(100vw / (var(--mobile) / 41));
-
+        /* const. */
         background: #37474F;
         border-radius: 2.5px;
         box-shadow: none;
@@ -568,12 +548,10 @@
     #item-stock-container {
         border-left: 2.5px solid #DFDFDF;
         padding-left: calc(100vw / (var(--mobile) / 9));
-        
-        display: flex;
-        white-space: nowrap;
-        align-items: center;
+
     } #item-stock-container img {
         margin-left: calc(100vw / (var(--mobile) / 4.14));
+
     }
     /* 
     ~~~~~~~~~~~~~~~~~~~~
@@ -582,7 +560,7 @@
     hr {
         width: calc(100vw / (var(--mobile) / 314.54));
         margin: calc(100vw / (var(--mobile) / 16.17)) 0;
-
+        /* const */
         opacity: 0.25;
         border: 1.46983px solid #FF5555;
         background-color: #FF5555;
@@ -595,24 +573,16 @@
         background-image: url('/assets/svg/shop-add-to-cart-vector.svg');
         background-size: calc(100vw / (var(--mobile) / 22.05)) calc(100vw / (var(--mobile) / 21));
     }
-
     /* 
     ~~~~~~~~~~~~~~~~~~~~
-    TABLET FIRST STYLE 
+        TABLET FIRST STYLE 
+        767px is used to allow for IPad to use the Tablet Version
     */
-
-    /* 767px is used to allow for IPad to use the Tablet Version */
     @media only screen and (min-width: 767px) {
-
-        section {
-            margin: calc(100vw / (var(--tablet) / 75)) calc(100vw / (var(--tablet) / 35));
-        }
-
-        #back-to-shop {
-            background-position: left 0 top 50%;
-            margin: calc(100vw / (var(--tablet) / 32)) 0 calc(100vw / (var(--tablet) / 43)) 0;
-        }
-
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        form-container for the item image & form
+        */
         #form-cotaienr {
             position: relative;
             display: grid;
@@ -622,60 +592,14 @@
             align-items: flex-start;
             grid-template-columns: 1fr 1fr;
         }
-
         /* 
         ~~~~~~~~~~~~~~~~~~~~
-        item image CSS STYLE
+        item image CSS STYLE & image container
         */
         #item-img-container {
-            height: auto;
-            width: calc(100vw / (var(--tablet) / 341));
-            position: absolute;
-            top: 0;
-            left: 0;
+            height: calc(100vw / (var(--tablet) / 336));
+            width: calc(100vw / (var(--tablet) / 335.28));
         }
-
-        form {
-            width: calc(100vw / (var(--tablet) / 315));
-            margin-top: 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        } 
-
-        hr {
-            width: 100%;
-        }
-
-        .item-options-size-select-radio {
-            height: calc(100vw / (var(--tablet) / 41));
-        }
-
-        #item-sizes-container {
-            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--tablet) / 76)));
-            grid-template-rows: repeat(auto-fill, calc(100vw / (var(--tablet) / 41)));
-            height: calc(100vw / (var(--tablet) / 82));
-        }
-
-        input[type='radio'] {
-            width: calc(100vw / (var(--tablet) / 15));
-            margin-right: calc(100vw / (var(--tablet) / 7));
-        }
-        input[type='number']#quantity-input {
-            width: calc(100vw / (var(--tablet) / 49.2));
-            height: calc(100vw / (var(--tablet) / 41));
-            margin: 0 calc(100vw / (var(--tablet) / 5));
-        }
-        .quantity-btn {
-            width: calc(100vw / (var(--tablet) / 41));
-            height: calc(100vw / (var(--tablet) / 41));
-        }
-
-        #checkout-btn {
-            margin-top: calc(100vw / (var(--tablet) / 23));
-            background-size: calc(100vw / (var(--tablet) / 22.05)) calc(100vw / (var(--tablet) / 16.17));
-        }
-
         .toggle-slideshow {
             width: calc(100vw / (var(--tablet) / 44));
         }
@@ -685,106 +609,101 @@
         #image-preview-box {
             padding: calc(100vw / (var(--tablet) / 5));
         }
-    }
-
-    /* 
-    ~~~~~~~~~~~~~~~~~~~~
-    DESKTOP STYLE 
-    */
-
-    /* 1025px is used to allow for IPad Pro to use the Tablet Version */
-    @media only screen and (min-width: 1025px) {
-
-        section {
-            margin: calc(100vw / (var(--desktop) / 210)) calc(100vw / (var(--desktop) / 250));
-        }
-
-        #back-to-shop {
-            background-position: left 0 top 50%;
-            margin: calc(100vw / (var(--desktop) / 32)) 0 calc(100vw / (var(--desktop) / 43)) 0;
-        }
-
-        #form-cotaienr {
-            position: relative;
-            display: grid;
-            justify-content: space-between;
-            gap: calc(100vw / (var(--desktop) / 467));;
-            flex-direction: row;
-            align-items: flex-start;
-            grid-template-columns: 1fr 1fr;
-        }
-
         /* 
         ~~~~~~~~~~~~~~~~~~~~
-        item image CSS STYLE
+        form CSS STYLE
         */
-        #item-img-container {
-            height: calc(100vw / (var(--desktop) / 467));
-            width: calc(100vw / (var(--desktop) / 467));
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
         form {
-            width: calc(100vw / (var(--desktop) / 315));
             margin-top: 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: calc(100vw / (var(--desktop) / 120));
+            
         } 
         form label p, 
         form legend p {
-            margin-bottom: calc(100vw / (var(--desktop) / 7.35));
-        }
+            margin-bottom: calc(100vw / (var(--tablet) / 7.35));
 
-        fieldset {
-            margin-bottom: calc(100vw / (var(--desktop) / 11.76));
-        }
+        } form input[type='radio'] {
+            width: calc(100vw / (var(--tablet) / 15));
+            margin-right: calc(100vw / (var(--tablet) / 7));
 
+        } form input[type='number']#quantity-input {
+            width: calc(100vw / (var(--tablet) / 49.2));
+            height: calc(100vw / (var(--tablet) / 41));
+            margin: 0 calc(100vw / (var(--tablet) / 5));
+
+        }
+        /* 
+        ~~~~~~~~~~~~~~~~~~~~
+        divider-style
+        */
         hr {
             width: 100%;
-            margin: calc(100vw / (var(--desktop) / 16.17)) 0;
+            margin: calc(100vw / (var(--tablet) / 16.17)) 0;
         }
-
-        .item-options-size-select-radio {
-            height: calc(100vw / (var(--desktop) / 41));
-        }
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        item-color-container-list */
         .item-options-color-select-radio {
-            padding: calc(100vw / (var(--desktop) / 8)) calc(100vw / (var(--desktop) / 17));
+            padding: calc(100vw / (var(--tablet) / 8)) calc(100vw / (var(--tablet) / 17));
         }
-
         .color-point {
-            width: calc(100vw / (var(--desktop) / 56));
-            margin-bottom: calc(100vw / (var(--desktop) / 6));
+            height: 100%;
+            width: calc(100vw / (var(--tablet) / 39.45));
         }
-
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        item-sizes-cotaier-grid 
+        */
         #item-sizes-container {
-            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--desktop) / 76)));
-            grid-template-rows: repeat(auto-fill, calc(100vw / (var(--desktop) / 41)));
-            height: calc(100vw / (var(--desktop) / 82));
+            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--tablet) / 76)));
+            grid-template-rows: repeat(auto-fill, calc(100vw / (var(--tablet) / 41)));
+            height: calc(100vw / (var(--tablet) / 82));
         }
-
-        input[type='radio'] {
-            width: calc(100vw / (var(--desktop) / 15));
-            margin-right: calc(100vw / (var(--desktop) / 7));
+        .item-options-size-select-radio {
+            height: calc(100vw / (var(--tablet) / 41));
         }
-        input[type='number']#quantity-input {
-            width: calc(100vw / (var(--desktop) / 49.2)) !important;
-            height: calc(100vw / (var(--desktop) / 41)) !important;
-            margin: 0 calc(100vw / (var(--desktop) / 5)) !important;
-            padding: 0 0;
-        }
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        page-buttons 
+        */
         .quantity-btn {
-            width: calc(100vw / (var(--desktop) / 41));
-            height: calc(100vw / (var(--desktop) / 41));
+            width: calc(100vw / (var(--tablet) / 41));
+            height: calc(100vw / (var(--tablet) / 41));
         }
-
-        #checkout-btn {
-            margin-top: calc(100vw / (var(--desktop) / 23));
-            background-size: calc(100vw / (var(--desktop) / 22.05)) calc(100vw / (var(--desktop) / 16.17));
+        #add-to-cart-btn {
+            background-size: calc(100vw / (var(--tablet) / 22.05)) calc(100vw / (var(--tablet) / 16.17));
         }
-
+        #back-to-shop {
+            background-position: left 0 top 50%;
+            margin: calc(100vw / (var(--tablet) / 32)) 0 calc(100vw / (var(--tablet) / 43)) 0;
+        }
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        price container */
+        #price-container {
+            margin-top: calc(100vw / (var(--tablet) / 35));
+        }
+    }
+    /* 
+    ~~~~~~~~~~~~~~~~~~~~
+        DESKTOP FIRST STYLE 
+        1025px is used to allow for IPad Pro to use the Tablet Version
+    */
+    @media only screen and (min-width: 1025px) {
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        form-container for the item image & form
+        */
+        #form-cotaienr {
+            gap: 70px;
+        }
+        /* 
+        ~~~~~~~~~~~~~~~~~~~~
+        item image CSS STYLE & image container
+        */
+        #item-img-container {
+            height: calc(100vw / (var(--desktop) / 414.11));
+            width: calc(100vw / (var(--desktop) / 415));
+        }
         .toggle-slideshow {
             width: calc(100vw / (var(--desktop) / 44));
         }
@@ -794,7 +713,76 @@
         #image-preview-box {
             padding: calc(100vw / (var(--desktop) / 5));
         }
+        /* 
+        ~~~~~~~~~~~~~~~~~~~~
+        form CSS STYLE
+        */
+        form {
+            margin-top: 0;
+            
+        } 
+        form label p, 
+        form legend p {
+            margin-bottom: calc(100vw / (var(--desktop) / 7.35));
 
+        } form input[type='radio'] {
+            width: calc(100vw / (var(--desktop) / 15));
+            margin-right: calc(100vw / (var(--desktop) / 7));
+
+        } form input[type='number']#quantity-input {
+            width: calc(100vw / (var(--desktop) / 49.2));
+            height: calc(100vw / (var(--desktop) / 41));
+            margin: 0 calc(100vw / (var(--desktop) / 5));
+
+        }
+        /* 
+        ~~~~~~~~~~~~~~~~~~~~
+        divider-style
+        */
+        hr {
+            width: 100%;
+            margin: calc(100vw / (var(--desktop) / 16.17)) 0;
+        }
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        item-color-container-list */
+        .item-options-color-select-radio {
+            padding: calc(100vw / (var(--desktop) / 8)) calc(100vw / (var(--desktop) / 17));
+        }
+        .color-point {
+            height: 100%;
+            width: calc(100vw / (var(--desktop) / 39.45));
+        }
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        item-sizes-cotaier-grid 
+        */
+        #item-sizes-container {
+            grid-template-columns: repeat(auto-fill, calc(100vw / (var(--desktop) / 76)));
+            grid-template-rows: repeat(auto-fill, calc(100vw / (var(--desktop) / 41)));
+            height: calc(100vw / (var(--desktop) / 82));
+        }
+        .item-options-size-select-radio {
+            height: calc(100vw / (var(--desktop) / 41));
+        }
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        page-buttons 
+        */
+        .quantity-btn {
+            width: calc(100vw / (var(--desktop) / 41));
+            height: calc(100vw / (var(--desktop) / 41));
+        }
+        #add-to-cart-btn {
+            background-size: calc(100vw / (var(--desktop) / 22.05)) calc(100vw / (var(--desktop) / 16.17));
+        }
+        #back-to-shop {
+            background-position: left 0 top 50%;
+            margin: calc(100vw / (var(--desktop) / 32)) 0 calc(100vw / (var(--desktop) / 43)) 0;
+        }
+        /*
+        ~~~~~~~~~~~~~~~~~~~~
+        price container */
         #price-container {
             margin-top: calc(100vw / (var(--desktop) / 35));
         }
@@ -889,7 +877,7 @@
                 </div>
             </div>
         {:else}
-            <div id='item-img-container' class='awaiting-image'>
+            <div id='item-img-container' class='column-space-center'>
                 <img
                     id='no-image-icon'
                     src='./assets/svg/no-image-vector.svg'
@@ -909,10 +897,10 @@
             class='m-t-80'>
             <!-- 
             ~~~~~~~~~~~~~~~
-            SELECT COLOR -->
+            SELECT COLOUR -->
             <fieldset>
                 <legend>
-                    <p class='s-18 bold'> Select Color </p>
+                    <p class='s-18 bold'> Select Colour </p>
                 </legend>
                 <div id='item-colors-container'>
                     {#each itemColors as item}
@@ -969,7 +957,7 @@
             SELECT QUANTITY -->
             <fieldset>
                 <p class='s-18 bold' style='margin-bottom: 10px'>Select Quantity</p>
-                <div class='item-quantity-select-container'>
+                <div class='row-space-start'>
                     <button
                         class='quantity-btn'
                         type='button'
@@ -1019,19 +1007,20 @@
                     {:else}
                         <div id='price-container'>
                             <div id='price-check'>
-                                <p class='s-18 bold color-secondary'> Sub-total
+                                <p class='s-18 bold color-secondary no-wrap'> Sub-total
                                     <span class='s-22 bold color-secondary'>£ {parseInt(selectedItem.retail_price) * selectedItem.quantity}</span>  
                                 </p>
                             </div>
-                            <div id='item-stock-container'>
-                                <p class='s-14'> In stock </p>
+                            <div id='item-stock-container' class='row-space-start'>
                                 {#if temp_selectedItem.further_variant_info.in_stock}
+                                    <p class='s-14 no-wrap'> In stock </p>
                                     <img 
                                         id='in-stock-img'
                                         src='./assets/svg/in-stock-checkmark-vector.svg'
                                         alt=""
                                     />
                                 {:else}
+                                    <p class='s-14 no-wrap'> Not in stock </p>
                                     <img 
                                         id='in-stock-img'
                                         src='./assets/svg/in-stock-error-vector.svg'
