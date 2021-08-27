@@ -290,6 +290,7 @@ section {
     }
 }
 
+/* FLEX DISPLAY */
 .row-space-out {
     display: flex;
     align-items: center;
@@ -327,6 +328,7 @@ section {
     flex-wrap: nowrap;
 }
 
+/* GRID DISPLAY */
 .column-space-center {
     display: flex;
     align-items: center;
@@ -374,6 +376,8 @@ button {
     justify-content: center;
 } button p {
     font-weight: 400;
+} button:disabled {
+    cursor: default;
 }
 /* 
 ~~~~~~~~~~~~~
@@ -384,16 +388,23 @@ BUTTON STYLES
 } .btn-primary p {
     color: var(--white);
 }
+
 .btn-secondary {
     background: var(--secondary);
 } .btn-secondary p {
     color: var(--white);
 }
+
 .btn-blue {
     background-color: var(--blue);
 } .btn-blue p {
     color: var(--white);
+} .btn-blue:hover {
+    background-color: var(--white);
+} .btn-blue:hover p {
+    color: var(--secondary);
 }
+
 .btn-white {
     background-color: var(--white);
 } .btn-white p {
