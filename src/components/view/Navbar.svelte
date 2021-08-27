@@ -120,9 +120,10 @@
         color: black;
         text-align: center;
         margin-left: 10px;
-    } nav ul li a:hover, .active {
+    } nav ul li a:hover p, 
+      .active p {
+        transition: all 0.1s ease-in;
         color: rgb(255, 0, 0);
-        text-decoration: underline;
     }
     /* 
     ~~~~~~~~~~~~~~~~~~~~~
@@ -142,9 +143,9 @@
 	#basket-container {
 		grid-gap: 5.5px;
         /* const. */
-		display: grid;
-		grid-auto-flow: column;
-		align-items: center;
+        display: grid;
+        grid-auto-flow: column;
+        align-items: stretch;
 	} 
 	#basket-num {
 		text-align: center;
@@ -244,10 +245,10 @@
                         class:active={segment === 'basket'}
                         >
                         <div id='basket-container'>
-                            <span class='s-t-16 s-14 bold'> BASKET </span>
+                            <p class='s-t-16 s-14 bold'> BASKET </p>
                             <div id='basket-icon'>
                                 <div id='basket-num'> 
-                                    <p class='color-secondary s-10 bold'> {cartQuantity} </p> 
+                                    <span class='color-secondary s-10 bold'> {cartQuantity} </span> 
                                 </div>
                             </div>
                         </div>
