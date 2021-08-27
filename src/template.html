@@ -8,7 +8,12 @@
 
 	%sapper.base%
 
-	<link rel="stylesheet" type="text/css" href="./global.css">
+	<!-- 
+		Issues with the Reloading of the Website CSS - HOTFIX 
+		https://stackoverflow.com/questions/12717993/stylesheet-not-updating-when-i-refresh-my-site
+	-->
+	<link rel="stylesheet" type="text/css" href="./global.css?v=Math.random()">
+	
 	<link rel="manifest" href="manifest.json" crossorigin="use-credentials">
 
 	<!-- 
