@@ -832,7 +832,17 @@
                                 </label>
                             {/each}
                         {:catch error}
-                            <p class='color-red'>{error.message}</p>
+                            <div class='row-space-start'>
+                                <img 
+                                    class='m-r-5'
+                                    src='./assets/svg/exclamation-vector.svg'
+                                    alt=''
+                                />
+                                <p class='s-12 color-red bold'>
+                                    uh-oh! please verify the form input
+                                </p>
+                            </div>
+                            <!-- <p class='color-red'>{error.message}</p> -->
                         {/await}
                     {:else}
                         <div class='row-space-start'>
@@ -958,7 +968,17 @@
                         <hr />
                     </div>
                 {:catch error}
-                    <p style="color: red">{error.message}</p>
+                    <div class='row-space-start'>
+                        <img 
+                            class='m-r-5'
+                            src='./assets/svg/exclamation-vector.svg'
+                            alt=''
+                        />
+                        <p class='s-12 color-red bold'>
+                            uh-oh! please verify the form input
+                        </p>
+                    </div>
+                    <!-- <p style="color: red">{error.message}</p> -->
                 {/await}
             {/if}  
             <!-- 
