@@ -12,6 +12,8 @@ ti signal a loading state of an action.
 =================== -->
 
 <script lang='ts'>
+    import { fade } from "svelte/transition";
+
     // maybe add a `kill-switch` for when the `loading is taking for`
     // too long...
 </script>
@@ -57,9 +59,10 @@ ti signal a loading state of an action.
 	COMPONENT HTML
 =================== -->
 
-<div id='background-modal-blur'/>
+<div id='background-modal-blur' in:fade/>
 
-<div id='modal-content-container'> 
+<div id='modal-content-container' 
+    in:fade> 
     <img
         class='image-stripe-state'
         src="./assets/svg/Group-animated.svg" 
