@@ -183,8 +183,8 @@
 
     // negative itemQuantity is NOT allowed;
     let minusBtnDisabled: boolean = true;
-    $: if (selectedItem != undefined) {
-        if (parseInt(selectedItem.retail_price) * selectedItem.quantity == 0) {
+    $: if (itemQuantity != undefined) {
+        if (itemQuantity == 0) {
             minusBtnDisabled = true
         } else {
             minusBtnDisabled = false
@@ -369,6 +369,7 @@
         background-image: url('/assets/svg/back-arrow-icon.svg');
         background-position: left 0 top 50%;
         background-size: contain;
+        padding: 5px 6px 5px 50px !important;
         margin: calc(100vw / (var(--mobile) / 32)) 0 calc(100vw / (var(--mobile) / 43)) 0;
     }
     /* 
@@ -405,8 +406,6 @@
         background: var(--secondary);
         width: fit-content;
     } #image-preview-box {
-        padding: 5px calc(100vw / (var(--mobile) / 10)) 5px calc(100vw / (var(--mobile) / 30)) !important;
-        background-position: left calc(100vw / (var(--mobile) / 10)) top 50%;
         background-image: url('/assets/svg/camera-vector.svg');
         background-repeat: no-repeat;
     }
@@ -446,20 +445,24 @@
       form legend p {
         font-weight: bold;
         margin-bottom: calc(100vw / (var(--mobile) / 7.35));
+
     } form input[type='radio'] {
         width: calc(100vw / (var(--mobile) / 15));
         height: auto;
         margin-right: calc(100vw / (var(--mobile) / 7));
+
     } form input[type='radio'].remove-checkbox {
         position: absolute;
         opacity: 0;
         pointer-events: none;
+
     }
     
     #item-colors-container {
         display: grid;
         gap: 2.5px;
         /* gap: calc(100vw / (var(--desktop) / 55)); */
+
     }
     /* color-item-select CSS */
     .item-options-color-select-radio {
@@ -468,8 +471,11 @@
         display: inline-block;
         cursor: pointer;
         position: relative;
+        border: 2px solid transparent;
+
     }
-    .item-options-color-select-radio.selected-color {
+    .item-options-color-select-radio.selected-color, 
+    .item-options-color-select-radio:hover {
         /* padding: calc(100vw / (var(--mobile) / 8)) calc(100vw / (var(--mobile) / 17)); */
         background: #FFFFFF;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -477,6 +483,8 @@
         border: 2px solid;
         border-image: linear-gradient(180deg, #00FF75 40.91%, #00A3FF 100%);
         border-image-slice: 9;
+        transition: all 0.25s ease-in;
+
     }
     .color-point {
         width: calc(100vw / (var(--mobile) / 56));
@@ -485,6 +493,7 @@
         bottom: 0;
         right: 0;
         position: absolute;
+
     }
     /* size-item-select CSS */
     #item-sizes-container {
@@ -493,6 +502,7 @@
         grid-template-columns: repeat(auto-fill, calc(100vw / (var(--mobile) / 76)));
         grid-template-rows: repeat(auto-fill, calc(100vw / (var(--mobile) / 41)));
         height: calc(100vw / (var(--mobile) / 82));
+
     }
     .item-options-size-select-radio {
         height: calc(100vw / (var(--mobile) / 41));
@@ -500,10 +510,19 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
+
     }
-    .item-options-size-select-radio.selected-size {
+    .item-options-size-select-radio.selected-size,
+    .item-options-size-select-radio:hover {
+        transition: all 0.25s ease-in;
         background: #37474F;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+    }
+    .item-options-size-select-radio:hover span {
+        font-style: normal;
+        font-weight: bold;
+        color: #FF5555;
     }
     /* quantity-item-select CSS */
     input[type='number']#quantity-input {
@@ -523,6 +542,7 @@
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+
     }
     .quantity-btn {
         width: calc(100vw / (var(--mobile) / 41));
@@ -673,6 +693,7 @@
             background-size: calc(100vw / (var(--tablet) / 22.05)) calc(100vw / (var(--tablet) / 16.17));
         }
         #back-to-shop {
+            padding: 5px 6px 5px 50px !important;
             background-position: left 0 top 50%;
             margin: calc(100vw / (var(--tablet) / 32)) 0 calc(100vw / (var(--tablet) / 43)) 0;
         }
@@ -706,7 +727,8 @@
         }
         .toggle-slideshow {
             width: calc(100vw / (var(--desktop) / 44));
-        }
+            cursor: pointer;
+        } 
         #image-counter {
             padding: calc(100vw / (var(--desktop) / 6)) calc(100vw / (var(--desktop) / 11));
         }
@@ -772,9 +794,16 @@
         .quantity-btn {
             width: calc(100vw / (var(--desktop) / 41));
             height: calc(100vw / (var(--desktop) / 41));
+        } .quantity-btn:hover {
+            background-color: var(--white);
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+            color: var(--secondary);
         }
         #add-to-cart-btn {
             background-size: calc(100vw / (var(--desktop) / 22.05)) calc(100vw / (var(--desktop) / 16.17));
+        }
+        #add-to-cart-btn:hover {
+            background-image: url('/assets/svg/shop-add-to-cart-hover-vector.svg');
         }
         #back-to-shop {
             background-position: left 0 top 50%;
@@ -792,10 +821,7 @@
         hover-effects */
         #back-to-shop:hover {
             background-image: url('/assets/svg/back-arrow-icon-hover.svg');
-        }
-        input:hover {
-            padding: calc(100vw / (var(--desktop) / 5));
-            border: 2.5px solid #FF5555;
+            background-color: var(--secondary);
         }
     }
 </style>
@@ -821,7 +847,7 @@
     <a rel='prefetch' href="/shop">
         <button id='back-to-shop' 
             class='btn-primary btn-left-icon'>
-            <p class='s-20 bold'>
+            <p class='s-18'>
                 BACK TO SHOP
             </p>
         </button>
@@ -972,7 +998,7 @@
                         bind:value={itemQuantity}
                         id='quantity-input'
                         class='s-22'
-                        required />
+                        required disabled />
                     <button 
                         class='quantity-btn'
                         type='button' 
@@ -981,6 +1007,7 @@
                     </button>
                 </div>
             </fieldset>
+
             <!-- 
             ~~~~~~~~~~~~~~~
             SIMPLE PRICE TOTAL UP -->
@@ -993,7 +1020,7 @@
                                     Sub-total 
                                 </p>
                             </div>
-                            <div class='row-space-out'>
+                            <div class='row-space-start'>
                                 <img 
                                     class='m-r-5'
                                     src='./assets/svg/exclamation-vector.svg'
