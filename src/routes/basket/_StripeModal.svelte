@@ -87,6 +87,7 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
                     setTimeout(async() => {
                         error = false
                         processing = false
+                        closeStripe()
                     }, 3500)
                 } else {
                     if (result.paymentIntent.status === 'succeeded') {
