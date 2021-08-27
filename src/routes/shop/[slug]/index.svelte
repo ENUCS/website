@@ -83,6 +83,8 @@
     import type { Item } from '../../../models/printful/orders_printful'
     import type { ResponseVariant, ResponseAllProductVariant } from '../../../models/printful/printful-catalog-api'
 
+    import AddedCartModel from "./_AddedCartModel.svelte";
+
     export let res: responseListProductVariants
 
     let varaintsArray = res.result.sync_variants // declare item properties, & options;
@@ -289,6 +291,8 @@
      * & the SvelteJs Stores for
      * persistance;
     */
+    let showModalAddToCart: boolean = false;
+
     function addItemToBasket() {
         // check if quantity has been selected;
         if ((selectedItem.quantity == 0) || (selectedItem.quantity == undefined)) {
@@ -299,7 +303,11 @@
         } else if (selected_Size == undefined) {
             alert('uh-oh! you need to select item size')
         }
-        alert('Item has bee successfully added to your basket!')
+        // alert('Item has bee successfully added to your basket!')
+        showModalAddToCart = true;
+        setTimeout(async() => {
+            showModalAddToCart = false;
+        }, 3500);
         cart.addToCart(selectedItem)
     }
 </script>
@@ -829,6 +837,10 @@
 <!-- ===================
 	COMPONENT HTML
 =================== -->
+
+{#if showModalAddToCart}
+    <AddedCartModel />
+{/if}
 
 <section>
     <!-- 
