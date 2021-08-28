@@ -81,8 +81,7 @@
     <div id='social-icons-container' class='row-space-out'>
         <a href="https://www.napierstudents.com/organisation/societies/7541/">
             <button 
-                class='btn-primary'
-                disabled>
+                class='btn-primary'>
                 <p class='s-16'>
                     join us
                 </p>
