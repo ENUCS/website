@@ -16,6 +16,7 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
     import { onMount } from 'svelte'
     import { createEventDispatcher } from 'svelte'
     import { fade } from 'svelte/transition';
+    import { stripeTokenPub } from '../../config/init-printful'
 
 	const dispatch = createEventDispatcher()
 
@@ -41,7 +42,7 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
         // Make sure to call loadStripe outside of a component’s render to avoid
         // recreating the Stripe object on every render.
         // loadStripe is initialized with your real test publishable API key.
-        stripe = await loadStripe("pk_test_51JKygiIyAXMjFyvNqb2J6x3Z95NbF7lRjrKf4uAIRNYDx6SG0kMsLJcSYEl8iLYVT4tCMnXTeUo4rPGIw8WkosjI00fc8PDjEA")
+        stripe = await loadStripe(stripeTokenPub)
 
         // mount the card to the dom
         var elements = await stripe.elements()
