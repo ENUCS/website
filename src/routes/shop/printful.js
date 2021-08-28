@@ -7,7 +7,7 @@ const base = 'https://api.printful.com'
 import { printfulToken } from '../../config/init-printful'
 
 /**
- * Function / METHOD;
+ * Description:
  * ~~~~~~~~~~~~~~~~~
  * This is a SEND METHOD
  * for the ability to be used as a
@@ -59,7 +59,7 @@ async function send(path, opts) {
 // ~~~~~~~~~~~~~~~~
 
 /**
- * Function / METHOD;
+ * Description:
  * ~~~~~~~~~~~~~~~~~
  * This is a POST REQUEST
  * for the use of the PRINTFUL API
