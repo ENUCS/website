@@ -124,6 +124,8 @@
       .active p {
         transition: all 0.1s ease-in;
         color: rgb(255, 0, 0);
+    } nav ul li a p {
+        color: rgba(55, 71, 79, 0.75);
     }
     /* 
     ~~~~~~~~~~~~~~~~~~~~~
@@ -220,6 +222,16 @@
                 </li>
                 <li>
                     <a rel='prefetch' 
+                        href="/about" 
+                        class:active={segment === 'about'}
+                        >
+                        <p class='s-t-16 s-14 bold'>
+                            ABOUT
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a rel='prefetch' 
                         href="/team" 
                         class:active={segment === 'team'}
                         >
@@ -289,6 +301,17 @@
                             >
                             <p class='s-16 bold'>
                                 HOME
+                            </p>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel='prefetch' 
+                            on:click={() => mobileNavToggleMenu = false} 
+                            href="/about" 
+                            class:active={segment === 'about'}
+                            >
+                            <p class='s-16 bold'>
+                                ABOUT
                             </p>
                         </a>
                     </li>
