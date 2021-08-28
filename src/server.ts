@@ -1,10 +1,13 @@
+require("dotenv").config();
+
 import sirv from "sirv";
 import express from "express";
 import compression from "compression";
 import * as sapper from "@sapper/server";
 
-const { PORT, NODE_ENV } = process.env;
+const { PORT, NODE_ENV, PRINTFUL_API_TOKEN, STRIPE_API_PRIVATE_TOKEN, STRIPE_API_PUBLIC_TOKEN } = process.env;
 const dev = NODE_ENV === "development";
+
 
 // dealing with CORS - https://github.com/Rob--W/cors-anywhere/issues/301
 
@@ -17,6 +20,12 @@ express()
     .use(
         compression({ threshold: 0 }),
         sirv("static", { dev }),
-        sapper.middleware()
+        sapper.middleware({
+            session: () => ({
+                PRINTFUL_API_TOKEN,
+                STRIPE_API_PRIVATE_TOKEN,
+                STRIPE_API_PUBLIC_TOKEN
+            }),
+        }),
     )
     .listen(PORT, () => {});
