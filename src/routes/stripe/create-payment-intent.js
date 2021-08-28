@@ -1,13 +1,12 @@
 // ~~~~~~~~~~~~~~~~
 // BASE API DECLARATIONS
 // ~~~~~~~~~~~~~~~~
-import { stripeToken } from '../../config/init-printful'
-const stripe = require("stripe")(stripeToken)
+import { stripeTokenPriv } from '../../config/init-printful'
+const stripe = require("stripe")(stripeTokenPriv)
 
 /**
- * Function / METHOD;
- * ~~~~~~~~~~~~~~~~~
  * Description:
+ * ~~~~~~~~~~~~~~~~~
  * Calculate the amount due to be paid
  * by the user to correctly
  * charge the correct amount
@@ -50,9 +49,8 @@ const chargeCustomer = async (customerId) => {
 
 
 /**
- * Function / Method;
- * ~~~~~~~~~~~~~~~~~
  * Description:
+ * ~~~~~~~~~~~~~~~~~
  * A Stripe Payment Intent
  * - Create a PaymentIntent -
  *  
