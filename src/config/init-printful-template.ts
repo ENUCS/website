@@ -1,3 +1,0 @@
-// exporting the printfulToken in a base64 encoded format,
-// when using process.env.PRINTFUL_TOKEN, it does not work...
-export const printfulToken = '<YOUR_PRINTFUL_TOKEN_HERE'
