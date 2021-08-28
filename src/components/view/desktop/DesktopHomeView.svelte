@@ -152,7 +152,7 @@
     svg {
         width: auto;
         height: auto;
-        margin: calc(100vh / 2.983) calc(100vw / 7.741) calc(100vh / 4.183) calc(100vw / 7.741);
+        margin: calc(100vh / 2.983) calc(100vw / (var(--desktop) / 240)) calc(100vh / 4.183) calc(100vw / (var(--desktop) / 240));
     } svg #desktop-hero-frame_svg__become-member-btn {
         cursor: pointer;
     } svg #desktop-hero-frame_svg__become-member-btn:hover rect {
