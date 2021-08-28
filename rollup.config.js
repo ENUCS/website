@@ -22,6 +22,7 @@ const onwarn = (warning, onwarn) =>
 	onwarn(warning);
 
 export default {
+
 	client: {
 		input: config.client.input().replace(/\.js$/, '.ts'),
 		output: config.client.output(),
@@ -132,4 +133,5 @@ export default {
 		preserveEntrySignatures: false,
 		onwarn,
 	}
+	
 };
