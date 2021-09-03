@@ -79,16 +79,14 @@
 	<meta property="og:url" content="https://www.enucs.org.uk/">
 	<meta property="og:title" content="Computing Society | ENUCS">
 	<meta property="og:description" content="Computing Society | Edinburgh Napier University | ENUCS">
-
-	<!-- <meta property="og:image" content="https://www.spacerealm.live/assets/img/logo-main.png"> -->
+	<meta property="og:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
 	<!-- 
 	Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:url" content="https://www.enucs.org.uk/">
 	<meta property="twitter:title" content="Computing Society | ENUCS">
 	<meta property="twitter:description" content="Computing Society | Edinburgh Napier University | ENUCS">
-
-	<!-- <meta property="twitter:image" content="https://www.spacerealm.live/assets/img/logo-main.png"> -->
+	<meta property="twitter:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
 </svelte:head>
 
 <!-- 

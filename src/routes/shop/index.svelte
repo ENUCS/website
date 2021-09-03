@@ -107,16 +107,14 @@
 	<meta property="og:url" content="https://www.enucs.org.uk/shop">
 	<meta property="og:title" content="ENUCS | Shop">
 	<meta property="og:description" content="Computing Society | ENUCS | Merchandise Shop">
-    
-	<meta property="og:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
+	<meta property="og:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
 	<!-- 
 	Twitter -->
 	<meta property="twitter:card" content="summary_large_image">
 	<meta property="twitter:url" content="https://www.enucs.org.uk/shop">
 	<meta property="twitter:title" content="ENUCS | Shop">
 	<meta property="twitter:description" content="Computing Society | ENUCS | Merchandise Shop">
-
-	<meta property="twitter:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
+	<meta property="twitter:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
 </svelte:head>
 
 <!-- ===================

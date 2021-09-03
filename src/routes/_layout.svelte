@@ -51,7 +51,41 @@
 =================== -->
 
 <svelte:head>
-    <title>Computing Society | ENUCS</title>
+	<!-- 
+	Primary Meta Tags;
+	https://metatags.io/ -->
+	<title>Computing Society | ENUCS</title>
+	<meta name="title" content="Computing Society | ENUCS">
+	<meta name="description" content="Computing Society | Edinburgh Napier University | ENUCS">
+	<meta name="keywords" content="computing society, 
+        programming society, 
+        computing society university, 
+        society university, 
+        web development society, 
+        development society, 
+        edinburgh napier university,
+        enucs, 
+        enu,
+        university club,
+        programming community,
+        students,
+        student,
+        enu">
+	<meta name="author" content="Miguel Bacharov">
+	<!-- 
+	Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://www.enucs.org.uk/">
+	<meta property="og:title" content="Computing Society | ENUCS">
+	<meta property="og:description" content="Computing Society | Edinburgh Napier University | ENUCS">
+	<meta property="og:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
+	<!-- 
+	Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://www.enucs.org.uk/">
+	<meta property="twitter:title" content="Computing Society | ENUCS">
+	<meta property="twitter:description" content="Computing Society | Edinburgh Napier University | ENUCS">
+	<meta property="twitter:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
 </svelte:head>
 
 <!-- ===================
