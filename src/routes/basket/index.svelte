@@ -24,6 +24,10 @@
         let protocol: string
         if (process.env.NODE_ENV != 'production') {
             protocol = 'https://'
+<<<<<<< HEAD
+=======
+            console.log('not in production!')
+>>>>>>> 6331045b50aa30cda6226983880f01c90b6f16b2
         } else {
             protocol = 'https://'
         }
@@ -426,8 +430,7 @@
     <meta property="og:url" content="https://www.enucs.org.uk/shop">
     <meta property="og:title" content="ENUCS | Your Basket">
     <meta property="og:description" content="Computing Society | ENUCS | Merchandise shop basket checkout page">
-
-    <meta property="og:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
+	<meta property="og:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
     <!--
     ~~~~~~~~~~~~
     Twitter -->
@@ -435,8 +438,7 @@
     <meta property="twitter:url" content="https://www.enucs.org.uk/shop">
     <meta property="twitter:title" content="ENUCS | Your Basket">
     <meta property="twitter:description" content="Computing Society | ENUCS | Merchandise shop basket checkout page">
-
-    <meta property="twitter:image" content="https://www.spacerealm.live/assets/img/logo-main.png">
+	<meta property="twitter:image" content="https://www.enucs.org.uk/assets/img/enucs-brand/main-logo-512x512.png">
 </svelte:head>
 
 <!-- ===================
