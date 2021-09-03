@@ -8,7 +8,6 @@ import * as sapper from "@sapper/server";
 const { PORT, NODE_ENV, PRINTFUL_API_TOKEN, STRIPE_API_PRIVATE_TOKEN, STRIPE_API_PUBLIC_TOKEN } = process.env;
 const dev = NODE_ENV === "development";
 
-
 // dealing with CORS - https://github.com/Rob--W/cors-anywhere/issues/301
 
 express()
@@ -20,12 +19,6 @@ express()
     .use(
         compression({ threshold: 0 }),
         sirv("static", { dev }),
-        sapper.middleware({
-            session: () => ({
-                PRINTFUL_API_TOKEN,
-                STRIPE_API_PRIVATE_TOKEN,
-                STRIPE_API_PUBLIC_TOKEN
-            }),
-        }),
+        sapper.middleware(),
     )
     .listen(PORT, () => {});

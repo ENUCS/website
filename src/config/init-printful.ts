@@ -1,8 +1,10 @@
+require("dotenv").config();
+
 // exporting the printfulToken in a base64 encoded format;
 // when using process.env.PRINTFUL_TOKEN, it does not work...
-export const printfulToken = 'OGloY2JnZ3YtaGwxbC0ybXptOnp4cGQtYzRldno2bm1hc3A4'
+export const printfulToken = process.env.PRINTFUL_API_TOKEN
 
 // stripte TEST Tokens 
 // (Private & Public);
-export const stripeTokenPriv = 'sk_test_51JKygiIyAXMjFyvNvskWWvXDYKYEVIXNlWP3vasaCtbgUqgrE99C4xN9NziCi6iAHpKxAIt88kahJj4ebKyt4kSv00YSqZQa8d'
-export const stripeTokenPub = 'pk_test_51JKygiIyAXMjFyvNqb2J6x3Z95NbF7lRjrKf4uAIRNYDx6SG0kMsLJcSYEl8iLYVT4tCMnXTeUo4rPGIw8WkosjI00fc8PDjEA'
+export const stripeTokenPriv = process.env.STRIPE_API_PRIVATE_TOKEN
+export const stripeTokenPub = process.env.STRIPE_API_PUBLIC_TOKEN

@@ -23,7 +23,7 @@
         // project strict CORS on Pre-loads
         let protocol: string
         if (process.env.NODE_ENV != 'production') {
-            protocol = 'http://'
+            protocol = 'https://'
         } else {
             protocol = 'https://'
         }
