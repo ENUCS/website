@@ -24,10 +24,6 @@
         let protocol: string
         if (process.env.NODE_ENV != 'production') {
             protocol = 'https://'
-<<<<<<< HEAD
-=======
-            console.log('not in production!')
->>>>>>> 6331045b50aa30cda6226983880f01c90b6f16b2
         } else {
             protocol = 'https://'
         }
