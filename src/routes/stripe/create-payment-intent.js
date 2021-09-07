@@ -1,7 +1,7 @@
 // ~~~~~~~~~~~~~~~~
 // BASE API DECLARATIONS
 // ~~~~~~~~~~~~~~~~
-import { stripeTokenPriv } from '../../config/init-printful'
+import { stripeTokenPriv } from '../../config/tokens'
 const stripe = require("stripe")(stripeTokenPriv)
 
 /**

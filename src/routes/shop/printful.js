@@ -4,7 +4,7 @@
 
 const fetch = process.browser ? window.fetch : require('node-fetch').default
 const base = 'https://api.printful.com'
-import { printfulToken } from '../../config/init-printful'
+import { printfulToken } from '../../config/tokens'
 
 /**
  * Description:

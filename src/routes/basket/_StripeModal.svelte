@@ -16,7 +16,7 @@ https://stackoverflow.com/questions/62723869/stripe-elements-card-mount-function
     import { onMount } from 'svelte'
     import { createEventDispatcher } from 'svelte'
     import { fade } from 'svelte/transition';
-    import { stripeTokenPub } from '../../config/init-printful'
+    import { stripeTokenPub } from '../../config/tokens'
 
 	const dispatch = createEventDispatcher()
 

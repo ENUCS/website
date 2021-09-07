@@ -23,7 +23,7 @@
         // get the page `http(s)://[domain-route] to comply with project strict CORS on Pre-loads
         let protocol: string
         if (process.env.NODE_ENV != 'production') { 
-            protocol = 'https://'
+            protocol = 'http://'
             console.log('not in production!')
         } else {
             protocol = 'https://'

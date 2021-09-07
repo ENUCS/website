@@ -11,6 +11,8 @@ import typescript from '@rollup/plugin-typescript';
 import config from 'sapper/config/rollup.js';
 import pkg from './package.json';
 
+const sapperEnv = require('sapper-environment');
+
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
 const legacy = !!process.env.SAPPER_LEGACY_BUILD;
@@ -30,6 +32,7 @@ export default {
 			replace({
 				preventAssignment: true,
 				values:{
+					...sapperEnv(),
 					'process.browser': true,
 					'process.env.NODE_ENV': JSON.stringify(mode)
 				},
@@ -85,6 +88,7 @@ export default {
 			replace({
 				preventAssignment: true,
 				values:{
+					...sapperEnv(),
 					'process.browser': false,
 					'process.env.NODE_ENV': JSON.stringify(mode)
 				},

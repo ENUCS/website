@@ -20,6 +20,7 @@
     "node-fetch": "^2.6.1",
     "path": "^0.12.7",
     "polka": "^0.5.2",
+    "sapper-environment": "^1.0.1",
     "sirv": "^1.0.0",
     "string-similarity": "^4.0.4",
     "stripe": "^8.169.0",
