@@ -2,6 +2,11 @@
 // GET NEW TOKEN FROM PRINTFUL, ENCODE IT and ADD IT HERE, USING BASE64 Encoding;
 // https://www.base64encode.org/
 
+// ISSUES WITH SAPPER AND DOT-ENV
+// https://github.com/sveltejs/sapper/issues/122
+// SOLUTION: https://github.com/JpCapdevila/sapper-environment
+// OR ALTERNATIVE: https://github.com/svelte-brasil/sapper-boilerplate-stylus-env-axios/blob/master/rollup.config.js
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 // PRINTFUL API KEYS - TOKENS
 export const printfulToken = process.env.SAPPER_APP_PRINTFUL_API_TOKEN
