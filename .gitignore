@@ -16,3 +16,4 @@ yarn-error.log
 # OTHER IGNORE FILES
 # /src/config/init-printful.ts
 .env
+src/data/events/

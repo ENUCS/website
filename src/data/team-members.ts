@@ -25,4 +25,14 @@ export const team_members_data: Array<TeamMember> = [
         name: 'Lee Beaver',
         position: 'Treasurer'
     },
+    {
+        img: './assets/img/comittee/beth-photo.png',
+        name: 'Elizabeth Pittaway',
+        position: 'Marketing Officer'
+    },
+    {
+        img: './assets/img/comittee/sabin-photo.png',
+        name: 'Sabin Lungu',
+        position: 'Community Manager'
+    },
 ]

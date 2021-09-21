@@ -1,0 +1,354 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Demystifying Email Design</title>
+
+    <style type="text/css">
+        a[x-apple-data-detectors] {
+            color: inherit !important;
+        }
+    </style>
+
+</head>
+
+<body style="margin: 0; padding: 0; color: black; background-color: white;">
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td style="padding: 25px 20px;">
+                <img 
+                    src="cid:enucsLogoImg" 
+                    alt="brand-img" 
+                    height="50" 
+                    style="display: block;" 
+                    border="0" 
+                />
+            </td>
+        </tr>
+        {{!-- 
+        EVENT HEADER EMAIL + ATTENDEE INFO; 
+        --}}
+        <tr>
+            <td style="padding: 0 20px;">
+                <h1 style='font-style: normal;
+                    font-weight: bold;
+                    font-size: 42px;
+                    line-height: 49px;
+                    color: #37474F;'>
+                    EVENT CONFIRMATION
+                </h1>
+                <h3 style="font-style: normal;
+                    font-weight: bold;
+                    font-size: 18px;
+                    line-height: 19px;
+                    color: #37474F;">
+                    {{full_name}}
+                    <br />
+                    <br />
+                    <span style="font-style: normal;
+                        font-weight: normal;
+                        font-size: 16px;
+                        line-height: 19px;
+                        color: #37474F;">
+                        You’re going to 🥳 ,
+                    </span>
+                </h3>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 0 20px 29px 20px;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 18px;
+                line-height: 21px;
+                color: #37474F;">
+                <h2>{{eventInfo.title}}</h2>
+            </td>
+        </tr>
+
+        {{!-- 
+        EVENT NAME & EVENT CARD w/ DETAILS 
+        --}}
+        <tr>
+            <td style="padding: 0 20px;">
+                <div style="background-color: #FFFFFF;
+                    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+                    border-radius: 2.5px 2.5px 0px 0px;
+                    width:100%;
+                    max-width: 341px;
+                    height:auto;">
+                    <img 
+                        src="cid:eventCoverImg" 
+                        alt="brand-img" 
+                        style="display: block;
+                            width: 100%;
+                            object-fit: cover;
+                            height: auto;
+                            padding-bottom: 17.5px;" 
+                        border="0" 
+                    />
+                    <!-- 
+                    ~~~~~~~~~
+                    EVENT INFO 
+                    -->
+                    <p style="font-style: normal;
+                        font-weight: bold;
+                        font-size: 16px;
+                        line-height: 19px;
+                        color: #37474F;
+                        text-align: center;"> 
+                        {{eventInfo.date}}
+                    </p>                    
+                    <div style="padding: 13px 19px;">
+                        <p style="font-style: normal;
+                            font-weight: normal;
+                            font-size: 14px;
+                            line-height: 16px;
+                            color: #37474F;"> 
+                            {{eventInfo.description}}
+                        </p>
+                        <table>
+                            <tr>
+                                <td style="padding-right: 10px;">
+                                    <span style="font-style: normal;
+                                        font-weight: bold;
+                                        font-size: 14px;
+                                        line-height: 16px;
+                                        color: #0085FF;">
+                                        Location
+                                    </span>  
+                                </td>
+                                <td>
+                                    <p style="font-style: normal;
+                                        font-weight: normal;
+                                        font-size: 14px;
+                                        line-height: 16px;
+                                        color: #37474F;"> 
+                                        {{eventInfo.location}}
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding-right: 10px;">
+                                    <span style="font-style: normal;
+                                        font-weight: bold;
+                                        font-size: 14px;
+                                        line-height: 16px;
+                                        color: #0085FF;">
+                                        Time
+                                    </span>  
+                                </td>
+                                <td>
+                                    <p style="font-style: normal;
+                                        font-weight: normal;
+                                        font-size: 14px;
+                                        line-height: 16px;
+                                        color: #37474F;">
+                                        {{eventInfo.time}}
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        {{!-- 
+        POST MESSAGE FOR THE ATTENDEE 
+        --}}
+        <tr>
+            <td style="padding: 0 20px;">
+                <p style='font-size: 16px; color: #37474F'>
+                    <b>
+                        with the Computing Society 😎 🚀
+                    </b>
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 0 20px;">
+                <div style='border-bottom: 1px solid #F3F3F4;
+                    height: 1px;
+                    width: 100%;
+                    margin: 0px 0px 0px 0px;' 
+                />
+            </td>        
+        </tr>
+
+        {{!-- 
+        TICKETS NUMBER CONFIRMATION 
+        --}}
+        <tr>
+            <td style="padding: 0 20px;">
+                <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; table-layout: fixed;" width='100%'>
+                    <tr>
+                        <td>
+                             <p style="font-size: 22px; 
+                                color: #0085FF;">
+                                <b>
+                                    Tickets
+                                </b>
+                            </p>
+                        </td>
+                        <td style="padding: 0 20px;">
+                            <p style="font-weight: bold;
+                                font-size: 22px;
+                                line-height: 26px;
+                                color: #37474F;">
+                                x{{tickets}}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 0 20px;">
+                <div style="background: none;
+                    border-top: 1px solid #F3F3F4;
+                    margin: 0px 0px 0px 0px;"
+                />
+            </td>
+        </tr>
+
+        {{!--
+        CANCEL ATTENDANCE FOR THE EVENT 
+        --}}
+        <tr>
+            <td style="padding: 0 20px; padding-bottom: 15px;">
+                <p style="font-size: 16px; 
+                    color: #37474F">
+                    <b>
+                        Can no longer attend? 😢
+                    </b>
+                    <br />
+                    <br />
+                    Don’t worry! Simply click the button below to let us know!
+                </p>
+            </td>
+        </tr>
+
+        {{!-- BUTTON ACTION --}}
+        <tr>
+            <td style="padding: 0 20px; padding-bottom: 32px;">
+                <a rel='external'
+                    href="http://192.168.0.10:3000/events/cancelEventAttendee?eventSlug={{eventInfo.slug}}&email={{email}}" 
+                    style="text-decoration: none !important;">     
+                    <p style="font-weight: bold;
+                        font-size: 14px;
+                        display: flex;
+                        align-items: center;
+                        color: #FFFFFF;
+                        background: #FF5555;
+                        box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+                        border-radius: 2.5px;
+                        width: 100%;
+                        padding: 7px 0;
+                        justify-content: center;
+                        text-decoration: none;
+                        max-width: 341px;">
+                        CANCEL ATTENDANCE
+                    </p>
+                </a>      
+            </td>
+        </tr>
+
+        {{!-- 
+        FOOTER 
+        --}}
+        <tr style='background-color: #FFFFFF; color: black;'>
+            <td style="padding: 20px 18px;">
+                <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; table-layout: fixed;" width='100%'>
+                    <tr>
+                        <td style="padding-bottom: 32px;">
+                            <img src="cid:enucsLogoImg" alt="brand-img" height="28" width="auto" style="display: block;" border="0" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-bottom: 32px;"
+                            width='100%' align='left'>
+                            <a href="mailto:contact@enucs.org.uk">
+                                <p style="font-style: normal;
+                                    font-weight: bold;
+                                    font-size: 14px;
+                                    display: flex;
+                                    align-items: center;
+                                    text-decoration-line: underline;
+                                    color: #37474F;">
+                                    info@enucs.org.uk
+                                </p>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; table-layout: fixed;" width='100%'>
+                                <tr>
+                                    <td style="padding-bottom: 32px;"    
+                                        width='20%' align='left'>
+                                        <a href="https://www.napierstudents.com/organisation/societies/7541/" style="text-decoration: none !important;">
+                                            <p style="font-weight: bold;
+                                                font-size: 14px;
+                                                display: flex;
+                                                align-items: center;
+                                                color: #FFFFFF;
+                                                
+                                                background: #FF5555;
+                                                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+                                                border-radius: 2.5px;
+                                                width: 100%;
+                                                padding: 7px 0;
+                                                text-decoration: none;
+                                                justify-content: center;">
+                                                JOIN US
+                                            </p>
+                                        </a>
+                                    </td>
+                                    <td style="padding-bottom: 32px;"
+                                        width='20%' align='right'>
+                                        <a rel='external' href="https://twitter.com/enucs">
+                                            <img src="cid:twitterIcon" alt="twitterIcon" height="24" width="auto" style="display: block;" border="0" />
+                                        </a>
+                                    </td>
+                                    <td style="padding-bottom: 32px;"
+                                        width='20%' align='right'>
+                                        <a rel='external' href='https://www.facebook.com/enucs/'>
+                                            <img src="cid:facebookIcon" alt="facebookIcon" height="24" width="auto" style="display: block;" border="0" />
+                                        </a>
+                                    </td>
+                                    <td style="padding-bottom: 32px;"
+                                        width='20%' align='right'>
+                                        <a rel='external' href='https://discord.gg/hnh3fFq'>
+                                            <img src="cid:discordIcon" alt="discordIcon" height="24" width="auto" style="display: block;" border="0" />
+                                        </a>
+                                    </td>
+                                    <td style="padding-bottom: 32px;"
+                                        width='20%' align='right'>
+                                        <a rel='external' href='https://www.instagram.com/enucs_/?hl=en'>
+                                            <img src="cid:instagramIcon" alt="instagramIcon" height="24" width="auto" style="display: block;" border="0" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="cid:napierUniLogo" alt="napierUniLogo" height="35" style="display: block;" border="0" />
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

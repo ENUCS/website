@@ -23,3 +23,8 @@ if (process.env.NODE_ENV == 'production') {
     stripeTokenPub = process.env.SAPPER_APP_STRIPE_API_PUBLIC_TOKEN_DEV
     stripeTokenPriv = process.env.SAPPER_APP_STRIPE_API_PRIVATE_TOKEN_DEV
 }
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~
+// EMAIL APP CREDENTIALS - TOKENS
+export const email = process.env.SAPPER_APP_EMAIL
+export const emailAppPassword = process.env.SAPPER_APP_EMAIL_APP_PASSWORD

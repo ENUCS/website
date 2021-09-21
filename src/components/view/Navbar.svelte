@@ -29,14 +29,14 @@
     */
     onMount(async() => {
         var wInit = document.documentElement.clientWidth
-        if (wInit > 425) {
+        if (wInit > 767) {
             mobileNavShow = false
         } else {
             mobileNavShow = true
         }
         window.addEventListener("resize", function() {
             var w = document.documentElement.clientWidth
-            if (w > 425) {
+            if (w > 767) {
                 mobileNavShow = false
             } else {
                 mobileNavShow = true
@@ -242,6 +242,36 @@
                 </li>
                 <li>
                     <a rel='prefetch' 
+                        href="/events" 
+                        class:active={segment === 'events'}
+                        >
+                        <p class='s-t-16 s-14 bold'>
+                            EVENTS
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a rel='prefetch' 
+                        href="/become-member" 
+                        class:active={segment === 'become-member'}
+                        >
+                        <p class='s-t-16 s-14 bold'>
+                            BECOME MEMBER
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a rel='prefetch' 
+                        href="/partners" 
+                        class:active={segment === 'partners'}
+                        >
+                        <p class='s-t-16 s-14 bold'>
+                            PARTNERS
+                        </p>
+                    </a>
+                </li>
+                <li>
+                    <a rel='prefetch' 
                         href="/shop" 
                         class:active={segment === 'shop'}
                         >
@@ -323,6 +353,39 @@
                             >
                             <p class='s-16 bold'>
                                 TEAM
+                            </p>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel='prefetch' 
+                            on:click={() => mobileNavToggleMenu = false} 
+                            href="/events" 
+                            class:active={segment === 'events'}
+                            >
+                            <p class='s-16 bold'>
+                                EVENTS
+                            </p>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel='prefetch' 
+                            on:click={() => mobileNavToggleMenu = false} 
+                            href="/become-member" 
+                            class:active={segment === 'become-member'}
+                            >
+                            <p class='s-16 bold'>
+                                BECOME MEMBER
+                            </p>
+                        </a>
+                    </li>
+                    <li>
+                        <a rel='prefetch' 
+                            on:click={() => mobileNavToggleMenu = false} 
+                            href="/partners" 
+                            class:active={segment === 'partners'}
+                            >
+                            <p class='s-16 bold'>
+                                PARTNERS
                             </p>
                         </a>
                     </li>

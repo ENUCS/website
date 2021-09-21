@@ -77,6 +77,7 @@
         </p>
     </a>
     <!-- 
+    ~~~~~~~~~~~~~~
     social media group -->
     <div id='social-icons-container' class='row-space-out'>
         <a href="https://www.napierstudents.com/organisation/societies/7541/">
@@ -105,6 +106,13 @@
             <img 
                 class='social-img'
                 src='./assets/svg/icons/discord-icon.svg' 
+                alt='' 
+            />
+        </a>
+        <a rel='external' href='https://www.instagram.com/enucs_/?hl=en'>
+            <img 
+                class='social-img'
+                src='./assets/svg/icons/instagram-icon.svg' 
                 alt='' 
             />
         </a>
