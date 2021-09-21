@@ -158,3 +158,13 @@ Sapper is in early development, and may have the odd rough edge here and there. 
 
 
 <!-- Issues with the `browser` FETCH-API Parameter -> https://lifesaver.codes/answer/property-browser-does-not-exist-on-type-process -->
+
+EXTERNAL LIBRARIES:
+
+- https://www.npmjs.com/package/handlebars
+- https://www.npmjs.com/package/nodemailer
+
+---
+
+- https://medium.com/@bluedesk09/sending-email-with-zoho-nodejs-nodemailer-62de7fffc8ac
+- https://stackoverflow.com/questions/45772221/nodemailer-with-zoho-mail
