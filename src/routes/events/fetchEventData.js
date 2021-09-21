@@ -77,12 +77,14 @@ export async function post(req, res) {
     }
     // if EVENT doesn't exist,
     else {
+
         fs.writeFile(path, JSON.stringify([], null, 4), err => {
             // ... checking for errors in the READING file;
             if (err) throw err;
             // ... success, EVENT ATTENDANCE UPDATED;
             console.log("Addin new file to the system!")
         });
+
         // set planned attendees to 0;
         newEventObj = {
             ...data,
