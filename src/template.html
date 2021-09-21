@@ -12,7 +12,11 @@
 		Issues with the Reloading of the Website CSS - HOTFIX 
 		https://stackoverflow.com/questions/12717993/stylesheet-not-updating-when-i-refresh-my-site
 	-->
-	<link rel="stylesheet" type="text/css" href="./global.css?v=Math.random()">
+	<!-- <link rel="stylesheet" type="text/css" href="./global.css?v=Math.random()"> -->
+
+	<script>
+		document.write('<link href="./global.css?v=3&r='+ Math.floor((new Date()).getTime()*100) +'" rel="stylesheet" type="text/css" />');
+	</script>
 	
 	<link rel="manifest" href="manifest.json" crossorigin="use-credentials">
 
