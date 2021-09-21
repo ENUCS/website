@@ -124,4 +124,12 @@ export async function post(req, res) {
         res.setHeader('Content-Type', 'application/json')
         res.end(JSON.stringify({'data': 'SUCCESS!'}))
     }
+    else {
+        fs.writeFile(path, JSON.stringify([], null, 4), err => {
+            // ... checking for errors in the READING file;
+            if (err) throw err;
+            // ... success, EVENT ATTENDANCE UPDATED;
+            console.log("Addin new file to the system!")
+        });
+    }
 }
