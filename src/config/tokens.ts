@@ -28,3 +28,7 @@ if (process.env.NODE_ENV == 'production') {
 // EMAIL APP CREDENTIALS - TOKENS
 export const email = process.env.SAPPER_APP_EMAIL
 export const emailAppPassword = process.env.SAPPER_APP_EMAIL_APP_PASSWORD
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~
+// ADMIN WEBSITE ACTIONS TOKEN
+// export const adminToken = process.env.SAPPER_APP_WEBSITE_ADMIN_TOKEN
