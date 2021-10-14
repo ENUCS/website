@@ -167,6 +167,7 @@ EXTERNAL LIBRARIES:
 ---
 
 - https://medium.com/@bluedesk09/sending-email-with-zoho-nodejs-nodemailer-62de7fffc8ac
+
 - https://stackoverflow.com/questions/45772221/nodemailer-with-zoho-mail
 
 ---
@@ -197,3 +198,6 @@ SAPPER_APP_EMAIL = ...
 SAPPER_APP_EMAIL_APP_PASSWORD = ...
 SAPPER_APP_WEBSITE_ADMIN_TOKEN = ...
 ```
+
+- https://stackoverflow.com/questions/45772221/nodemailer-with-zoho-mail
+
