@@ -9,10 +9,12 @@ export interface MemberPerk {
 }
 
 /**
+ * ..........
  * Contains the data for the ENUCS
  * Partners Objects;
 */
 export const enucs_member_perks: Array<MemberPerk> = [
+    // ..........
     // DISCROD UNIQUE MEMBERS ROLE;
     {
         coverImg: './assets/svg/become-member-enucs-discrod-frame.svg',
@@ -24,23 +26,26 @@ export const enucs_member_perks: Array<MemberPerk> = [
             <p class='s-12 bold color-primary'> Take vote in the committee’s decisions </p>
         `
     },
+    // ..........
     // JOB OPPORTUNITIES VIEW ACCESS;
     {
-        coverImg: './assets/svg/become-member-freebies-frame.svg',
+        coverImg: './assets/svg/become-member-job-opportunities-frame.svg',
         title: 'Discrod Members Role',
         description: `
             <p class='s-12 bold color-secondary'> Job opportunities #channel access on Discord & Email </p>
             
         `
     },
+    // ..........
     // SOCIETY FREEBIES;
     {
-        coverImg: './assets/svg/become-member-job-opportunities-frame.svg',
+        coverImg: './assets/svg/become-member-freebies-frame.svg',
         title: 'Discrod Members Role',
         description: `
             <p class='s-12 bold color-secondary'> Surprise freebies up-for-grabs for members on our exlusive members events and at the university. </p>
         `
     },
+    // ..........
     // REVOLUTION DISCOUNT CODE ACCESS;
     {
         coverImg: './assets/svg/become-member-revolution-discount-frame.svg',
