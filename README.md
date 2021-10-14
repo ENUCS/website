@@ -167,4 +167,37 @@ EXTERNAL LIBRARIES:
 ---
 
 - https://medium.com/@bluedesk09/sending-email-with-zoho-nodejs-nodemailer-62de7fffc8ac
+
 - https://stackoverflow.com/questions/45772221/nodemailer-with-zoho-mail
+
+---
+
+## HOW TO DEPLOY ON REPLIT.COM
+
+Clone the 
+
+Issues faced:
+
+Email with SVG assets is not supported on EMAIL clients :(
+    https://stackoverflow.com/questions/5681562/svg-image-not-showing-in-html-email
+
+## NODEMAILER ISSUES;
+- https://stackoverflow.com/questions/50493831/nodemailer-greeting-never-received
+
+## ENV | Secrets File;
+
+This project comes with a secrete `.env` file, which is not supplied, but contains the following structure:
+
+```
+SAPPER_APP_PRINTFUL_API_TOKEN = ...
+SAPPER_APP_STRIPE_API_PUBLIC_TOKEN_DEV = ...
+SAPPER_APP_STRIPE_API_PRIVATE_TOKEN_DEV = ...
+SAPPER_APP_STRIPE_API_PUBLIC_TOKEN_LIVE = ...
+SAPPER_APP_STRIPE_API_PRIVATE_TOKEN_LIVE = ...
+SAPPER_APP_EMAIL = ...
+SAPPER_APP_EMAIL_APP_PASSWORD = ...
+SAPPER_APP_WEBSITE_ADMIN_TOKEN = ...
+```
+
+- https://stackoverflow.com/questions/45772221/nodemailer-with-zoho-mail
+

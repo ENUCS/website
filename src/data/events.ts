@@ -36,4 +36,19 @@ export const enucs_events: Array<Event> = [
         max_capacity: 20,
         max_per_person: 2
     },
+    // SVELTEJS - SAPPER EVENT;
+    {
+        img: './assets/img/events/MIGUEL-EVENT-SVELTE.png',
+        slug: 'svelte-sapper-event',
+        title: 'SvelteJs - Blazing Fast Website Framework',
+        description: `We welcome everyone to our first on campus event
+            to talk about SvelteJs - SapperJs, the most loved way to develop websites & webapps
+            and blazingly fast 🚀😎 Come for some Free Pizza & Drinks as we talk about technology and introduce to the society`,
+        date: '14th October 2021',
+        location: 'Edinburgh, Merchiston Campus, Room E13',
+        time: '18:00 - 20:00',
+        // tracking capacity;
+        max_capacity: 20,
+        max_per_person: 2
+    },
 ]

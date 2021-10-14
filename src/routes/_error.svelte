@@ -43,7 +43,7 @@
 <svelte:head>
 	<title>{status}</title>
 </svelte:head>
-<!-- 
+<!--  
 ~~~~~~~~~~~~
 	COMPONENT HTML
 ~~~~~~~~~~~~
