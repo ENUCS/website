@@ -106,6 +106,7 @@
             display: grid;
             gap: 80px;
             grid-template-columns: repeat(auto-fill, 275px);
+            align-items: start;
         }
     }
     @media only screen and (min-width: 1025px) {
